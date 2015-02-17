@@ -31,6 +31,10 @@ class Input extends Tag
      */
     private $label;
 
+    /**
+     * @param string $type
+     * @param string $name
+     */
     public function __construct($type, $name)
     {
         parent::__construct('input');

@@ -33,6 +33,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
      */
     function use_closed_returns()
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $tags = (new Tag('close'))
             ->closeTag()
             ->contents('tested')
@@ -46,6 +47,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
      */    
     function tag_replaces_value()
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $tags = (new Tag('test'))
             ->some('more')
             ->some('done')
@@ -58,6 +60,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
      */
     function tag_with_sep_adds_value()
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $tags = (new Tag('test'))
             ->some('more')
             ->some('done', 'X')
