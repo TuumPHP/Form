@@ -30,7 +30,7 @@ class Tag
     /**
      * @var ToString
      */
-    private $toString;
+    protected $toString;
 
     /**
      * @var string

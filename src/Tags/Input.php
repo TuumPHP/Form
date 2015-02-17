@@ -37,8 +37,12 @@ class Input extends Tag
      */
     public function __construct($type, $name)
     {
-        parent::__construct('input');
-        $this->setAttribute('type', $type);
+        if($type === 'select') {
+            parent::__construct('select');
+        } else {
+            parent::__construct('input');
+            $this->setAttribute('type', $type);
+        }
         $this->setAttribute('name', $name);
     }
     
