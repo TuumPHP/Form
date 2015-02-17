@@ -1,46 +1,46 @@
 <?php
 namespace Tuum\Form;
 
-//use WScore\Form\Format\ToString;
-
 use Tuum\Form\Format\ToString;
 
+/**
+ * Class Tags
+ *
+ * @package Tuum\Form
+ *          
+ * @method $this class($class_name)
+ */
 class Tags
 {
     /**
      * @var string
      */
-    protected $tagName;
+    private $tagName;
 
     /**
      * @var string
      */
-    protected $label;
+    private $label;
 
     /**
      * @var array
      */
-    protected $class = array();
-
-    /**
-     * @var array
-     */
-    protected $style = array();
-
-    /**
-     * @var array
-     */
-    protected $attributes = array();
+    private $attributes = array();
 
     /**
      * @var bool
      */
-    protected $closed = false;
+    private $closed = false;
 
     /**
      * @var ToString
      */
-    protected $toString;
+    private $toString;
+
+    /**
+     * @var string
+     */
+    private $value;
 
     // +----------------------------------------------------------------------+
     //  construction 
@@ -147,18 +147,22 @@ class Tags
     }
 
     /**
+     * @param string $value
+     * @return $this
+     */
+    public function value($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
+
+    /**
      * @param string $class
      * @return $this
      */
     public function class_( $class )
     {
-        if ( $class === false ) {
-            $this->class = array();
-        }
-        else {
-            $this->class[ ] = $class;
-        }
-        return $this;
+        return $this->setAttribute('class', $class, ' ');
     }
 
     /**
@@ -168,26 +172,26 @@ class Tags
      */
     public function style( $key, $style = null )
     {
-        if ( $key === false ) {
-            $this->style[ ] = array();
-        }
-        elseif ( $style ) {
-            $this->style[ ] = "{$key}:$style";
-        }
-        else {
-            $this->style[ ] = $key;
-        }
-        return $this;
+        $style = $style ? "{$key}:$style" : $key;
+        return $this->setAttribute('style', $style, '; ');
     }
 
     /**
      * @param string $key
      * @param string $value
+     * @param bool|string   $sep
      * @return $this
      */
-    protected function setAttribute( $key, $value )
+    protected function setAttribute( $key, $value, $sep=false )
     {
-        $this->attributes[ $key ] = $value;
+        if(!isset($this->attributes[ $key ])) {
+            $this->attributes[ $key ] = $value;
+        } elseif($sep === false) {
+            $this->attributes[ $key ] = $value;
+        } else {
+            $sep = (string) $sep;
+            $this->attributes[ $key ] .= $sep . $value;
+        }
         return $this;
     }
 
@@ -212,42 +216,11 @@ class Tags
     }
 
     /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return implode( ' ', $this->class );
-    }
-
-    /**
-     * @return string
-     */
-    public function getStyle()
-    {
-        return implode( '; ', $this->style );
-    }
-
-    /**
-     * @return string
+     * @return array
      */
     public function getAttribute()
     {
-        $attribute = [ ];
-        foreach ( $this->attributes as $key => $val ) {
-            if ( is_numeric( $key ) ) {
-                $attribute[ ] = $val;
-            }
-            elseif ( $val === true ) {
-                $attribute[ ] = $key;
-            }
-            elseif ( $val === false ) {
-                // ignore this attribute.
-            }
-            else {
-                $attribute[ ] = $key . "=\"{$val}\"";
-            }
-        }
-        return implode( ' ', $attribute );
+        return $this->attributes;
     }
 
     /**
@@ -256,6 +229,14 @@ class Tags
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
     // +----------------------------------------------------------------------+
 }

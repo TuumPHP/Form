@@ -11,8 +11,14 @@ class ToString
      */
     public function format( $element )
     {
-        $html = $this->htmlProperty($element, 'class', 'style');
-        $html = '<' . $element->getTagName() . ' ' . $html . ' >' . "\n";
+        $html = $this->htmlProperty($element);
+        $tag  = $element->getTagName();
+        if($element->isClosed()) {
+            $html = '<' . $tag . ' ' . $html . ' >' . $element->getValue() . "</{$tag}>". "\n";
+        } else {
+            $html = '<' . $tag . ' ' . $html . ' >' . "\n";
+        }
+        $html = rtrim($html);
         $html = ToString::addLabel( $html, $element );
         return $html;
     }
@@ -26,26 +32,25 @@ class ToString
      */
     public function htmlProperty( $element )
     {
-        $args = func_get_args();
-        array_shift( $args );
-        $property = [];
-        foreach( $args as $key ) {
-            $getter = 'get' . ucwords( $key );
-            if( method_exists( $element, $getter ) ) {
-                $value = $element->$getter();
-            } else {
-                $value = $element->get( $key );
+        if( $attributes = $element->getAttribute() ) {
+            $property = [];
+            foreach ( $attributes as $key => $val ) {
+                if ( is_numeric( $key ) ) {
+                    $property[ ] = $val;
+                }
+                elseif ( $val === true ) {
+                    $property[ ] = $key;
+                }
+                elseif ( $val === false ) {
+                    // ignore this attribute.
+                }
+                else {
+                    $property[ ] = $key . "=\"{$val}\"";
+                }
             }
-            if( "$value"!="" ) {
-                $property[] = $key . "=\"{$value}\"";
-            }
+            return implode( ' ', $property );
         }
-        if( $attribute = $element->getAttribute() ) {
-            $property[] = $attribute;
-        }
-        $property = array_values( $property );
-        $html = implode( ' ', $property );
-        return $html;
+        return '';
     }
 
     /**
