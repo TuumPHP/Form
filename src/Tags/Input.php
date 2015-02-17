@@ -1,5 +1,5 @@
 <?php
-namespace Tuum\Form;
+namespace Tuum\Form\Tags;
 
 /**
  * Class Input
@@ -19,7 +19,7 @@ namespace Tuum\Form;
  * @method $this step()
  * @method $this onclick(string $class)
  */
-class Input extends Tags
+class Input extends Tag
 {
     /**
      * @var bool
@@ -45,7 +45,7 @@ class Input extends Tags
     {
         $html = parent::toString();
         if($this->label) {
-            $html = (string) (new Tags('label'))->contents($html);
+            $html = (string) (new Tag('label'))->contents($html);
         }
         return $html;
     }

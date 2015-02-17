@@ -1,5 +1,5 @@
 <?php
-namespace Tuum\Form;
+namespace Tuum\Form\Tags;
 
 use Tuum\Form\Format\ToString;
 
@@ -10,7 +10,7 @@ use Tuum\Form\Format\ToString;
  *          
  * @method $this class($class_name)
  */
-class Tags
+class Tag
 {
     /**
      * @var string

@@ -1,7 +1,7 @@
 <?php
 namespace tests\Form;
 
-use Tuum\Form\Input;
+use Tuum\Form\Tags\Input;
 
 require_once(__DIR__ . '/../autoloader.php');
 
@@ -10,7 +10,7 @@ class InputTest extends \PHPUnit_Framework_TestCase
     function test0()
     {
         $input = (new Input('text', 'testing'));
-        $this->assertEquals('Tuum\Form\Input', get_class($input));
+        $this->assertEquals('Tuum\Form\Tags\Input', get_class($input));
         $this->assertEquals('<input type="text" name="testing" >', (string) $input);
     }
 

@@ -1,7 +1,7 @@
 <?php
 namespace tests\Form;
 
-use Tuum\Form\Tags;
+use Tuum\Form\Tags\Tag;
 
 require_once(__DIR__ . '/../autoloader.php');
 
@@ -9,8 +9,8 @@ class TagTest extends \PHPUnit_Framework_TestCase
 {
     function test0()
     {
-        $tags= new Tags('input');
-        $this->assertEquals('Tuum\Form\Tags', get_class($tags));
+        $tags= new Tag('input');
+        $this->assertEquals('Tuum\Form\Tags\Tag', get_class($tags));
         $this->assertEquals('<input >', (string) $tags);
     }
 
@@ -19,7 +19,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
      */
     function set_class_style()
     {
-        $tags= (new Tags('test'))
+        $tags= (new Tag('test'))
             ->class('testing')
             ->style('styled')
             ->class('testing2')
@@ -33,7 +33,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
      */
     function use_closed_returns()
     {
-        $tags = (new Tags('close'))
+        $tags = (new Tag('close'))
             ->closeTag()
             ->contents('tested')
             ->more('done')
@@ -46,7 +46,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
      */    
     function tag_replaces_value()
     {
-        $tags = (new Tags('test'))
+        $tags = (new Tag('test'))
             ->some('more')
             ->some('done')
         ;
@@ -58,7 +58,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
      */
     function tag_with_sep_adds_value()
     {
-        $tags = (new Tags('test'))
+        $tags = (new Tag('test'))
             ->some('more')
             ->some('done', 'X')
         ;

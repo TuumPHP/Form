@@ -1,12 +1,12 @@
 <?php
 namespace Tuum\Form\Format;
 
-use Tuum\Form\Tags;
+use Tuum\Form\Tags\Tag;
 
 class ToString
 {
     /**
-     * @param Tags $element
+     * @param Tag $element
      * @return string
      */
     public function format( $element )
@@ -23,7 +23,7 @@ class ToString
     }
 
     /**
-     * @param Tags $element
+     * @param Tag $element
      * @return string
      * @internal param $type
      * @internal param $name
