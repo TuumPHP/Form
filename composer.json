@@ -1,0 +1,19 @@
+{
+  "name": "tuum/form",
+  "description": "a simple html form generator.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Asao",
+      "email": "kamei@workspot.jp"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Tuum\\Form\\": "src/"
+    }
+  }
+}
