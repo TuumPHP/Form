@@ -43,7 +43,11 @@ class Input extends Tags
      */
     public function toString()
     {
-        return parent::toString();
+        $html = parent::toString();
+        if($this->label) {
+            $html = (string) (new Tags('label'))->contents($html);
+        }
+        return $html;
     }
 
     /**
@@ -126,13 +130,5 @@ class Input extends Tags
             $id .= '-' . $this->get('value');
         }
         return $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
     }
 }

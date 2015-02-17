@@ -11,15 +11,14 @@ class ToString
      */
     public function format( $element )
     {
-        $html = $this->htmlProperty($element);
+        $prop = $this->htmlProperty($element);
         $tag  = $element->getTagName();
-        if($element->isClosed()) {
-            $html = '<' . $tag . ' ' . $html . ' >' . $element->getValue() . "</{$tag}>". "\n";
+        if($element->isClosed() || $element->hasContents()) {
+            $html = '<' . $tag . $prop . ' >' . $element->getContents() . "</{$tag}>". "\n";
         } else {
-            $html = '<' . $tag . ' ' . $html . ' >' . "\n";
+            $html = '<' . $tag . $prop . ' >' . "\n";
         }
         $html = rtrim($html);
-        $html = ToString::addLabel( $html, $element );
         return $html;
     }
 
@@ -48,21 +47,8 @@ class ToString
                     $property[ ] = $key . "=\"{$val}\"";
                 }
             }
-            return implode( ' ', $property );
+            return ' ' . implode( ' ', $property );
         }
         return '';
-    }
-
-    /**
-     * @param string $html
-     * @param Tags $element
-     * @return string
-     */
-    public function addLabel( $html, $element )
-    {
-        if( $label = $element->getLabel() ) {
-            $html = "<label>{$html} {$label}</label>";
-        }
-        return $html;
     }
 }

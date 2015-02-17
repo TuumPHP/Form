@@ -11,7 +11,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
     {
         $tags= new Tags('input');
         $this->assertEquals('Tuum\Form\Tags', get_class($tags));
-        $this->assertEquals('<input  >', (string) $tags);
+        $this->assertEquals('<input >', (string) $tags);
     }
 
     /**
@@ -39,18 +39,6 @@ class TagTest extends \PHPUnit_Framework_TestCase
             ->more('done')
             ;
         $this->assertEquals('<close more="done" >tested</close>', (string)$tags);
-    }
-
-    /**
-     * @test
-     */
-    function label_wraps_tag()
-    {
-        $tags = (new Tags('info'))
-            ->class('testing')
-            ->label('important')
-        ;
-        $this->assertEquals('<label><info class="testing" > important</label>', (string)$tags);
     }
 
     /**

@@ -18,11 +18,6 @@ class Tags
     private $tagName;
 
     /**
-     * @var string
-     */
-    private $label;
-
-    /**
      * @var array
      */
     private $attributes = array();
@@ -40,7 +35,7 @@ class Tags
     /**
      * @var string
      */
-    private $value;
+    private $contents = null;
 
     // +----------------------------------------------------------------------+
     //  construction 
@@ -97,7 +92,6 @@ class Tags
      */
     public function __call( $method, $args )
     {
-        $method = $this->cleanMethod( $method );
         if ( $method === 'class' ) $method = 'class_';
         if ( method_exists( $this, $method ) ) {
             return $this->$method( $args[ 0 ] );
@@ -112,34 +106,12 @@ class Tags
     }
 
     /**
-     * @param string $method
-     * @return string
-     */
-    protected function cleanMethod( $method )
-    {
-        if ( false === ( $pos = strpos( $method, '.' ) ) ) {
-            return $method;
-        }
-        return substr( $method, 0, $pos );
-    }
-
-    /**
-     * @param string $label
-     * @return $this
-     */
-    public function label( $label )
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-    /**
      * @param string $value
      * @return $this
      */
     public function contents($value)
     {
-        $this->value = $value;
+        $this->contents = $value;
         return $this;
     }
 
@@ -213,17 +185,17 @@ class Tags
     /**
      * @return string
      */
-    public function getLabel()
+    public function getContents()
     {
-        return $this->label;
+        return $this->contents;
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getValue()
+    public function hasContents()
     {
-        return $this->value;
+        return !is_null($this->contents);
     }
     // +----------------------------------------------------------------------+
 }
