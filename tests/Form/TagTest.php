@@ -35,7 +35,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
     {
         $tags = (new Tags('close'))
             ->closeTag()
-            ->value('tested')
+            ->contents('tested')
             ->more('done')
             ;
         $this->assertEquals('<close more="done" >tested</close>', (string)$tags);

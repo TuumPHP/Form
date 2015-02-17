@@ -91,22 +91,6 @@ class Tags
     //  setting up
     // +----------------------------------------------------------------------+
     /**
-     * @param array $options
-     * @return $this
-     */
-    public function apply( $options )
-    {
-        foreach( $options as $name => $opt ) {
-            if( is_numeric( $name ) ) {
-                $this->setAttribute( $opt, true );
-            } else {
-                $this->$name( $opt );
-            }
-        }
-        return $this;
-    }
-
-    /**
      * @param string $method
      * @param array  $args
      * @return $this
@@ -153,7 +137,7 @@ class Tags
      * @param string $value
      * @return $this
      */
-    public function value($value)
+    public function contents($value)
     {
         $this->value = $value;
         return $this;
