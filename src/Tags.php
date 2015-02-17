@@ -118,6 +118,9 @@ class Tags
         if ( method_exists( $this, $method ) ) {
             return $this->$method( $args[ 0 ] );
         }
+        if ( isset( $args[ 1 ] ) ) {
+            return $this->setAttribute( $method, $args[ 0 ], $args[ 1 ] );
+        }
         if ( isset( $args[ 0 ] ) ) {
             return $this->setAttribute( $method, $args[ 0 ] );
         }

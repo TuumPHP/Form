@@ -52,4 +52,28 @@ class TagTest extends \PHPUnit_Framework_TestCase
         ;
         $this->assertEquals('<label><info class="testing" > important</label>', (string)$tags);
     }
+
+    /**
+     * @test
+     */    
+    function tag_replaces_value()
+    {
+        $tags = (new Tags('test'))
+            ->some('more')
+            ->some('done')
+        ;
+        $this->assertEquals('<test some="done" >', (string)$tags);
+    }
+
+    /**
+     * @test
+     */
+    function tag_with_sep_adds_value()
+    {
+        $tags = (new Tags('test'))
+            ->some('more')
+            ->some('done', 'X')
+        ;
+        $this->assertEquals('<test some="moreXdone" >', (string)$tags);
+    }
 }
