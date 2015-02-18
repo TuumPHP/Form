@@ -8,7 +8,7 @@ class InputList extends Tag
     /**
      * @var array
      */
-    protected $list = array();
+    private $list = array();
 
     /**
      * @param string $type
@@ -22,7 +22,7 @@ class InputList extends Tag
         $this->list = $list;
         $this->setAttribute('type', $type);
         $this->setAttribute('name', $name);
-        $this->setAttribute('value', $value);
+        $this->setAttribute('value', (array) $value);
         if ($type === 'checkbox') {
             $this->setMultiple();
         }
@@ -41,19 +41,37 @@ class InputList extends Tag
      */
     private function formInput()
     {
-        $selectedValue = $this->get('value');
         $html          = '<ul>';
-        foreach ($this->list as $value => $label) {
+        foreach ($this->list as $key => $label) {
             $html .= "\n";
-            $this->label($label);
-            $this->setAttribute('value', $value);
-            if ((string)$selectedValue == (string)$value) {
-                $this->setAttribute('checked', true);
-            } else {
-                $this->setAttribute('checked', false);
-            }
-            $html .= '  <li>'.$this->labelHtml(parent::toString() . ' ' . $label).'</li>';
+            $html .= '  <li>'.$this->labelHtml($this->getInput($key) . ' ' . $label).'</li>';
         }
         return $html . "\n</ul>";
+    }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->list;
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getInput($key)
+    {
+        if (!array_key_exists($key, $this->list)) {
+            return '';
+        }
+        $input = clone($this);
+        $input->setAttribute('value', $key);
+        $selectedValue = $this->get('value');
+        if (in_array((string)$key, $selectedValue) ) {
+            $input->setAttribute('checked', true);
+        }
+        return $this->toString->format($input);
     }
 }
