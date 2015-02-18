@@ -80,7 +80,7 @@ class InputTest extends \PHPUnit_Framework_TestCase
         $input = (new Input('radio', 'testing'))->value('more');
         $this->assertEquals('testing-more', $input->getId());
         $input->setMultiple();
-        $this->assertEquals('testing---more', $input->getId());
+        $this->assertEquals('testing---more', $input->id()->getId());
     }
 
 }

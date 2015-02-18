@@ -50,21 +50,34 @@ trait ElementTrait
     }
 
     /**
-     * @return mixed|null|string
+     * @param null|string $id
+     * @return $this
+     */
+    public function id($id=null)
+    {
+        if (!$id) {
+            $id = $this->getName();
+            $id = str_replace(['[', ']', '_'], '-', $id);
+            if (in_array($this->get('type'), ['radio', 'checkbox'])) {
+                $id .= '-' . $this->get('value');
+            }
+        }
+        $this->setAttribute('id', $id);
+        return $this;
+    }
+    
+    /**
+     * @return string
      */
     public function getId()
     {
-        if ($id = $this->get('id')) {
-            return $id;
+        $id = $this->get('id');
+        if (!$id) {
+            $this->id();
         }
-        $id = $this->getName();
-        $id = str_replace(['[', ']', '_'], '-', $id);
-        if (in_array($this->get('type'), ['radio', 'checkbox'])) {
-            $id .= '-' . $this->get('value');
-        }
-        return $id;
+        return $this->get('id');
     }
-
+    
     /**
      * @return string
      */

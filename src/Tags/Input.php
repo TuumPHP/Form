@@ -7,7 +7,6 @@ namespace Tuum\Form\Tags;
  * @package Tuum\Form
  *
  * @method $this value(string $value)
- * @method $this id(string $id)
  * @method $this required()
  * @method $this checked()
  * @method $this max(int $max)
