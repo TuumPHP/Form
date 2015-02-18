@@ -21,7 +21,7 @@ class Select extends Tag
         parent::__construct($type);
         $this->list = $list;
         $this->setAttribute('name', $name);
-        $this->setAttribute('value', $value);
+        $this->setAttribute('value', (array) $value);
     }
 
     /**
@@ -41,7 +41,7 @@ class Select extends Tag
         $this->setAttribute('value', false);
         $html = '';
         foreach ($this->list as $value => $label) {
-            if ($selectedValue === $value) {
+            if (in_array((string)$value, $selectedValue)) {
                 $html .= "\n  <option value=\"{$value}\" selected>{$label}</option>";
             } else {
                 $html .= "\n  <option value=\"{$value}\">{$label}</option>";
