@@ -1,6 +1,15 @@
 <?php
 namespace Tuum\Form\Tags;
 
+/**
+ * Class Select
+ *
+ * @package Tuum\Form\Tags
+ *
+ * @method $this value(string $value)
+ * @method $this required()
+ * @method $this onclick(string $class)
+ */
 class Select extends Tag
 {
     use ElementTrait;

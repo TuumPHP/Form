@@ -13,6 +13,7 @@
     <testsuites>
         <testsuite name="WScore/Pile Test Suite">
             <directory>Tags</directory>
+            <directory>Form</directory>
         </testsuite>
     </testsuites>
 </phpunit>

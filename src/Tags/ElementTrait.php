@@ -42,6 +42,15 @@ trait ElementTrait
     }
 
     /**
+     * @param string $name
+     * @return $this
+     */
+    public function name($name)
+    {
+        return $this->setAttribute('name', $name);
+    }
+
+    /**
      * @return mixed
      */
     public function getName()
