@@ -12,7 +12,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     function basic_select_test()
     {
-        $input = (new Select('select', 'testing', ['more', 'done']));
+        $input = (new Select('testing', ['more', 'done']));
         $this->assertEquals('Tuum\Form\Tags\Select', get_class($input));
         $this->assertEquals('<select name="testing" >
   <option value="0">more</option>
@@ -25,7 +25,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     function select_test_with_default()
     {
-        $input = (new Select('select', 'testing', ['more', 'done'], '1'));
+        $input = (new Select('testing', ['more', 'done'], '1'));
         $this->assertEquals('<select name="testing" >
   <option value="0">more</option>
   <option value="1" selected>done</option>
@@ -37,7 +37,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     function select_test_with_multiple()
     {
-        $input = (new Select('select', 'testing', ['more', 'done'], '1'))->setMultiple();
+        $input = (new Select('testing', ['more', 'done'], '1'))->setMultiple();
         $this->assertEquals('<select name="testing[]" >
   <option value="0">more</option>
   <option value="1" selected>done</option>
@@ -49,7 +49,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     function select_test_with_multiple_and_default()
     {
-        $input = (new Select('select', 'testing', ['some', 'more', 'done'], ['0', '2']))->setMultiple();
+        $input = (new Select('testing', ['some', 'more', 'done'], ['0', '2']))->setMultiple();
         $this->assertEquals('<select name="testing[]" >
   <option value="0" selected>some</option>
   <option value="1">more</option>

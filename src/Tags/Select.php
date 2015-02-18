@@ -11,14 +11,13 @@ class Select extends Tag
     protected $list = array();
 
     /**
-     * @param string $type
      * @param string $name
      * @param array  $list
      * @param null   $value
      */
-    public function __construct($type, $name, $list, $value = null)
+    public function __construct($name, $list, $value = null)
     {
-        parent::__construct($type);
+        parent::__construct('select');
         $this->list = $list;
         $this->setAttribute('name', $name);
         $this->setAttribute('value', (array) $value);
