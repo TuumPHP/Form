@@ -21,16 +21,8 @@ namespace Tuum\Form\Tags;
  */
 class Input extends Tag
 {
-    /**
-     * @var bool
-     */
-    private $multiple = false;
-
-    /**
-     * @var string
-     */
-    private $label;
-
+    use ElementTrait;
+    
     /**
      * @param string $type
      * @param string $name
@@ -53,33 +45,11 @@ class Input extends Tag
     {
         $html = parent::toString();
         if($this->label) {
-            $html = (string) (new Tag('label'))->contents($html.' '.$this->label);
+            $html = $this->labelHtml($html.' '.$this->label);
         }
         return $html;
     }
-
-    /**
-     * @param bool $multiple
-     * @return $this
-     */
-    public function setMultiple($multiple=true)
-    {
-        $this->multiple = $multiple;
-        $name = $this->get('name');
-        $this->setAttribute('name', $name.'[]');
-        return $this;
-    }
-
-    /**
-     * @param string $label
-     * @return $this
-     */
-    public function label( $label )
-    {
-        $this->label = $label;
-        return $this;
-    }
-
+    
     /**
      * @return $this
      */
@@ -112,37 +82,5 @@ class Input extends Tag
     public function height($height)
     {
         return $this->style('height', $height);
-    }
-    
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->get('name');
-    }
-
-    /**
-     * @return mixed|null|string
-     */
-    public function getId()
-    {
-        if($id = $this->get('id')) {
-            return $id;
-        }
-        $id = $this->getName();
-        $id = str_replace(['[', ']', '_'], '-', $id);
-        if ( in_array( $this->get('type'), [ 'radio', 'checkbox' ] ) ) {
-            $id .= '-' . $this->get('value');
-        }
-        return $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
     }
 }

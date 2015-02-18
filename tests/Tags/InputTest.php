@@ -25,7 +25,7 @@ class InputTest extends \PHPUnit_Framework_TestCase
             ->label('done')
             ->imeOn()
         ;
-        $this->assertEquals('<label ><input type="text" name="testing" value="more" maxlength="5" style="ime-mode:active" > done</label>', (string) $input);
+        $this->assertEquals('<label><input type="text" name="testing" value="more" maxlength="5" style="ime-mode:active" > done</label>', (string) $input);
     }
 
     /**

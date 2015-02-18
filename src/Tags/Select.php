@@ -1,8 +1,10 @@
 <?php
 namespace Tuum\Form\Tags;
 
-class Select extends Input
+class Select extends Tag
 {
+    use ElementTrait;
+    
     /**
      * @var array
      */
@@ -16,8 +18,9 @@ class Select extends Input
      */
     public function __construct($type, $name, $list, $value=null)
     {
-        parent::__construct($type, $name);
+        parent::__construct($type);
         $this->list = $list;
+        $this->setAttribute('name', $name);
         $this->setAttribute('value', $value);
     }
 
@@ -35,7 +38,7 @@ class Select extends Input
     private function formSelect()
     {
         $selectedValue = $this->get('value');
-        $this->value(false);
+        $this->setAttribute('value', false);
         $html  = '';
         foreach( $this->list as $value => $label ) {
             if( $selectedValue === $value ) {

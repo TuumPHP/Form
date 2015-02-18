@@ -1,8 +1,10 @@
 <?php
 namespace Tuum\Form\Tags;
 
-class InputList extends Input
+class InputList extends Tag
 {
+    use ElementTrait;
+    
     /**
      * @var array
      */
@@ -16,8 +18,10 @@ class InputList extends Input
      */
     public function __construct($type, $name, $list, $value=null)
     {
-        parent::__construct($type, $name);
+        parent::__construct('input');
         $this->list = $list;
+        $this->setAttribute('type', $type);
+        $this->setAttribute('name', $name);
         $this->setAttribute('value', $value);
         if($type === 'checkbox') {
             $this->setMultiple();
@@ -42,13 +46,13 @@ class InputList extends Input
         foreach( $this->list as $value => $label ) {
             $html .= "\n";
             $this->label($label);
-            $this->value($value);
+            $this->setAttribute('value', $value);
             if( (string) $selectedValue == (string) $value ) {
-                $this->checked();
+                $this->setAttribute('checked', true);
             } else {
-                $this->checked(false);
+                $this->setAttribute('checked', false);
             }
-            $html .= parent::toString();
+            $html .= $this->labelHtml(parent::toString() . ' ' . $label);
         }
         return $html;
     }
