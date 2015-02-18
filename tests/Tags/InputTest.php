@@ -11,7 +11,7 @@ class InputTest extends \PHPUnit_Framework_TestCase
     {
         $input = (new Input('text', 'testing'));
         $this->assertEquals('Tuum\Form\Tags\Input', get_class($input));
-        $this->assertEquals('<input type="text" name="testing" >', (string) $input);
+        $this->assertEquals('<input type="text" name="testing" >', (string)$input);
     }
 
     /**
@@ -23,9 +23,10 @@ class InputTest extends \PHPUnit_Framework_TestCase
             ->value('more')
             ->maxlength(5)
             ->label('done')
-            ->imeOn()
-        ;
-        $this->assertEquals('<label><input type="text" name="testing" value="more" maxlength="5" style="ime-mode:active" > done</label>', (string) $input);
+            ->imeOn();
+        $this->assertEquals(
+            '<label><input type="text" name="testing" value="more" maxlength="5" style="ime-mode:active" > done</label>',
+            (string)$input);
     }
 
     /**
@@ -36,9 +37,10 @@ class InputTest extends \PHPUnit_Framework_TestCase
         $input = (new Input('text', 'testing'))
             ->imeOff()
             ->width('5em')
-            ->height('10em')
-        ;
-        $this->assertEquals('<input type="text" name="testing" style="ime-mode:inactive; width:5em; height:10em" >', (string) $input);
+            ->height('10em');
+        $this->assertEquals(
+            '<input type="text" name="testing" style="ime-mode:inactive; width:5em; height:10em" >',
+            (string)$input);
     }
 
     /**

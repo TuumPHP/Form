@@ -7,7 +7,7 @@ use Tuum\Form\Format\ToString;
  * Class Tags
  *
  * @package Tuum\Form
- *          
+ *
  * @method $this class($class_name)
  */
 class Tag
@@ -43,9 +43,9 @@ class Tag
     /**
      * @param string $tagName
      */
-    public function __construct( $tagName )
+    public function __construct($tagName)
     {
-        $this->tagName = strtolower( $tagName );
+        $this->tagName  = strtolower($tagName);
         $this->toString = new ToString();
     }
 
@@ -62,7 +62,7 @@ class Tag
      */
     public function toString()
     {
-        return $this->toString->format( $this );
+        return $this->toString->format($this);
     }
 
     /**
@@ -90,19 +90,21 @@ class Tag
      * @param array  $args
      * @return $this
      */
-    public function __call( $method, $args )
+    public function __call($method, $args)
     {
-        if ( $method === 'class' ) $method = 'class_';
-        if ( method_exists( $this, $method ) ) {
-            return $this->$method( $args[ 0 ] );
+        if ($method === 'class') {
+            $method = 'class_';
         }
-        if ( isset( $args[ 1 ] ) ) {
-            return $this->setAttribute( $method, $args[ 0 ], $args[ 1 ] );
+        if (method_exists($this, $method)) {
+            return $this->$method($args[0]);
         }
-        if ( isset( $args[ 0 ] ) ) {
-            return $this->setAttribute( $method, $args[ 0 ] );
+        if (isset($args[1])) {
+            return $this->setAttribute($method, $args[0], $args[1]);
         }
-        return $this->setAttribute( $method, true );
+        if (isset($args[0])) {
+            return $this->setAttribute($method, $args[0]);
+        }
+        return $this->setAttribute($method, true);
     }
 
     /**
@@ -119,7 +121,7 @@ class Tag
      * @param string $class
      * @return $this
      */
-    public function class_( $class )
+    public function class_($class)
     {
         return $this->setAttribute('class', $class, ' ');
     }
@@ -129,27 +131,27 @@ class Tag
      * @param string $style
      * @return $this
      */
-    public function style( $key, $style = null )
+    public function style($key, $style = null)
     {
         $style = $style ? "{$key}:$style" : $key;
         return $this->setAttribute('style', $style, '; ');
     }
 
     /**
-     * @param string $key
-     * @param string $value
-     * @param bool|string   $sep
+     * @param string      $key
+     * @param string      $value
+     * @param bool|string $sep
      * @return $this
      */
-    protected function setAttribute( $key, $value, $sep=false )
+    protected function setAttribute($key, $value, $sep = false)
     {
-        if(!isset($this->attributes[ $key ])) {
-            $this->attributes[ $key ] = $value;
-        } elseif($sep === false) {
-            $this->attributes[ $key ] = $value;
+        if (!isset($this->attributes[$key])) {
+            $this->attributes[$key] = $value;
+        } elseif ($sep === false) {
+            $this->attributes[$key] = $value;
         } else {
-            $sep = (string) $sep;
-            $this->attributes[ $key ] .= $sep . $value;
+            $sep = (string)$sep;
+            $this->attributes[$key] .= $sep . $value;
         }
         return $this;
     }
@@ -161,9 +163,9 @@ class Tag
      * @param string $key
      * @return null|string
      */
-    public function get( $key )
+    public function get($key)
     {
-        return array_key_exists( $key, $this->attributes ) ? $this->attributes[ $key ] : null;
+        return array_key_exists($key, $this->attributes) ? $this->attributes[$key] : null;
     }
 
     /**

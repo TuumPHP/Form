@@ -22,7 +22,7 @@ namespace Tuum\Form\Tags;
 class Input extends Tag
 {
     use ElementTrait;
-    
+
     /**
      * @param string $type
      * @param string $name
@@ -33,19 +33,19 @@ class Input extends Tag
         $this->setAttribute('type', $type);
         $this->setAttribute('name', $name);
     }
-    
+
     /**
      * @return string
      */
     public function toString()
     {
         $html = parent::toString();
-        if($this->label) {
-            $html = $this->labelHtml($html.' '.$this->label);
+        if ($this->label) {
+            $html = $this->labelHtml($html . ' ' . $this->label);
         }
         return $html;
     }
-    
+
     /**
      * @return $this
      */

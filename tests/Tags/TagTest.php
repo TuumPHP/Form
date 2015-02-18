@@ -9,9 +9,9 @@ class TagTest extends \PHPUnit_Framework_TestCase
 {
     function test0()
     {
-        $tags= new Tag('input');
+        $tags = new Tag('input');
         $this->assertEquals('Tuum\Form\Tags\Tag', get_class($tags));
-        $this->assertEquals('<input >', (string) $tags);
+        $this->assertEquals('<input >', (string)$tags);
     }
 
     /**
@@ -19,12 +19,11 @@ class TagTest extends \PHPUnit_Framework_TestCase
      */
     function set_class_style()
     {
-        $tags= (new Tag('test'))
+        $tags = (new Tag('test'))
             ->class('testing')
             ->style('styled')
             ->class('testing2')
-            ->style('styled2')
-        ;
+            ->style('styled2');
         $this->assertEquals('<test class="testing testing2" style="styled; styled2" >', $tags->toString());
     }
 
@@ -37,21 +36,19 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tags = (new Tag('close'))
             ->closeTag()
             ->contents('tested')
-            ->more('done')
-            ;
+            ->more('done');
         $this->assertEquals('<close more="done" >tested</close>', (string)$tags);
     }
 
     /**
      * @test
-     */    
+     */
     function tag_replaces_value()
     {
         /** @noinspection PhpUndefinedMethodInspection */
         $tags = (new Tag('test'))
             ->some('more')
-            ->some('done')
-        ;
+            ->some('done');
         $this->assertEquals('<test some="done" >', (string)$tags);
     }
 
@@ -63,8 +60,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         /** @noinspection PhpUndefinedMethodInspection */
         $tags = (new Tag('test'))
             ->some('more')
-            ->some('done', 'X')
-        ;
+            ->some('done', 'X');
         $this->assertEquals('<test some="moreXdone" >', (string)$tags);
     }
 }
