@@ -42,7 +42,7 @@ class InputList extends Tag
     private function formInput()
     {
         $selectedValue = $this->get('value');
-        $html          = '';
+        $html          = '<ul>';
         foreach ($this->list as $value => $label) {
             $html .= "\n";
             $this->label($label);
@@ -52,8 +52,8 @@ class InputList extends Tag
             } else {
                 $this->setAttribute('checked', false);
             }
-            $html .= $this->labelHtml(parent::toString() . ' ' . $label);
+            $html .= '  <li>'.$this->labelHtml(parent::toString() . ' ' . $label).'</li>';
         }
-        return $html;
+        return $html . "\n</ul>";
     }
 }
