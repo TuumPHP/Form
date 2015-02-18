@@ -19,6 +19,9 @@ class InputList extends Input
         parent::__construct($type, $name);
         $this->list = $list;
         $this->setAttribute('value', $value);
+        if($type === 'checkbox') {
+            $this->setMultiple();
+        }
     }
 
     /**

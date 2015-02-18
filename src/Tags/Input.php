@@ -65,6 +65,8 @@ class Input extends Tag
     public function setMultiple($multiple=true)
     {
         $this->multiple = $multiple;
+        $name = $this->get('name');
+        $this->setAttribute('name', $name.'[]');
         return $this;
     }
 
@@ -117,11 +119,7 @@ class Input extends Tag
      */
     public function getName()
     {
-        $name = $this->get('name');
-        if ( $this->multiple ) {
-            $name .=  '[]';
-        }
-        return $name;
+        return $this->get('name');
     }
 
     /**
