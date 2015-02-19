@@ -30,7 +30,7 @@ class Tag
     /**
      * @var ToString
      */
-    protected $toString;
+    private $toString;
 
     /**
      * @var string
@@ -62,7 +62,16 @@ class Tag
      */
     public function toString()
     {
-        return $this->toString->format($this);
+        return $this->convertToString($this);
+    }
+
+    /**
+     * @param Tag $element
+     * @return string
+     */
+    protected function convertToString($element)
+    {
+        return $this->toString->format($element);
     }
 
     /**

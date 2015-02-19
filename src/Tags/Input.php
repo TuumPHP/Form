@@ -38,7 +38,7 @@ class Input extends Tag
      */
     public function toString()
     {
-        $html = parent::toString();
+        $html = $this->convertToString($this);
         if ($this->label) {
             $html = $this->labelHtml($html . ' ' . $this->label);
         }

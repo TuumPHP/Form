@@ -72,6 +72,6 @@ class InputList extends Tag
         if (in_array((string)$key, $selectedValue) ) {
             $input->setAttribute('checked', true);
         }
-        return $this->toString->format($input);
+        return $this->convertToString($input);
     }
 }

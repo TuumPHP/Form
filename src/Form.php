@@ -1,9 +1,7 @@
 <?php
 namespace Tuum\Form;
 
-use Tuum\Form\Tags\Composite;
 use Tuum\Form\Tags\Input;
-use Tuum\Form\Tags\Select;
 
 class Form
 {

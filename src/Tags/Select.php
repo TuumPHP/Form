@@ -57,7 +57,7 @@ class Select extends Tag
         }
         if ($html) {
             $this->contents($html . "\n");
-            $html = (string)$this->toString->format($this);
+            $html = (string)$this->convertToString($this);
         }
         return $html;
     }
