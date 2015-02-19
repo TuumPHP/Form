@@ -17,7 +17,12 @@ class Select extends Tag
     /**
      * @var array
      */
-    protected $list = array();
+    private $list = array();
+
+    /**
+     * @var string
+     */
+    private $head;
 
     /**
      * @param string $name
@@ -32,6 +37,18 @@ class Select extends Tag
         $this->setAttribute('value', (array) $value);
     }
 
+    /**
+     * add an empty selection at the beginning of the list, 
+     * such as 'select an item...'. 
+     * 
+     * @param string $head
+     * @return $this
+     */
+    public function head($head)
+    {
+        $this->head = $head;
+        return $this;
+    }
     /**
      * @return string
      */
@@ -48,6 +65,9 @@ class Select extends Tag
         $selectedValue = (array) $this->get('value');
         $this->setAttribute('value', false);
         $html = '';
+        if ($this->head) {
+            $html .= "\n  <option value=\"\" selected>{$this->head}</option>";
+        }
         foreach ($this->list as $value => $label) {
             if (in_array((string)$value, $selectedValue)) {
                 $html .= "\n  <option value=\"{$value}\" selected>{$label}</option>";
