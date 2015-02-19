@@ -16,7 +16,7 @@ class Composite
     /**
      * @var
      */
-    private $separator = '-';
+    private $separator = '[- :T]+';
 
     /**
      * @param Input[]|Select[] $fields
@@ -46,11 +46,19 @@ class Composite
      */
     public function value($value)
     {
+        if(is_null($value) || $value === '') {
+            return $this;
+        }
         $list = $this->explode($value);
+        $idx  = 0;
         foreach($this->fields as $key => $tag) {
             if(array_key_exists($key, $list)) {
                 $tag->value($list[$key]);
+            } 
+            elseif(array_key_exists($idx, $list)) {
+                $tag->value($list[$idx]);
             }
+            $idx ++;
         }
         return $this;
     }
@@ -61,7 +69,7 @@ class Composite
      */
     private function explode($value)
     {
-        return explode($this->separator, $value);
+        return preg_split( "/{$this->separator}/", $value);
     }
 
     /**

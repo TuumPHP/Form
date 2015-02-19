@@ -45,7 +45,7 @@ class Select extends Tag
      */
     private function formSelect()
     {
-        $selectedValue = $this->get('value');
+        $selectedValue = (array) $this->get('value');
         $this->setAttribute('value', false);
         $html = '';
         foreach ($this->list as $value => $label) {

@@ -39,6 +39,36 @@ class Date
     }
 
     /**
+     * @param      $name
+     * @param null $value
+     * @return mixed
+     */
+    public function selTime($name, $value=null)
+    {
+        $times = [];
+        for($t = 0; $t <=23; $t++) {
+            $times[$t] = sprintf('%02d', $t);
+        }
+        return new Select($name, $times, $value);
+    }
+
+    /**
+     * @param      $name
+     * @param null $value
+     * @param int  $interval
+     * @return mixed
+     */
+    public function selMinute($name, $value=null, $interval=5)
+    {
+        $minutes = [];
+        $interval = $interval ?: 5;
+        for($m = 0; $m <=59; $m+=$interval) {
+            $minutes[$m] = sprintf('%02d', $m);
+        }
+        return new Select($name, $minutes, $value);
+    }
+
+    /**
      * @param string      $name
      * @param string|null $value
      * @return Composite
@@ -49,11 +79,21 @@ class Date
             'y' => $this->selYear($name),
             'm' => $this->selMonth($name),
         ];
-        return (new Composite($fields, '%1$s, %2$s'))->name($name)->value($value);
+        return (new Composite($fields, '%1$s/%2$s'))->name($name)->value($value);
     }
-    
-    public function timeHi($name, $value)
+
+    /**
+     * @param string      $name
+     * @param string|null $value
+     * @return Composite
+     */
+    public function timeHi($name, $value=null)
     {
-        
+        $fields = [
+            'h' => $this->selTime($name),
+            'i' => $this->selMinute($name),
+        ];
+        return (new Composite($fields, '%1$s:%2$s'))->name($name)->value($value);
+
     }
 }
