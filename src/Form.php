@@ -2,20 +2,60 @@
 namespace Tuum\Form;
 
 use Tuum\Form\Tags\Input;
+use Tuum\Form\Tags\TextArea;
 
 /**
  * Class Form
  *
  * @package Tuum\Form
  *          
- * @method Input text( string $name, string $value = null )
+ * @method Input text(string $name, string $value = null)
+ * @method Input hidden(string $name, string $value = null )
+ * @method Input search(string $name, string $value = null )
+ * @method Input tel(string $name, string $value = null )
+ * @method Input url(string $name, string $value = null )
+ * @method Input email(string $name, string $value = null )
+ * @method Input password(string $name, string $value = null )
+ * @method Input datetime(string $name, string $value = null )
+ * @method Input date(string $name, string $value = null )
+ * @method Input month(string $name, string $value = null )
+ * @method Input week(string $name, string $value = null )
+ * @method Input time(string $name, string $value = null )
+ * @method Input number(string $name, string $value = null )
+ * @method Input range(string $name, string $value = null )
+ * @method Input color(string $name, string $value = null )
+ * @method Input file(string $name, string $value = null )
+ * @method Input radio(string $name, string $value = null )
+ * @method Input checkbox(string $name, string $value = null )
  */
 class Form
 {
     private $inputs = [
         'text',
+        'hidden',
+        'search',
+        'tel',
+        'url',
+        'email',
+        'password',
+        'datetime',
+        'date',
+        'month',
+        'week',
+        'time',
+        'number',
+        'range',
+        'color',
+        'file',
+        'radio',
+        'checkbox',
     ];
-    
+
+    /**
+     * @param string $type
+     * @param array  $args
+     * @return $this|string
+     */
     public function __call($type, $args)
     {
         /*
@@ -43,7 +83,15 @@ class Form
     public function input($type, $name, $value=null)
     {
         return (new Input($type, $name))->value($value);
-
     }
-    
+
+    /**
+     * @param string      $name
+     * @param string|null $value
+     * @return TextArea
+     */
+    public function textArea($name, $value = null)
+    {
+        return (new TextArea($name))->contents($value);
+    }
 }
