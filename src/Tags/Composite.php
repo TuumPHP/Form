@@ -47,7 +47,7 @@ class Composite
      * @param $name
      * @return $this
      */
-    public function name($name)
+    private function name($name)
     {
         foreach($this->fields as $suffix => $tag) {
             $tag->name("{$name}_{$suffix}");
