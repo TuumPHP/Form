@@ -16,16 +16,17 @@ class Composite
     private $format;
 
     /**
-     * @var
+     * @var string|Closure
      */
-    private $separator = '[- :T]+';
+    private $exploder = '[- :T]+';
 
     /**
      * @param string           $name
      * @param Input[]|Select[] $fields
      * @param string           $format
+     * @param null             $exploder
      */
-    public function __construct($name, $fields, $format)
+    public function __construct($name, $fields, $format, $exploder=null)
     {
         $this->fields = $fields;
         if (is_string($format)) {
@@ -40,6 +41,7 @@ class Composite
             };
         }
         $this->format = $format;
+        $this->exploder = $exploder ?: $this->exploder;
         $this->name($name);
     }
 
@@ -96,7 +98,11 @@ class Composite
      */
     private function explode($value)
     {
-        return preg_split( "/{$this->separator}/", $value);
+        if($this->exploder instanceof Closure) {
+            $exploder = $this->exploder;
+            return $exploder($value);
+        }
+        return preg_split( "/{$this->exploder}/", $value);
     }
 
     /**
