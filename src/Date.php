@@ -13,36 +13,85 @@ class Date
     private $yearList;
 
     /**
+     * @var Closure
+     */
+    private $yearFormat;
+
+    /**
+     * @var Closure
+     */
+    private $minuteList;
+
+    /**
+     * @var Closure
+     */
+    private $secondList;
+    
+    public function __construct()
+    {
+        $this->yearFormat = function($year) {
+            return sprintf('%04d', $year);
+        };
+    }
+
+    /**
      * @param int|null $start
      * @param int|null $end
-     * @param array    $option
+     * @param int      $step
      * @return callable
      */
-    public function listYears($start=null, $end=null, $option=[])
+    public function listYears($start=null, $end=null, $step=1)
     {
-        $option = $option + [
-                'step' => '1',
-                'format' => '%04d',
-            ];
         $start = $start ?: date('Y') - 1;
         $end   = $end   ?: date('Y') + 1;
-        $this->yearList = function() use($start, $end, $option) {
-            $step  = $option['step'];
+        $this->yearList = function() use($start, $end, $step) {
             $step  = $start < $end ? abs($step) : -abs($step);
-            $format= $option['format'];
             $years = [];
+            $formatter = $this->yearFormat;
             for($y = $start; $y <=$end; $y+=$step) {
-                $years[$y] = sprintf($format, $y);
+                $years[$y] = $formatter($y);
             }
             return $years;
         };
         return $this->yearList;
     }
-    
+
+    /**
+     * @param int $interval
+     * @return callable
+     */
+    public function listMinute($interval=5)
+    {
+        $this->minuteList = function() use($interval) {
+            $minutes = [];
+            for($m = 0; $m <=59; $m+=$interval) {
+                $minutes[$m] = sprintf('%02d', $m);
+            }
+            return $minutes;
+        };
+        return $this->minuteList;
+    }
+
+    /**
+     * @param int $interval
+     * @return callable
+     */
+    public function listSecond($interval=15)
+    {
+        $this->secondList = function() use($interval) {
+            $seconds = [];
+            for($s = 0; $s <=59; $s+=$interval) {
+                $seconds[$s] = sprintf('%02d', $s);
+            }
+            return $seconds;
+        };
+        return $this->secondList;
+    }
+
     /**
      * @param      $name
      * @param null $value
-     * @return mixed
+     * @return Select
      */
     public function selYear($name, $value=null)
     {
@@ -53,7 +102,7 @@ class Date
     /**
      * @param      $name
      * @param null $value
-     * @return mixed
+     * @return Select
      */
     public function selMonth($name, $value=null)
     {
@@ -67,7 +116,7 @@ class Date
     /**
      * @param      $name
      * @param null $value
-     * @return mixed
+     * @return Select
      */
     public function selTime($name, $value=null)
     {
@@ -82,7 +131,7 @@ class Date
      * @param      $name
      * @param null $value
      * @param int  $interval
-     * @return mixed
+     * @return Select
      */
     public function selMinute($name, $value=null, $interval=5)
     {
