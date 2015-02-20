@@ -15,7 +15,17 @@ class Date
     /**
      * @var Closure
      */
+    private $monthList;
+
+    /**
+     * @var Closure
+     */
     private $yearFormat;
+
+    /**
+     * @var Closure
+     */
+    private $hourList;
 
     /**
      * @var Closure
@@ -26,7 +36,7 @@ class Date
      * @var Closure
      */
     private $secondList;
-    
+
     public function __construct()
     {
         $this->yearFormat = function($year) {
@@ -54,6 +64,36 @@ class Date
             return $years;
         };
         return $this->yearList;
+    }
+
+    /**
+     * @return callable
+     */
+    public function listMonth()
+    {
+        $this->monthList = function() {
+            $months = [];
+            for($m = 1; $m <=12; $m++) {
+                $months[$m] = sprintf('%02d', $m);
+            }
+            return $months;
+        };
+        return $this->monthList;
+    }
+
+    /**
+     * @return callable
+     */
+    public function listHour()
+    {
+        $this->hourList = function() {
+            $hours = [];
+            for($h = 0; $h <=24; $h++) {
+                $hours[$h] = sprintf('%02d', $h);
+            }
+            return $hours;
+        };
+        return $this->hourList;
     }
 
     /**
@@ -89,58 +129,47 @@ class Date
     }
 
     /**
-     * @param      $name
-     * @param null $value
+     * @param string     $name
+     * @param null|Closure|array $years
      * @return Select
      */
-    public function selYear($name, $value=null)
+    public function selYear($name, $years=null)
     {
-        $years = $this->yearList ?: $this->listYears();
-        return new Select($name, $years, $value);
+        $years = $years ?: $this->listYears();
+        return new Select($name, $years);
     }
 
     /**
-     * @param      $name
-     * @param null $value
+     * @param string     $name
+     * @param null|Closure|array $months
      * @return Select
      */
-    public function selMonth($name, $value=null)
+    public function selMonth($name, $months=null)
     {
-        $months = [];
-        for($m = 1; $m <=12; $m++) {
-            $months[$m] = sprintf('%02d', $m);
-        }
-        return new Select($name, $months, $value);
+        $months = $months ?: $this->monthList;
+        return new Select($name, $months);
     }
 
     /**
-     * @param      $name
-     * @param null $value
+     * @param string     $name
+     * @param null|Closure|array $hour
      * @return Select
      */
-    public function selTime($name, $value=null)
+    public function selHour($name, $hour=null)
     {
-        $times = [];
-        for($t = 0; $t <=23; $t++) {
-            $times[$t] = sprintf('%02d', $t);
-        }
-        return new Select($name, $times, $value);
+        $hour = $hour ?: $this->hourList;
+        return new Select($name, $hour);
     }
 
     /**
-     * @param      $name
-     * @param null $value
-     * @param int  $interval
+     * @param string     $name
+     * @param null|Closure|array $minutes
      * @return Select
      */
-    public function selMinute($name, $value=null, $interval=5)
+    public function selMinute($name, $minutes=null)
     {
-        $minutes = [];
-        $interval = $interval ?: 5;
-        for($m = 0; $m <=59; $m+=$interval) {
-            $minutes[$m] = sprintf('%02d', $m);
-        }
-        return new Select($name, $minutes, $value);
+        $minutes = $minutes ?: $this->minuteList;
+        return new Select($name, $minutes);
     }
 
     /**
@@ -165,7 +194,7 @@ class Date
     public function timeHi($name, $value=null)
     {
         $fields = [
-            'h' => $this->selTime($name),
+            'h' => $this->selHour($name),
             'i' => $this->selMinute($name),
         ];
         return (new Composite($fields, '%1$s:%2$s'))->name($name)->value($value);
