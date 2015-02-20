@@ -21,6 +21,8 @@ namespace Tuum\Form\Tags;
 class Input extends Tag
 {
     use ElementTrait;
+    
+    use TextStyleTrait;
 
     /**
      * @param string $type
@@ -43,39 +45,5 @@ class Input extends Tag
             $html = $this->labelHtml($html . ' ' . $this->label);
         }
         return $html;
-    }
-
-    /**
-     * @return $this
-     */
-    public function imeOn()
-    {
-        return $this->style('ime-mode', 'active');
-    }
-
-    /**
-     * @return $this
-     */
-    public function imeOff()
-    {
-        return $this->style('ime-mode', 'inactive');
-    }
-
-    /**
-     * @param string $width
-     * @return $this
-     */
-    public function width($width)
-    {
-        return $this->style('width', $width);
-    }
-
-    /**
-     * @param string $height
-     * @return $this
-     */
-    public function height($height)
-    {
-        return $this->style('height', $height);
     }
 }
