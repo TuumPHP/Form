@@ -1,6 +1,8 @@
 <?php
 namespace Tuum\Form\Tags;
 
+use Closure;
+
 class Composite
 {
     /**
@@ -9,7 +11,7 @@ class Composite
     private $fields = [];
 
     /**
-     * @var
+     * @var Closure
      */
     private $format;
 
@@ -25,6 +27,17 @@ class Composite
     public function __construct($fields, $format)
     {
         $this->fields = $fields;
+        if (is_string($format)) {
+            $format = function($list) use($format) {
+                $fields = [
+                    $format,
+                ];
+                foreach($list as $tag) {
+                    $fields[] = (string) $tag;
+                }
+                return call_user_func_array('sprintf', $fields);
+            };
+        }
         $this->format = $format;
     }
 
@@ -36,6 +49,18 @@ class Composite
     {
         foreach($this->fields as $suffix => $tag) {
             $tag->name("{$name}_{$suffix}");
+        }
+        return $this;
+    }
+
+    /**
+     * @param string $head
+     * @return $this
+     */
+    public function head($head)
+    {
+        foreach($this->fields as $tag) {
+            $tag->head($head);
         }
         return $this;
     }
@@ -85,12 +110,7 @@ class Composite
      */
     public function toString()
     {
-        $fields = [
-            $this->format,
-        ];
-        foreach($this->fields as $tag) {
-            $fields[] = (string) $tag;
-        }
-        return call_user_func_array('sprintf', $fields);
+        $formatter = $this->format;
+        return $formatter($this->fields);
     }
 }
