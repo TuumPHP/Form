@@ -183,7 +183,7 @@ class Date
             'y' => $this->selYear($name),
             'm' => $this->selMonth($name),
         ];
-        return (new Composite($fields, '%1$s/%2$s'))->name($name)->value($value);
+        return (new Composite($name, $fields, '%1$s/%2$s'))->value($value);
     }
 
     /**
@@ -197,7 +197,7 @@ class Date
             'h' => $this->selHour($name),
             'i' => $this->selMinute($name),
         ];
-        return (new Composite($fields, '%1$s:%2$s'))->name($name)->value($value);
+        return (new Composite($name, $fields, '%1$s:%2$s'))->value($value);
 
     }
 }

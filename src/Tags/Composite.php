@@ -21,10 +21,11 @@ class Composite
     private $separator = '[- :T]+';
 
     /**
+     * @param string           $name
      * @param Input[]|Select[] $fields
      * @param string           $format
      */
-    public function __construct($fields, $format)
+    public function __construct($name, $fields, $format)
     {
         $this->fields = $fields;
         if (is_string($format)) {
@@ -39,6 +40,7 @@ class Composite
             };
         }
         $this->format = $format;
+        $this->name($name);
     }
 
     /**

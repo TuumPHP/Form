@@ -10,7 +10,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     function test0()
     {
-        $input = new Composite([], 'test');
+        $input = new Composite('test', [], '');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($input));
     }
 }
