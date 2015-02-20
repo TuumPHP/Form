@@ -1,6 +1,8 @@
 <?php
 namespace Tuum\Form\Tags;
 
+use Closure;
+
 /**
  * Class Select
  *
@@ -15,9 +17,9 @@ class Select extends Tag
     use ElementTrait;
 
     /**
-     * @var array
+     * @var array|Closure
      */
-    private $list = array();
+    private $list;
 
     /**
      * @var string
@@ -26,7 +28,7 @@ class Select extends Tag
 
     /**
      * @param string $name
-     * @param array  $list
+     * @param array|Closure  $list
      * @param null   $value
      */
     public function __construct($name, $list, $value = null)
@@ -68,7 +70,11 @@ class Select extends Tag
         if ($this->head) {
             $html .= "\n  <option value=\"\" selected>{$this->head}</option>";
         }
-        foreach ($this->list as $value => $label) {
+        $list = $this->list;
+        if ($list instanceof Closure) {
+            $list = $list();
+        }
+        foreach ($list as $value => $label) {
             if (in_array((string)$value, $selectedValue)) {
                 $html .= "\n  <option value=\"{$value}\" selected>{$label}</option>";
             } else {

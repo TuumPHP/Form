@@ -1,19 +1,21 @@
 <?php
 namespace Tuum\Form\Tags;
 
+use Closure;
+
 class InputList extends Tag
 {
     use ElementTrait;
 
     /**
-     * @var array
+     * @var array|Closure
      */
-    private $list = array();
+    private $list;
 
     /**
      * @param string $type
      * @param string $name
-     * @param array  $list
+     * @param array|Closure  $list
      * @param null   $value
      */
     public function __construct($type, $name, $list, $value = null)
@@ -42,7 +44,11 @@ class InputList extends Tag
     private function formInput()
     {
         $html          = '<ul>';
-        foreach ($this->list as $key => $label) {
+        $list = $this->list;
+        if ($list instanceof Closure) {
+            $list = $list();
+        }
+        foreach ($list as $key => $label) {
             $html .= "\n";
             $html .= '  <li>'.$this->labelHtml($this->getInput($key) . ' ' . $label).'</li>';
         }

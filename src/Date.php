@@ -1,26 +1,52 @@
 <?php
 namespace Tuum\Form;
 
+use Closure;
 use Tuum\Form\Tags\Composite;
 use Tuum\Form\Tags\Select;
 
 class Date
 {
     /**
-     * @param      $name
-     * @param null $value
-     * @param null $start
-     * @param null $end
-     * @return mixed
+     * @var Closure
      */
-    public function selYear($name, $value=null, $start=null, $end=null)
+    private $yearList;
+
+    /**
+     * @param int|null $start
+     * @param int|null $end
+     * @param array    $option
+     * @return callable
+     */
+    public function listYears($start=null, $end=null, $option=[])
     {
+        $option = $option + [
+                'step' => '1',
+                'format' => '%04d',
+            ];
         $start = $start ?: date('Y') - 1;
         $end   = $end   ?: date('Y') + 1;
-        $years = [];
-        for($y = $start; $y <=$end; $y++) {
-            $years[$y] = sprintf('%04d', $y);
-        }
+        $this->yearList = function() use($start, $end, $option) {
+            $step  = $option['step'];
+            $step  = $start < $end ? abs($step) : -abs($step);
+            $format= $option['format'];
+            $years = [];
+            for($y = $start; $y <=$end; $y+=$step) {
+                $years[$y] = sprintf($format, $y);
+            }
+            return $years;
+        };
+        return $this->yearList;
+    }
+    
+    /**
+     * @param      $name
+     * @param null $value
+     * @return mixed
+     */
+    public function selYear($name, $value=null)
+    {
+        $years = $this->yearList ?: $this->listYears();
         return new Select($name, $years, $value);
     }
 
