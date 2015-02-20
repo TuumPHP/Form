@@ -88,7 +88,7 @@ class Date
     {
         $this->hourList = function() {
             $hours = [];
-            for($h = 0; $h <=24; $h++) {
+            for($h = 0; $h < 24; $h++) {
                 $hours[$h] = sprintf('%02d', $h);
             }
             return $hours;
@@ -146,7 +146,7 @@ class Date
      */
     public function selMonth($name, $months=null)
     {
-        $months = $months ?: $this->monthList;
+        $months = $months ?: $this->listMonth();
         return new Select($name, $months);
     }
 
@@ -157,7 +157,7 @@ class Date
      */
     public function selHour($name, $hour=null)
     {
-        $hour = $hour ?: $this->hourList;
+        $hour = $hour ?: $this->listHour();
         return new Select($name, $hour);
     }
 
@@ -168,7 +168,7 @@ class Date
      */
     public function selMinute($name, $minutes=null)
     {
-        $minutes = $minutes ?: $this->minuteList;
+        $minutes = $minutes ?: $this->listMinute();
         return new Select($name, $minutes);
     }
 
