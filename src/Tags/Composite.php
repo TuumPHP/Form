@@ -29,18 +29,7 @@ class Composite
     public function __construct($name, $fields, $format, $exploder=null)
     {
         $this->fields = $fields;
-        if (is_string($format)) {
-            $format = function($list) use($format) {
-                $fields = [
-                    $format,
-                ];
-                foreach($list as $tag) {
-                    $fields[] = (string) $tag;
-                }
-                return call_user_func_array('sprintf', $fields);
-            };
-        }
-        $this->format = $format;
+        $this->format($format);
         $this->exploder = $exploder ?: $this->exploder;
         $this->name($name);
     }
@@ -57,6 +46,26 @@ class Composite
         return $this;
     }
 
+    /**
+     * @param string|Closure $format
+     * @return $this
+     */
+    public function format($format)
+    {
+        if (is_string($format)) {
+            $format = function($list) use($format) {
+                $fields = [
+                    $format,
+                ];
+                foreach($list as $tag) {
+                    $fields[] = (string) $tag;
+                }
+                return call_user_func_array('sprintf', $fields);
+            };
+        }
+        $this->format = $format;
+        return $this;
+    }
     /**
      * @param string $head
      * @return $this
