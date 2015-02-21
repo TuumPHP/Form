@@ -45,4 +45,25 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Tuum\Form\Tags\TextArea', get_class($input));
         $this->assertEquals('<textarea name="test" >testing</textarea>', (string) $input);
     }
+
+    /**
+     * @test
+     */
+    function open_returns_Form_object()
+    {
+        $form = new Form();
+        $input = $form->open();
+        $this->assertEquals('Tuum\Form\Tags\Form', get_class($input));
+        $this->assertEquals('<form method="get" >', (string) $input);
+    }
+
+    /**
+     * @test
+     */
+    function close_returns_Form_object()
+    {
+        $form = new Form();
+        $input = $form->close();
+        $this->assertEquals('</form>', $input);
+    }
 }

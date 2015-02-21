@@ -94,4 +94,20 @@ class Form
     {
         return (new TextArea($name))->contents($value);
     }
+
+    /**
+     * @return Tags\Form
+     */
+    public function open()
+    {
+        return new \Tuum\Form\Tags\Form();
+    }
+
+    /**
+     * @return string
+     */
+    public function close()
+    {
+        return \Tuum\Form\Tags\Form::close();
+    }
 }
