@@ -67,7 +67,7 @@ class Form
             }
             $name = $args[0];
             $value = array_key_exists(1, $args) ? $args[1] : null;
-            return (new Input($type, $name))->value($value);
+            return $this->input($type, $name, $value);
         }
         return '';
     }
