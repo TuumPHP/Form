@@ -2,13 +2,21 @@
 namespace Tuum\Form;
 
 use Closure;
+use Tuum\Form\Format\YearList;
 use Tuum\Form\Tags\Composite;
 use Tuum\Form\Tags\Select;
 
+/**
+ * Class Date
+ *
+ * @package Tuum\Form
+ *          
+ * @property YearList yearList
+ */
 class Date
 {
     /**
-     * @var Closure
+     * @var YearList
      */
     private $yearList;
 
@@ -16,11 +24,6 @@ class Date
      * @var Closure
      */
     private $monthList;
-
-    /**
-     * @var Closure
-     */
-    private $yearFormat;
 
     /**
      * @var Closure
@@ -37,32 +40,19 @@ class Date
      */
     private $secondList;
 
+    /**
+     * constructor
+     */
     public function __construct()
     {
-        $this->yearFormat = function($year) {
-            return sprintf('%04d', $year);
-        };
+        $this->yearList = new YearList();
     }
 
     /**
-     * @param int|null $start
-     * @param int|null $end
-     * @param int      $step
-     * @return callable
+     * @return YearList
      */
-    public function listYears($start=null, $end=null, $step=1)
+    public function getYearList()
     {
-        $start = $start ?: date('Y') - 1;
-        $end   = $end   ?: date('Y') + 1;
-        $this->yearList = function() use($start, $end, $step) {
-            $step  = $start < $end ? abs($step) : -abs($step);
-            $years = [];
-            $formatter = $this->yearFormat;
-            for($y = $start; $y <=$end; $y+=$step) {
-                $years[$y] = $formatter($y);
-            }
-            return $years;
-        };
         return $this->yearList;
     }
 
@@ -135,7 +125,7 @@ class Date
      */
     public function selYear($name, $years=null)
     {
-        $years = $years ?: $this->listYears();
+        $years = $years ?: $this->yearList->getList();
         return new Select($name, $years);
     }
 
