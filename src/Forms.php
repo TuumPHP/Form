@@ -100,7 +100,7 @@ class Forms
      */
     public function open()
     {
-        return new \Tuum\Form\Tags\Form();
+        return new Tags\Form();
     }
 
     /**
@@ -108,6 +108,6 @@ class Forms
      */
     public function close()
     {
-        return \Tuum\Form\Tags\Form::close();
+        return Tags\Form::close();
     }
 }

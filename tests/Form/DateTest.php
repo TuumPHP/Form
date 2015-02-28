@@ -2,6 +2,7 @@
 namespace tests\Form;
 
 use Tuum\Form\Dates;
+use Tuum\Form\Format\DayList;
 use Tuum\Form\Format\YearList;
 
 require_once(__DIR__ . '/../autoloader.php');
@@ -192,5 +193,37 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="50">50</option>
   <option value="55">55</option>
 </select>', (string)$date);
+    }
+
+    /**
+     * @test
+     */
+    function selDay_creates_select_for_date()
+    {
+        $form = new Dates();
+        $sel  = $form->selDay('more', DayList::forge(10,15));
+        $this->assertEquals('<select name="more" >
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+  <option value="13">13</option>
+  <option value="14">14</option>
+  <option value="15">15</option>
+</select>', (string)$sel);
+    }
+
+    /**
+     * @test
+     */
+    function selSecond_creates_select_for_second()
+    {
+        $form = new Dates();
+        $sel  = $form->selSecond('done');
+        $this->assertEquals('<select name="done" >
+  <option value="0">00</option>
+  <option value="15">15</option>
+  <option value="30">30</option>
+  <option value="45">45</option>
+</select>', (string)$sel);
     }
 }
