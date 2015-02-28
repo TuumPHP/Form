@@ -2,6 +2,11 @@
 namespace Tuum\Form;
 
 use Closure;
+use Tuum\Form\Format\DayList;
+use Tuum\Form\Format\HourList;
+use Tuum\Form\Format\MinuteList;
+use Tuum\Form\Format\MonthList;
+use Tuum\Form\Format\SecondList;
 use Tuum\Form\Format\YearList;
 use Tuum\Form\Tags\Composite;
 use Tuum\Form\Tags\Select;
@@ -16,92 +21,10 @@ use Tuum\Form\Tags\Select;
 class Dates
 {
     /**
-     * @var Closure
-     */
-    private $monthList;
-
-    /**
-     * @var Closure
-     */
-    private $hourList;
-
-    /**
-     * @var Closure
-     */
-    private $minuteList;
-
-    /**
-     * @var Closure
-     */
-    private $secondList;
-
-    /**
      * constructor
      */
     public function __construct()
     {
-    }
-
-    /**
-     * @return callable
-     */
-    public function listMonth()
-    {
-        $this->monthList = function() {
-            $months = [];
-            for($m = 1; $m <=12; $m++) {
-                $months[$m] = sprintf('%02d', $m);
-            }
-            return $months;
-        };
-        return $this->monthList;
-    }
-
-    /**
-     * @return callable
-     */
-    public function listHour()
-    {
-        $this->hourList = function() {
-            $hours = [];
-            for($h = 0; $h < 24; $h++) {
-                $hours[$h] = sprintf('%02d', $h);
-            }
-            return $hours;
-        };
-        return $this->hourList;
-    }
-
-    /**
-     * @param int $interval
-     * @return callable
-     */
-    public function listMinute($interval=5)
-    {
-        $this->minuteList = function() use($interval) {
-            $minutes = [];
-            for($m = 0; $m <=59; $m+=$interval) {
-                $minutes[$m] = sprintf('%02d', $m);
-            }
-            return $minutes;
-        };
-        return $this->minuteList;
-    }
-
-    /**
-     * @param int $interval
-     * @return callable
-     */
-    public function listSecond($interval=15)
-    {
-        $this->secondList = function() use($interval) {
-            $seconds = [];
-            for($s = 0; $s <=59; $s+=$interval) {
-                $seconds[$s] = sprintf('%02d', $s);
-            }
-            return $seconds;
-        };
-        return $this->secondList;
     }
 
     /**
@@ -116,13 +39,24 @@ class Dates
     }
 
     /**
+     * @param string $name
+     * @param array  $dates
+     * @return Select
+     */
+    public function selDay($name, $dates=null)
+    {
+        $days = $dates ?: DayList::forge();
+        return new Select($name, $days);
+    }
+
+    /**
      * @param string     $name
      * @param null|Closure|array $months
      * @return Select
      */
     public function selMonth($name, $months=null)
     {
-        $months = $months ?: $this->listMonth();
+        $months = $months ?: MonthList::forge();
         return new Select($name, $months);
     }
 
@@ -133,7 +67,7 @@ class Dates
      */
     public function selHour($name, $hour=null)
     {
-        $hour = $hour ?: $this->listHour();
+        $hour = $hour ?: HourList::forge();
         return new Select($name, $hour);
     }
 
@@ -144,8 +78,34 @@ class Dates
      */
     public function selMinute($name, $minutes=null)
     {
-        $minutes = $minutes ?: $this->listMinute();
+        $minutes = $minutes ?: MinuteList::forge();
         return new Select($name, $minutes);
+    }
+
+    /**
+     * @param string     $name
+     * @param null|Closure|array $seconds
+     * @return Select
+     */
+    public function selSecond($name, $seconds=null)
+    {
+        $seconds = $seconds ?: SecondList::forge();
+        return new Select($name, $seconds);
+    }
+
+    /**
+     * @param string      $name
+     * @param string|null $value
+     * @return Composite
+     */
+    public function dateYMD($name, $value=null)
+    {
+        $fields = [
+            'y' => $this->selYear($name),
+            'm' => $this->selMonth($name),
+            'd' => $this->selDay($name),
+        ];
+        return (new Composite($name, $fields, '%1$s/%2$s/%3$s'))->value($value);
     }
 
     /**
