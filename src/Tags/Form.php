@@ -46,6 +46,7 @@ class Form extends Tag
     {
         $method = strtolower($method);
         if (in_array($method, $this->http_methods)) {
+            $this->_method = null;
             return $this->setAttribute( 'method', $method );
         }
         $this->_method = $method;
@@ -66,6 +67,7 @@ class Form extends Tag
      */
     public function uploader()
     {
+        $this->method('post');
         return $this->setAttribute( 'enctype', 'multipart/form-data' );
     }
 
@@ -76,7 +78,7 @@ class Form extends Tag
     {
         $html = $this->convertToString($this);
         if(!is_null($this->_method)) {
-            $html .= "\n<input type='hidden' name='_method' value='{$this->_method}' />";
+            $html .= "\n<input type=\"hidden\" name=\"_method\" value=\"". $this->_method ."\" />";
         }
         return $html;
     }
