@@ -19,7 +19,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     function japanese_年号()
     {
         $form = new YearList();
-        $form->useJpnGenGou();
+        $form->setFormat(YearList::formatJpnGenGou());
         $format = $form->getFormat();
         
         // beginning of Nengou

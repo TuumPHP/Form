@@ -2,6 +2,7 @@
 namespace tests\Form;
 
 use Tuum\Form\Dates;
+use Tuum\Form\Format\YearList;
 
 require_once(__DIR__ . '/../autoloader.php');
 
@@ -138,7 +139,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         
         $date = $form->dateYM('test');
         /** @noinspection PhpUndefinedMethodInspection */
-        $date->y->getList()->useJpnGenGou();
+        $date->y->getList()->setFormat(YearList::formatJpnGenGou());
         $this->assertEquals('<select name="test_y" >
   <option value="2014">平成26年</option>
   <option value="2015">平成27年</option>

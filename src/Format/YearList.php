@@ -43,21 +43,13 @@ class YearList
      */
     public function __invoke()
     {
-        return $this->getList();
-    }
-    
-    /**
-     * @param Closure $format
-     */
-    public function setFormat($format)
-    {
-        $this->format = $format;
+        return $this->list ?: $this->setYears();
     }
 
     /**
-     * use Japanese Gen-Gou style year format.
+     * @return Closure
      */
-    public function useJpnGenGou()
+    public static function formatJpnGenGou()
     {
         $genGou = [ // until => genGou name
             '1868' => false,
@@ -66,7 +58,7 @@ class YearList
             '1988' => '昭和',
             '9999' => '平成', // so far...
         ];
-        $this->format = function($year) use($genGou) {
+        return function($year) use($genGou) {
             $year = (string) $year;
             $start = 0;
             foreach($genGou as $ends => $gou) {
@@ -87,6 +79,14 @@ class YearList
     }
     
     /**
+     * @param Closure $format
+     */
+    public function setFormat($format)
+    {
+        $this->format = $format;
+    }
+
+    /**
      * @param int|null $start
      * @param int|null $end
      * @param int      $step
@@ -103,14 +103,6 @@ class YearList
         }
         $this->list = $years;
         return $this->list;
-    }
-
-    /**
-     * @return Closure
-     */
-    public function getList()
-    {
-        return $this->list ?: $this->setYears();
     }
 
     /**
