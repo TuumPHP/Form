@@ -135,11 +135,10 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_returns_nenGou()
     {
         $form = new Dates();
-        $list = $form->getYearList();
-        $this->assertEquals('Tuum\Form\Format\YearList', get_class($list));
         
-        $list->useJpnGenGou();
         $date = $form->dateYM('test');
+        /** @noinspection PhpUndefinedMethodInspection */
+        $date->y->getList()->useJpnGenGou();
         $this->assertEquals('<select name="test_y" >
   <option value="2014">平成26年</option>
   <option value="2015">平成27年</option>

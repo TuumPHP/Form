@@ -40,6 +40,14 @@ class Select extends Tag
     }
 
     /**
+     * @return array|callable
+     */
+    public function getList()
+    {
+        return $this->list;
+    }
+
+    /**
      * add an empty selection at the beginning of the list, 
      * such as 'select an item...'. 
      * 
@@ -71,7 +79,7 @@ class Select extends Tag
             $html .= "\n  <option value=\"\" selected>{$this->head}</option>";
         }
         $list = $this->list;
-        if ($list instanceof Closure) {
+        if (is_callable($list)) {
             $list = $list();
         }
         foreach ($list as $value => $label) {

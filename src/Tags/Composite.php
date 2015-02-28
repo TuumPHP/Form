@@ -35,6 +35,15 @@ class Composite
     }
 
     /**
+     * @param $key
+     * @return null|Input|Select
+     */
+    public function __get($key)
+    {
+        return array_key_exists($key, $this->fields) ? $this->fields[$key] : null;
+    }
+
+    /**
      * @param $name
      * @return $this
      */

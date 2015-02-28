@@ -16,11 +16,6 @@ use Tuum\Form\Tags\Select;
 class Dates
 {
     /**
-     * @var YearList
-     */
-    private $yearList;
-
-    /**
      * @var Closure
      */
     private $monthList;
@@ -45,15 +40,6 @@ class Dates
      */
     public function __construct()
     {
-        $this->yearList = new YearList();
-    }
-
-    /**
-     * @return YearList
-     */
-    public function getYearList()
-    {
-        return $this->yearList;
     }
 
     /**
@@ -125,7 +111,7 @@ class Dates
      */
     public function selYear($name, $years=null)
     {
-        $years = $years ?: $this->yearList->getList();
+        $years = $years ?: YearList::forge();
         return new Select($name, $years);
     }
 

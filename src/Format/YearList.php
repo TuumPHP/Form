@@ -6,7 +6,7 @@ use Closure;
 class YearList
 {
     /**
-     * @var Closure
+     * @var array
      */
     private $list;
 
@@ -25,6 +25,27 @@ class YearList
         };
     }
 
+    /**
+     * @param null|Closure $format
+     * @return YearList
+     */
+    public static function forge($format=null)
+    {
+        $list = new self;
+        if($format) {
+            $list->setFormat($format);
+        }
+        return $list;
+    }
+
+    /**
+     * @return array
+     */
+    public function __invoke()
+    {
+        return $this->getList();
+    }
+    
     /**
      * @param Closure $format
      */
@@ -69,21 +90,18 @@ class YearList
      * @param int|null $start
      * @param int|null $end
      * @param int      $step
-     * @return Closure
+     * @return array
      */
-    public function setList($start=null, $end=null, $step=1)
+    public function setYears($start=null, $end=null, $step=1)
     {
         $start = $start ?: date('Y') - 1;
         $end   = $end   ?: date('Y') + 1;
-        $this->list = function() use($start, $end, $step) {
-            $step  = $start < $end ? abs($step) : -abs($step);
-            $years = [];
-            $formatter = $this->format;
-            for($y = $start; $y <=$end; $y+=$step) {
-                $years[$y] = $formatter($y);
-            }
-            return $years;
-        };
+        $step  = $start < $end ? abs($step) : -abs($step);
+        $years = [];
+        for($y = $start; $y <=$end; $y+=$step) {
+            $years[$y] = $this->format($y);
+        }
+        $this->list = $years;
         return $this->list;
     }
 
@@ -92,7 +110,17 @@ class YearList
      */
     public function getList()
     {
-        return $this->list ?: $this->setList();
+        return $this->list ?: $this->setYears();
+    }
+
+    /**
+     * @param mixed $value
+     * @return string
+     */
+    private function format($value)
+    {
+        $format = $this->format;
+        return $format($value);
     }
 
     /**
