@@ -1,7 +1,6 @@
 <?php
 namespace tests\Form;
 
-use Tuum\Form\Date;
 use Tuum\Form\Tags\Composite;
 
 require_once(__DIR__ . '/../autoloader.php');

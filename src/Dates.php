@@ -13,7 +13,7 @@ use Tuum\Form\Tags\Select;
  *          
  * @property YearList yearList
  */
-class Date
+class Dates
 {
     /**
      * @var YearList

@@ -28,7 +28,7 @@ use Tuum\Form\Tags\TextArea;
  * @method Input radio(string $name, string $value = null )
  * @method Input checkbox(string $name, string $value = null )
  */
-class Form
+class Forms
 {
     private $inputs = [
         'text',
