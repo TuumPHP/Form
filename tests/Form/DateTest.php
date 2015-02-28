@@ -20,8 +20,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_returns_composite()
     {
         $form = new Dates();
-        $date = $form->dateYM('test');
-        $date->y->getList()->range(2014, 2016);
+        $date = $form->useYearList(
+            YearList::forge(2014, 2016)
+        )->dateYM('test');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
   <option value="2014">2014</option>
@@ -49,8 +50,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_with_format_string()
     {
         $form = new Dates();
-        $date = $form->dateYM('test')->format('Year %s Month %s');
-        $date->y->getList()->range(2015, 2016);
+        $date = $form->useYearList(
+            YearList::forge(2015, 2016)
+        )->dateYM('test')->format('Year %s Month %s');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('Year <select name="test_y" >
   <option value="2015">2015</option>
@@ -77,15 +79,16 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_with_format_closure()
     {
         $form = new Dates();
-        $date = $form->dateYM('test')->format(function($fields) {
+        $date = $form->useYearList(
+            YearList::forge(2010, 2012)
+        )->dateYM('test')->format(function($fields) {
             return implode('formatted', $fields);
         });
-        $date->y->getList()->range(2014, 2016);
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
-  <option value="2014">2014</option>
-  <option value="2015">2015</option>
-  <option value="2016">2016</option>
+  <option value="2010">2010</option>
+  <option value="2011">2011</option>
+  <option value="2012">2012</option>
 </select>formatted<select name="test_m" >
   <option value="1"> 1</option>
   <option value="2"> 2</option>
@@ -108,8 +111,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_and_head_adds_extra_option()
     {
         $form = new Dates();
-        $date = $form->dateYM('test')->head('testing');
-        $date->y->getList()->range(2014, 2016);
+        $date = $form->useYearList(
+            YearList::forge(2014, 2016)
+        )->dateYM('test')->head('testing');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
   <option value="" selected>testing</option>
@@ -140,9 +144,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         
-        $date = $form->dateYM('test');
-        $date->y->getList()->setFormat(YearList::formatJpnGenGou());
-        $date->y->getList()->range(2014, 2016);
+        $date = $form->useYearList(
+            YearList::forge(2014, 2016)->setFormat(YearList::formatJpnGenGou())
+        )->dateYM('test');
         $this->assertEquals('<select name="test_y" >
   <option value="2014">平成26年</option>
   <option value="2015">平成27年</option>

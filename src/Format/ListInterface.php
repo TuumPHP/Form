@@ -14,7 +14,7 @@ interface ListInterface
      * @param null|int $start
      * @param null|int $end
      * @param int      $step
-     * @return static
+     * @return ListInterface
      */
     public static function forge($start=null, $end=null, $step=1);
 
@@ -28,6 +28,7 @@ interface ListInterface
     
     /**
      * @param Closure $format
+     * @return static
      */
     public function setFormat($format);
 }

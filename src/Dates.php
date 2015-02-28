@@ -21,10 +21,25 @@ use Tuum\Form\Tags\Select;
 class Dates
 {
     /**
+     * @var YearList
+     */
+    private $years;
+
+    /**
      * constructor
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @param YearList $years
+     * @return $this
+     */
+    public function useYearList($years)
+    {
+        $this->years = $years;
+        return $this;
     }
 
     /**
@@ -34,7 +49,9 @@ class Dates
      */
     public function selYear($name, $years=null)
     {
-        $years = $years ?: YearList::forge();
+        if(!$years) {
+            $years = $this->years ?: YearList::forge();
+        }
         return new Select($name, $years);
     }
 

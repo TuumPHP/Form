@@ -60,13 +60,15 @@ abstract class AbstractList implements ListInterface
         if(!is_null($step))  $this->step  = $step;
         return $this;
     }
-    
+
     /**
      * @param Closure $format
+     * @return $this
      */
     public function setFormat($format)
     {
         $this->format = $format;
+        return $this;
     }
 
     /**
