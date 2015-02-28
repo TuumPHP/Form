@@ -2,7 +2,7 @@
 namespace Tuum\Form\Tags;
 
 use Closure;
-use Tuum\Form\Format\ListInterface;
+use Tuum\Form\Lists\ListInterface;
 
 /**
  * Class Select

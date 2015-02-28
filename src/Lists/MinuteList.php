@@ -1,7 +1,7 @@
 <?php
-namespace Tuum\Form\Format;
+namespace Tuum\Form\Lists;
 
-class DayList extends AbstractList
+class MinuteList extends AbstractList
 {
     /**
      * @param null|int $start
@@ -9,14 +9,14 @@ class DayList extends AbstractList
      * @param int      $step
      * @return YearList|static
      */
-    public static function forge($start=null, $end=null, $step=1)
+    public static function forge($start=null, $end=null, $step=5)
     {
-        $start = $start ?: 1;
-        $end   = $end   ?: 31;
+        $start = $start ?: 0;
+        $end   = $end   ?: 59;
         $step  = $start < $end ? abs($step) : -abs($step);
         $list = new self($start, $end, $step);
-        $list->setFormat(function($day) {
-            return sprintf('%2d', $day);
+        $list->setFormat(function($min) {
+            return sprintf('%02d', $min);
         });
         return $list;
     }

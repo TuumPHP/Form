@@ -1,5 +1,5 @@
 <?php
-namespace Tuum\Form\Format;
+namespace Tuum\Form\Lists;
 
 class SecondList extends AbstractList
 {

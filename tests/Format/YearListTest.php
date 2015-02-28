@@ -1,7 +1,7 @@
 <?php
 namespace tests\Format;
 
-use Tuum\Form\Format\YearList;
+use Tuum\Form\Lists\YearList;
 
 require_once(__DIR__ . '/../autoloader.php');
 
@@ -10,7 +10,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     function test0()
     {
         $form = YearList::forge();
-        $this->assertEquals('Tuum\Form\Format\YearList', get_class($form));
+        $this->assertEquals('Tuum\Form\Lists\YearList', get_class($form));
     }
 
     /**

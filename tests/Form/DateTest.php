@@ -2,8 +2,8 @@
 namespace tests\Form;
 
 use Tuum\Form\Dates;
-use Tuum\Form\Format\DayList;
-use Tuum\Form\Format\YearList;
+use Tuum\Form\Lists\DayList;
+use Tuum\Form\Lists\YearList;
 
 require_once(__DIR__ . '/../autoloader.php');
 

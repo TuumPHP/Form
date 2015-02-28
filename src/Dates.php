@@ -2,12 +2,12 @@
 namespace Tuum\Form;
 
 use Closure;
-use Tuum\Form\Format\DayList;
-use Tuum\Form\Format\HourList;
-use Tuum\Form\Format\MinuteList;
-use Tuum\Form\Format\MonthList;
-use Tuum\Form\Format\SecondList;
-use Tuum\Form\Format\YearList;
+use Tuum\Form\Lists\DayList;
+use Tuum\Form\Lists\HourList;
+use Tuum\Form\Lists\MinuteList;
+use Tuum\Form\Lists\MonthList;
+use Tuum\Form\Lists\SecondList;
+use Tuum\Form\Lists\YearList;
 use Tuum\Form\Tags\Composite;
 use Tuum\Form\Tags\Select;
 
