@@ -8,6 +8,20 @@ require_once(__DIR__ . '/../autoloader.php');
 
 class DateTest extends \PHPUnit_Framework_TestCase
 {
+    public $option_mon = '
+  <option value="1"> 1</option>
+  <option value="2"> 2</option>
+  <option value="3"> 3</option>
+  <option value="4"> 4</option>
+  <option value="5"> 5</option>
+  <option value="6"> 6</option>
+  <option value="7"> 7</option>
+  <option value="8"> 8</option>
+  <option value="9"> 9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>';
+    
     function test0()
     {
         $form = new Dates();
@@ -28,19 +42,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="2014">2014</option>
   <option value="2015">2015</option>
   <option value="2016">2016</option>
-</select>/<select name="test_m" >
-  <option value="1"> 1</option>
-  <option value="2"> 2</option>
-  <option value="3"> 3</option>
-  <option value="4"> 4</option>
-  <option value="5"> 5</option>
-  <option value="6"> 6</option>
-  <option value="7"> 7</option>
-  <option value="8"> 8</option>
-  <option value="9"> 9</option>
-  <option value="10">10</option>
-  <option value="11">11</option>
-  <option value="12">12</option>
+</select>/<select name="test_m" >'.$this->option_mon. '
 </select>', (string)$date);
     }
 
@@ -57,19 +59,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Year <select name="test_y" >
   <option value="2015">2015</option>
   <option value="2016">2016</option>
-</select> Month <select name="test_m" >
-  <option value="1"> 1</option>
-  <option value="2"> 2</option>
-  <option value="3"> 3</option>
-  <option value="4"> 4</option>
-  <option value="5"> 5</option>
-  <option value="6"> 6</option>
-  <option value="7"> 7</option>
-  <option value="8"> 8</option>
-  <option value="9"> 9</option>
-  <option value="10">10</option>
-  <option value="11">11</option>
-  <option value="12">12</option>
+</select> Month <select name="test_m" >'.$this->option_mon. '
 </select>', (string)$date);
     }
 
@@ -89,19 +79,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="2010">2010</option>
   <option value="2011">2011</option>
   <option value="2012">2012</option>
-</select>formatted<select name="test_m" >
-  <option value="1"> 1</option>
-  <option value="2"> 2</option>
-  <option value="3"> 3</option>
-  <option value="4"> 4</option>
-  <option value="5"> 5</option>
-  <option value="6"> 6</option>
-  <option value="7"> 7</option>
-  <option value="8"> 8</option>
-  <option value="9"> 9</option>
-  <option value="10">10</option>
-  <option value="11">11</option>
-  <option value="12">12</option>
+</select>formatted<select name="test_m" >'.$this->option_mon. '
 </select>', (string)$date);
     }
 
