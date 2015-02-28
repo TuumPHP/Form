@@ -2,6 +2,7 @@
 namespace Tuum\Form\Tags;
 
 use Closure;
+use Tuum\Form\Format\ListInterface;
 
 /**
  * Class Select
@@ -17,7 +18,7 @@ class Select extends Tag
     use ElementTrait;
 
     /**
-     * @var array|Closure
+     * @var array|Closure|ListInterface
      */
     private $list;
 
@@ -40,7 +41,7 @@ class Select extends Tag
     }
 
     /**
-     * @return array|callable
+     * @return array|callable|ListInterface
      */
     public function getList()
     {

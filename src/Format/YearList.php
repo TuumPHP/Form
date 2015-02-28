@@ -3,7 +3,7 @@ namespace Tuum\Form\Format;
 
 use Closure;
 
-class YearList
+class YearList implements ListInterface
 {
     /**
      * @var array

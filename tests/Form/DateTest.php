@@ -138,7 +138,6 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $form = new Dates();
         
         $date = $form->dateYM('test');
-        /** @noinspection PhpUndefinedMethodInspection */
         $date->y->getList()->setFormat(YearList::formatJpnGenGou());
         $this->assertEquals('<select name="test_y" >
   <option value="2014">平成26年</option>
