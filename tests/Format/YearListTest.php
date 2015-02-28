@@ -9,7 +9,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 {
     function test0()
     {
-        $form = new YearList();
+        $form = YearList::forge();
         $this->assertEquals('Tuum\Form\Format\YearList', get_class($form));
     }
 
@@ -18,7 +18,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     function japanese_年号()
     {
-        $form = new YearList();
+        $form = YearList::forge();
         $form->setFormat(YearList::formatJpnGenGou());
         $format = $form->getFormat();
         

@@ -3,6 +3,14 @@ namespace Tuum\Form\Tags;
 
 use Closure;
 
+/**
+ * @property null|Input|Select y
+ * @property null|Input|Select m
+ * @property null|Input|Select d
+ * @property null|Input|Select H
+ * @property null|Input|Select i
+ * @property null|Input|Select s
+ */
 class Composite
 {
     /**

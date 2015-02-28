@@ -6,11 +6,26 @@ use Closure;
 interface ListInterface
 {
     /**
-     * @param null|Closure $format
-     * @return YearList
+     * @return array
      */
-    public static function forge($format = null);
+    public function __invoke();
 
+    /**
+     * @param null|int $start
+     * @param null|int $end
+     * @param int      $step
+     * @return static
+     */
+    public static function forge($start=null, $end=null, $step=1);
+
+    /**
+     * @param null|int $start
+     * @param null|int $end
+     * @param null|int $step
+     * @return static
+     */
+    public function range($start=null, $end=null, $step=null);
+    
     /**
      * @param Closure $format
      */

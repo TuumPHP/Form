@@ -21,6 +21,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $date = $form->dateYM('test');
+        $date->y->getList()->range(2014, 2016);
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
   <option value="2014">2014</option>
@@ -49,9 +50,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $date = $form->dateYM('test')->format('Year %s Month %s');
+        $date->y->getList()->range(2015, 2016);
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('Year <select name="test_y" >
-  <option value="2014">2014</option>
   <option value="2015">2015</option>
   <option value="2016">2016</option>
 </select> Month <select name="test_m" >
@@ -79,6 +80,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $date = $form->dateYM('test')->format(function($fields) {
             return implode('formatted', $fields);
         });
+        $date->y->getList()->range(2014, 2016);
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
   <option value="2014">2014</option>
@@ -107,6 +109,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $date = $form->dateYM('test')->head('testing');
+        $date->y->getList()->range(2014, 2016);
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
   <option value="" selected>testing</option>
@@ -139,6 +142,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         
         $date = $form->dateYM('test');
         $date->y->getList()->setFormat(YearList::formatJpnGenGou());
+        $date->y->getList()->range(2014, 2016);
         $this->assertEquals('<select name="test_y" >
   <option value="2014">平成26年</option>
   <option value="2015">平成27年</option>

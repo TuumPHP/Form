@@ -3,47 +3,24 @@ namespace Tuum\Form\Format;
 
 use Closure;
 
-class YearList implements ListInterface
+class YearList extends AbstractList
 {
     /**
-     * @var array
+     * @param null|int $start
+     * @param null|int $end
+     * @param int      $step
+     * @return YearList|static
      */
-    private $list;
-
-    /**
-     * @var Closure
-     */
-    private $format;
-
-    /**
-     * constructor
-     */
-    public function __construct()
+    public static function forge($start=null, $end=null, $step=1)
     {
-        $this->format = function($year) {
+        $start = $start ?: date('Y') - 1;
+        $end   = $end   ?: date('Y') + 1;
+        $step  = $start < $end ? abs($step) : -abs($step);
+        $list = new self($start, $end, $step);
+        $list->setFormat(function($year) {
             return sprintf('%04d', $year);
-        };
-    }
-
-    /**
-     * @param null|Closure $format
-     * @return YearList
-     */
-    public static function forge($format=null)
-    {
-        $list = new self;
-        if($format) {
-            $list->setFormat($format);
-        }
+        });
         return $list;
-    }
-
-    /**
-     * @return array
-     */
-    public function __invoke()
-    {
-        return $this->list ?: $this->setYears();
     }
 
     /**
@@ -78,48 +55,4 @@ class YearList implements ListInterface
         };
     }
     
-    /**
-     * @param Closure $format
-     */
-    public function setFormat($format)
-    {
-        $this->format = $format;
-    }
-
-    /**
-     * @param int|null $start
-     * @param int|null $end
-     * @param int      $step
-     * @return array
-     */
-    public function setYears($start=null, $end=null, $step=1)
-    {
-        $start = $start ?: date('Y') - 1;
-        $end   = $end   ?: date('Y') + 1;
-        $step  = $start < $end ? abs($step) : -abs($step);
-        $years = [];
-        for($y = $start; $y <=$end; $y+=$step) {
-            $years[$y] = $this->format($y);
-        }
-        $this->list = $years;
-        return $this->list;
-    }
-
-    /**
-     * @param mixed $value
-     * @return string
-     */
-    private function format($value)
-    {
-        $format = $this->format;
-        return $format($value);
-    }
-
-    /**
-     * @return callable
-     */
-    public function getFormat()
-    {
-        return $this->format;
-    }
 }
