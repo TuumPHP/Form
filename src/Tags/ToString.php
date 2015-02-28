@@ -1,7 +1,5 @@
 <?php
-namespace Tuum\Form\Format;
-
-use Tuum\Form\Tags\Tag;
+namespace Tuum\Form\Tags;
 
 class ToString
 {

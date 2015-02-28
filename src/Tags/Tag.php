@@ -1,8 +1,6 @@
 <?php
 namespace Tuum\Form\Tags;
 
-use Tuum\Form\Format\ToString;
-
 /**
  * Class Tags
  *
