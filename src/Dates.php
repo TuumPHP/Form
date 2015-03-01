@@ -26,6 +26,11 @@ class Dates
     private $years;
 
     /**
+     * @var MonthList
+     */
+    private $months;
+
+    /**
      * constructor
      */
     public function __construct()
@@ -39,6 +44,16 @@ class Dates
     public function useYearList($years)
     {
         $this->years = $years;
+        return $this;
+    }
+
+    /**
+     * @param YearList $months
+     * @return $this
+     */
+    public function useMonthList($months)
+    {
+        $this->months = $months;
         return $this;
     }
 
@@ -73,7 +88,9 @@ class Dates
      */
     public function selMonth($name, $months=null)
     {
-        $months = $months ?: MonthList::forge();
+        if(!$months) {
+            $months = $this->months ?: MonthList::forge();
+        }
         return new Select($name, $months);
     }
 
