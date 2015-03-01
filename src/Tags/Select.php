@@ -92,7 +92,7 @@ class Select extends Tag
         }
         if ($html) {
             $this->contents($html . "\n");
-            $html = (string)$this->convertToString($this);
+            $html = TagToString::format($this);
         }
         return $html;
     }

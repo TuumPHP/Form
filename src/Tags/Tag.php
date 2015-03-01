@@ -26,11 +26,6 @@ class Tag
     private $closed = false;
 
     /**
-     * @var ToString
-     */
-    private $toString;
-
-    /**
      * @var string
      */
     private $contents = null;
@@ -44,7 +39,6 @@ class Tag
     public function __construct($tagName)
     {
         $this->tagName  = strtolower($tagName);
-        $this->toString = new ToString();
     }
 
     /**
@@ -60,16 +54,7 @@ class Tag
      */
     public function toString()
     {
-        return $this->convertToString($this);
-    }
-
-    /**
-     * @param Tag $element
-     * @return string
-     */
-    protected function convertToString($element)
-    {
-        return $this->toString->format($element);
+        return TagToString::format($this);
     }
 
     /**

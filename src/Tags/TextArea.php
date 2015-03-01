@@ -33,7 +33,7 @@ class TextArea extends Tag
      */
     public function toString()
     {
-        $html = $this->convertToString($this);
+        $html = TagToString::format($this);
         if ($this->label) {
             $html = $this->labelHtml($html . ' ' . $this->label);
         }

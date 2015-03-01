@@ -76,7 +76,7 @@ class Form extends Tag
      */
     public function toString()
     {
-        $html = $this->convertToString($this);
+        $html = TagToString::format($this);
         if(!is_null($this->_method)) {
             $html .= "\n<input type=\"hidden\" name=\"_method\" value=\"". $this->_method ."\" />";
         }

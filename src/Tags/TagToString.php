@@ -1,15 +1,15 @@
 <?php
 namespace Tuum\Form\Tags;
 
-class ToString
+class TagToString
 {
     /**
      * @param Tag $element
      * @return string
      */
-    public function format($element)
+    public static function format($element)
     {
-        $prop = $this->htmlProperty($element);
+        $prop = self::htmlProperty($element);
         $tag  = $element->getTagName();
         if ($element->isClosed() || $element->hasContents()) {
             $html = '<' . $tag . $prop . ' >' . $element->getContents() . "</{$tag}>" . "\n";
@@ -27,7 +27,7 @@ class ToString
      * @internal param $name
      * @internal param $id
      */
-    public function htmlProperty($element)
+    private static function htmlProperty($element)
     {
         if ($attributes = $element->getAttribute()) {
             $property = [];
