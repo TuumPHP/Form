@@ -1,7 +1,10 @@
 <?php
 namespace Tuum\Form;
 
+use Tuum\Form\Lists\ListInterface;
 use Tuum\Form\Tags\Input;
+use Tuum\Form\Tags\InputList;
+use Tuum\Form\Tags\Select;
 use Tuum\Form\Tags\TextArea;
 
 /**
@@ -93,6 +96,39 @@ class Forms
     public function textArea($name, $value = null)
     {
         return (new TextArea($name))->contents($value);
+    }
+
+    /**
+     * @param string $name
+     * @param array|ListInterface  $list
+     * @param null|string $value
+     * @return Select
+     */
+    public function select($name, $list, $value=null)
+    {
+        return new Select($name, $list, $value);
+    }
+    
+    /**
+     * @param string $name
+     * @param array|ListInterface  $list
+     * @param null|string $value
+     * @return InputList
+     */
+    public function checkList($name, $list, $value=null)
+    {
+        return new InputList('checkbox', $name, $list, $value);
+    }
+
+    /**
+     * @param string $name
+     * @param array|ListInterface  $list
+     * @param null|string $value
+     * @return InputList
+     */
+    public function radioList($name, $list, $value=null)
+    {
+        return new InputList('radio', $name, $list, $value);
     }
 
     /**
