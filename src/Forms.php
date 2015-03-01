@@ -89,6 +89,15 @@ class Forms
     }
 
     /**
+     * @param string $type
+     * @return Input
+     */
+    public function button($type='submit')
+    {
+        return (new Input($type, null));
+    }
+
+    /**
      * @param string      $name
      * @param string|null $value
      * @return TextArea
