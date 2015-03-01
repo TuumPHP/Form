@@ -95,7 +95,16 @@ abstract class AbstractList implements ListInterface
     protected function getList()
     {
         $years = [];
-        for($y = $this->start; $y <=$this->end; $y+=$this->step) {
+        $cmp = function($y) {
+            if( $this->step > 0 ) {
+                return $y <= $this->end;
+            }
+            if( $this->step < 0 ) {
+                return $y >= $this->end;
+            }
+            return false;
+        };
+        for($y = $this->start; $cmp($y); $y+=$this->step) {
             $years[$y] = $this->format($y);
         }
         return $years;
