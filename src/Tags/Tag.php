@@ -163,6 +163,14 @@ class Tag
         return $this;
     }
 
+    /**
+     * @param array $data
+     */
+    protected function fillAttributes(array $data)
+    {
+        $this->attributes = array_merge($this->attributes, $data);
+    }
+
     // +----------------------------------------------------------------------+
     //  getting information
     // +----------------------------------------------------------------------+

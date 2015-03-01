@@ -72,12 +72,13 @@ class InputList extends Tag
         if (!array_key_exists($key, $this->list)) {
             return '';
         }
-        $input = clone($this);
+        $input = new Input(null, null);
+        $input->fillAttributes($this->getAttribute());
         $input->setAttribute('value', $key);
         $selectedValue = $this->get('value');
         if (in_array((string)$key, $selectedValue) ) {
             $input->setAttribute('checked', true);
         }
-        return $this->convertToString($input);
+        return $input;
     }
 }
