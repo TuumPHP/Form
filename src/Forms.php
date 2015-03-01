@@ -98,6 +98,24 @@ class Forms
     }
 
     /**
+     * @param null $value
+     * @return Input
+     */
+    public function submit($value=null)
+    {
+        return (new Input('submit', null))->value($value);
+    }
+
+    /**
+     * @param null $value
+     * @return Input
+     */
+    public function reset($value=null)
+    {
+        return (new Input('reset', null))->value($value);
+    }
+
+    /**
      * @param string      $name
      * @param string|null $value
      * @return TextArea
