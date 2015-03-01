@@ -1,6 +1,7 @@
 <?php
 namespace tests\Format;
 
+use Tuum\Form\Lists\Lists;
 use Tuum\Form\Lists\YearList;
 
 require_once(__DIR__ . '/../autoloader.php');
@@ -34,5 +35,28 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('平成32年', $format('2020'));
         $this->assertEquals('平成2012年', $format('4000'));
         $this->assertEquals('西暦10000年', $format('10000'));
+    }
+
+    /**
+     * @test
+     */
+    function reverse_lists()
+    {
+        $list = Lists::forge(10, 4, -3)->setFormat(function($s) {return "<$s>";});
+        foreach($list as $val => $label) {
+            switch($val) {
+                case 10:
+                    $this->assertEquals('<10>', $label);
+                    break;
+                case 7:
+                    $this->assertEquals('<7>', $label);
+                    break;
+                case 4:
+                    $this->assertEquals('<4>', $label);
+                    break;
+                default:
+                    $this->assertTrue(false);
+            }
+        }
     }
 }

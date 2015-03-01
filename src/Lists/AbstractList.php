@@ -1,6 +1,7 @@
 <?php
 namespace Tuum\Form\Lists;
 
+use ArrayIterator;
 use Closure;
 
 abstract class AbstractList implements ListInterface
@@ -77,8 +78,10 @@ abstract class AbstractList implements ListInterface
      */
     public function format($value)
     {
-        $format = $this->format;
-        return $format($value);
+        if($format = $this->format) {
+            return $format($value);
+        }
+        return $value;
     }
 
     /**
@@ -108,5 +111,13 @@ abstract class AbstractList implements ListInterface
             $years[$y] = $this->format($y);
         }
         return $years;
+    }
+
+    /**
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->getList());
     }
 }
