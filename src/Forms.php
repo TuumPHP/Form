@@ -5,6 +5,7 @@ use Tuum\Form\Lists\ListInterface;
 use Tuum\Form\Tags\Input;
 use Tuum\Form\Tags\InputList;
 use Tuum\Form\Tags\Select;
+use Tuum\Form\Tags\Tag;
 use Tuum\Form\Tags\TextArea;
 
 /**
@@ -89,12 +90,13 @@ class Forms
     }
 
     /**
-     * @param string $type
-     * @return Input
+     * @param string      $label
+     * @param null|string $for
+     * @return Tag
      */
-    public function button($type='submit')
+    public function label($label, $for=null)
     {
-        return (new Input($type, null));
+        return (new Tag('label'))->contents($label)->setAttribute('for', $for);
     }
 
     /**

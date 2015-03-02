@@ -135,7 +135,7 @@ class Tag
      * @param bool|string $sep
      * @return $this
      */
-    protected function setAttribute($key, $value, $sep = false)
+    public function setAttribute($key, $value, $sep = false)
     {
         if (!isset($this->attributes[$key])) {
             $this->attributes[$key] = $value;
