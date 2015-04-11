@@ -175,4 +175,19 @@ class Forms
     {
         return Tags\Form::close();
     }
+
+    /**
+     * @param string $arg
+     * @return string
+     */
+    public function formGroup($arg='')
+    {
+        $html = '<div class="form-group">';
+        $args = func_get_args();
+        foreach($args as $element) {
+            $html .= $element;
+        }
+        $html .= "\n</div>";
+        return $html;
+    }
 }
