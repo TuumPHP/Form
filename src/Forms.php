@@ -1,6 +1,7 @@
 <?php
 namespace Tuum\Form;
 
+use Tuum\Form\Data\Inputs;
 use Tuum\Form\Lists\ListInterface;
 use Tuum\Form\Tags\Input;
 use Tuum\Form\Tags\InputList;
@@ -34,7 +35,7 @@ use Tuum\Form\Tags\TextArea;
  */
 class Forms
 {
-    private $inputs = [
+    private $inputTags = [
         'text',
         'hidden',
         'search',
@@ -56,6 +57,22 @@ class Forms
     ];
 
     /**
+     * @var Inputs
+     */
+    private $inputs;
+
+    /**
+     * @param Inputs $inputs
+     * @return $this
+     */
+    public function withInputs($inputs)
+    {
+        $self = clone($this);
+        $self->inputs = $inputs;
+        return $self;
+    }
+    
+    /**
      * @param string $type
      * @param array  $args
      * @return $this|string
@@ -65,7 +82,7 @@ class Forms
         /*
          * create Input objects.
          */
-        if (in_array($type, $this->inputs)) {
+        if (in_array($type, $this->inputTags)) {
             if (!array_key_exists(0, $args)) {
                 throw new \InvalidArgumentException();
             }
@@ -86,6 +103,7 @@ class Forms
      */
     public function input($type, $name, $value=null)
     {
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return (new Input($type, $name))->value($value);
     }
 
@@ -124,6 +142,7 @@ class Forms
      */
     public function textArea($name, $value = null)
     {
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return (new TextArea($name))->contents($value);
     }
 
@@ -135,6 +154,7 @@ class Forms
      */
     public function select($name, $list, $value=null)
     {
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return new Select($name, $list, $value);
     }
     
@@ -146,6 +166,7 @@ class Forms
      */
     public function checkList($name, $list, $value=null)
     {
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return new InputList('checkbox', $name, $list, $value);
     }
 
@@ -157,6 +178,7 @@ class Forms
      */
     public function radioList($name, $list, $value=null)
     {
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return new InputList('radio', $name, $list, $value);
     }
 

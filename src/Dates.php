@@ -2,6 +2,7 @@
 namespace Tuum\Form;
 
 use Closure;
+use Tuum\Form\Data\Inputs;
 use Tuum\Form\Lists\DayList;
 use Tuum\Form\Lists\HourList;
 use Tuum\Form\Lists\MinuteList;
@@ -31,10 +32,26 @@ class Dates
     private $months;
 
     /**
+     * @var Inputs
+     */
+    private $inputs;
+
+    /**
      * constructor
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @param Inputs $inputs
+     * @return $this
+     */
+    public function withInputs($inputs)
+    {
+        $self = clone($this);
+        $self->inputs = $inputs;
+        return $self;
     }
 
     /**
@@ -139,6 +156,7 @@ class Dates
             'm' => $this->selMonth($name),
             'd' => $this->selDay($name),
         ];
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return (new Composite($name, $fields, '%1$s/%2$s/%3$s'))->value($value);
     }
 
@@ -153,6 +171,7 @@ class Dates
             'y' => $this->selYear($name),
             'm' => $this->selMonth($name),
         ];
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return (new Composite($name, $fields, '%1$s/%2$s'))->value($value);
     }
 
@@ -167,6 +186,7 @@ class Dates
             'h' => $this->selHour($name),
             'i' => $this->selMinute($name),
         ];
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return (new Composite($name, $fields, '%1$s:%2$s'))->value($value);
 
     }

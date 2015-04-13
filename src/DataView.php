@@ -16,6 +16,16 @@ use Tuum\Form\Data\Message;
 class DataView
 {
     /**
+     * @var Forms
+     */
+    public $forms;
+
+    /**
+     * @var Dates
+     */
+    public $dates;
+    
+    /**
      * @var Data
      */
     public $data;
@@ -49,6 +59,21 @@ class DataView
             $this->escape = $escape;
         } else {
             $this->escape = new Escape();
+        }
+        $this->forms = new Forms();
+        $this->dates = new Dates();
+    }
+
+    /**
+     * @param Inputs $inputs
+     */
+    protected function setInputs($inputs)
+    {
+        if($this->forms) {
+            $this->forms = $this->forms->withInputs($inputs);
+        }
+        if($this->dates) {
+            $this->dates = $this->dates->withInputs($inputs);
         }
     }
 }
