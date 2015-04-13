@@ -12,6 +12,7 @@
         >
     <testsuites>
         <testsuite name="WScore/Pile Test Suite">
+            <directory>Viewer</directory>
             <directory>Tags</directory>
             <directory>Format</directory>
             <directory>Form</directory>
