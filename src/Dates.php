@@ -32,6 +32,26 @@ class Dates
     private $months;
 
     /**
+     * @var DayList
+     */
+    private $days;
+
+    /**
+     * @var HourList
+     */
+    private $hours;
+
+    /**
+     * @var MinuteList
+     */
+    private $minutes;
+
+    /**
+     * @var SecondList
+     */
+    private $seconds;
+
+    /**
      * @var Inputs
      */
     private $inputs;
@@ -58,7 +78,7 @@ class Dates
      * @param YearList $years
      * @return $this
      */
-    public function useYearList($years)
+    public function useYear($years)
     {
         $this->years = $years;
         return $this;
@@ -68,80 +88,128 @@ class Dates
      * @param YearList $months
      * @return $this
      */
-    public function useMonthList($months)
+    public function useMonth($months)
     {
         $this->months = $months;
         return $this;
     }
 
     /**
-     * @param string     $name
-     * @param null|Closure|array $years
-     * @return Select
+     * @param DayList $day
+     * @return $this
      */
-    public function selYear($name, $years=null)
+    public function useDay($day)
     {
-        if(!$years) {
-            $years = $this->years ?: YearList::forge();
-        }
-        return new Select($name, $years);
+        $this->days = $day;
+        return $this;
+    }
+
+    /**
+     * @param HourList $list
+     * @return $this
+     */
+    public function useHour($list)
+    {
+        $this->hours = $list;
+        return $this;
+    }
+
+    /**
+     * @param MinuteList $list
+     * @return $this
+     */
+    public function useMinute($list)
+    {
+        $this->minutes = $list;
+        return $this;
+    }
+
+    /**
+     * @param SecondList $list
+     * @return $this
+     */
+    public function useSecond($list)
+    {
+        $this->seconds = $list;
+        return $this;
     }
 
     /**
      * @param string $name
-     * @param array  $dates
+     * @param string $value
      * @return Select
      */
-    public function selDay($name, $dates=null)
+    public function selYear($name, $value=null)
     {
-        $days = $dates ?: DayList::forge();
-        return new Select($name, $days);
+        $years = $this->years ?: YearList::forge();
+        return $this->makeSelect($name, $years, $value);
     }
 
     /**
-     * @param string     $name
-     * @param null|Closure|array $months
+     * @param string $name
+     * @param string $value
      * @return Select
      */
-    public function selMonth($name, $months=null)
+    public function selDay($name, $value=null)
     {
-        if(!$months) {
-            $months = $this->months ?: MonthList::forge();
-        }
-        return new Select($name, $months);
+        $days = $this->days ?: DayList::forge();
+        return $this->makeSelect($name, $days, $value);
     }
 
     /**
-     * @param string     $name
-     * @param null|Closure|array $hour
+     * @param string $name
+     * @param string $value
      * @return Select
      */
-    public function selHour($name, $hour=null)
+    public function selMonth($name, $value=null)
     {
-        $hour = $hour ?: HourList::forge();
-        return new Select($name, $hour);
+        $months = $this->months ?: MonthList::forge();
+        return $this->makeSelect($name, $months, $value);
     }
 
     /**
-     * @param string     $name
-     * @param null|Closure|array $minutes
+     * @param string $name
+     * @param string $value
      * @return Select
      */
-    public function selMinute($name, $minutes=null)
+    public function selHour($name, $value=null)
     {
-        $minutes = $minutes ?: MinuteList::forge();
-        return new Select($name, $minutes);
+        $hour = $this->hours ?: HourList::forge();
+        return $this->makeSelect($name, $hour, $value);
     }
 
     /**
-     * @param string     $name
-     * @param null|Closure|array $seconds
+     * @param string $name
+     * @param string $value
      * @return Select
      */
-    public function selSecond($name, $seconds=null)
+    public function selMinute($name, $value=null)
     {
-        $seconds = $seconds ?: SecondList::forge();
-        return new Select($name, $seconds);
+        $minutes = $this->minutes ?: MinuteList::forge();
+        return $this->makeSelect($name, $minutes, $value);
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * @return Select
+     */
+    public function selSecond($name, $value=null)
+    {
+        $seconds = $this->seconds ?: SecondList::forge();
+        return $this->makeSelect($name, $seconds, $value);
+    }
+
+    /**
+     * @param string        $name
+     * @param array|closure $list
+     * @param string        $value
+     * @return Select
+     */
+    private function makeSelect($name, $list, $value)
+    {
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
+        return new Select($name, $list, $value);
     }
 
     /**
@@ -149,15 +217,15 @@ class Dates
      * @param string|null $value
      * @return Composite
      */
-    public function dateYMD($name, $value=null)
+    public function dateYMD($name, $value=null, $format=null)
     {
         $fields = [
             'y' => $this->selYear($name),
             'm' => $this->selMonth($name),
             'd' => $this->selDay($name),
         ];
-        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
-        return (new Composite($name, $fields, '%1$s/%2$s/%3$s'))->value($value);
+        $format = $format ?: '%1$s/%2$s/%3$s';
+        return $this->makeComposite($name, $fields, $format, $value);
     }
 
     /**
@@ -165,14 +233,14 @@ class Dates
      * @param string|null $value
      * @return Composite
      */
-    public function dateYM($name, $value=null)
+    public function dateYM($name, $value=null, $format=null)
     {
         $fields = [
             'y' => $this->selYear($name),
             'm' => $this->selMonth($name),
         ];
-        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
-        return (new Composite($name, $fields, '%1$s/%2$s'))->value($value);
+        $format = $format ?: '%1$s/%2$s';
+        return $this->makeComposite($name, $fields, $format, $value);
     }
 
     /**
@@ -180,14 +248,26 @@ class Dates
      * @param string|null $value
      * @return Composite
      */
-    public function timeHi($name, $value=null)
+    public function timeHi($name, $value=null, $format=null)
     {
         $fields = [
             'h' => $this->selHour($name),
             'i' => $this->selMinute($name),
         ];
-        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
-        return (new Composite($name, $fields, '%1$s:%2$s'))->value($value);
+        $format = $format ?: '%1$s:%2$s';
+        return $this->makeComposite($name, $fields, $format, $value);
+    }
 
+    /**
+     * @param string $name
+     * @param array  $fields
+     * @param string $format
+     * @param string $value
+     * @return Composite
+     */
+    private function makeComposite($name, $fields, $format, $value)
+    {
+        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
+        return (new Composite($name, $fields, $format))->value($value);
     }
 }

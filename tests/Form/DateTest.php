@@ -35,7 +35,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_returns_composite()
     {
         $form = new Dates();
-        $date = $form->useYearList(
+        $date = $form->useYear(
             YearList::forge(2014, 2016)
         )->dateYM('test');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
@@ -53,7 +53,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_with_format_string()
     {
         $form = new Dates();
-        $date = $form->useYearList(
+        $date = $form->useYear(
             YearList::forge(2015, 2016)
         )->dateYM('test')->format('Year %s Month %s');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
@@ -70,7 +70,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_with_format_closure()
     {
         $form = new Dates();
-        $date = $form->useYearList(
+        $date = $form->useYear(
             YearList::forge(2010, 2012)
         )->dateYM('test')->format(function($fields) {
             return implode('formatted', $fields);
@@ -90,7 +90,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_and_head_adds_extra_option()
     {
         $form = new Dates();
-        $date = $form->useYearList(
+        $date = $form->useYear(
             YearList::forge(2014, 2016)
         )->dateYM('test')->head('testing');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
@@ -123,7 +123,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         
-        $date = $form->useYearList(
+        $date = $form->useYear(
             YearList::forge(2014, 2016)->setFormat(YearList::formatJpnGenGou())
         )->dateYM('test');
         $this->assertEquals('<select name="test_y" >
@@ -201,7 +201,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function selDay_creates_select_for_date()
     {
         $form = new Dates();
-        $sel  = $form->selDay('more', DayList::forge(10,15));
+        $sel  = $form->useDay(DayList::forge(10,15))->selDay('more');
         $this->assertEquals('<select name="more" >
   <option value="10">10</option>
   <option value="11">11</option>
