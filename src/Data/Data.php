@@ -93,8 +93,14 @@ class Data implements \ArrayAccess, \IteratorAggregate
         ) {
             return $this->data[$key];
         }
-        if (is_object($this->data) && isset($this->data->$key)) {
-            return $this->data->$key;
+        if (is_object($this->data)) {
+            if (isset($this->data->$key)) {
+                return $this->data->$key;
+            }
+            $method = 'get' . str_replace('_', '', $key);
+            if (method_exists($this->data, $method)) {
+                return $this->data->$method();
+            }
         }
         return $default;
     }
