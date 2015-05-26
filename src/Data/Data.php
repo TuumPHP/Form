@@ -48,7 +48,7 @@ class Data implements \ArrayAccess, \IteratorAggregate
      */
     public function extractKey($key)
     {
-        $data       = $this->get($key, []);
+        $data       = $this->raw($key, []);
         $view       = clone($this);
         $view->data = $data;
         return $view;
