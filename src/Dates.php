@@ -57,6 +57,16 @@ class Dates
     private $inputs;
 
     /**
+     * @var string
+     */
+    private $default_class;
+
+    /**
+     * @var string
+     */
+    private $select_width;
+
+    /**
      * constructor
      */
     public function __construct()
@@ -71,6 +81,36 @@ class Dates
     {
         $self = clone($this);
         $self->inputs = $inputs;
+        return $self;
+    }
+
+    /**
+     * sets default class name for composite selects.
+     *
+     * @param string $class
+     * @return Dates
+     */
+    public function withClass($class)
+    {
+        $self = clone($this);
+        $self->default_class = $class;
+        return $self;
+    }
+
+    /**
+     * resets the width of composite selects.
+     * if $width is empty, sets to 'auto' which fits its content.
+     *
+     * also, if the width is set to auto, it also resets the
+     * display (which is set to block when using bootstrap).
+     *
+     * @param string $width
+     * @return Dates
+     */
+    public function resetWidth($width='')
+    {
+        $self = clone($this);
+        $self->select_width = $width ?: 'auto';
         return $self;
     }
 
@@ -208,8 +248,18 @@ class Dates
      */
     private function makeSelect($name, $list, $value)
     {
-        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
-        return new Select($name, $list, $value);
+        $value  = $this->inputs ? $this->inputs->raw($name, $value) : $value;
+        $select = new Select($name, $list, $value);
+        if ($this->default_class) {
+            $select->class($this->default_class);
+        }
+        if ($this->select_width) {
+            $select->style('width: '.$this->select_width);
+            if ($this->select_width === 'auto') {
+                $select->style('display: inline');
+            }
+        }
+        return $select;
     }
 
     /**
