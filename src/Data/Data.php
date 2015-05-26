@@ -41,6 +41,14 @@ class Data implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return empty($this->data);
+    }
+
+    /**
      * returns new Data object populated with its data[$key].
      *
      * @param string $key

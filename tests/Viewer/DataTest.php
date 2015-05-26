@@ -15,6 +15,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    function isEmpty_returns_true_if_empty()
+    {
+        $data = new Data();
+        $this->assertTrue($data->isEmpty());
+    }
+
+    /**
+     * @test
+     */
     function view_returns_data()
     {
         $data = [
