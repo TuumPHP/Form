@@ -41,6 +41,14 @@ class Data implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
+     * @param \Closure $closure
+     */
+    public function execute($closure)
+    {
+        return $closure($this->data);
+    }
+
+    /**
      * @return bool
      */
     public function isEmpty()

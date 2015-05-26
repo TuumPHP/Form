@@ -24,6 +24,17 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    function bind_executes_closure()
+    {
+        $data = new Data(['bind' => 'test']);
+        $this->assertEquals('test bound', $data->execute(function($data) {
+            return $data['bind'] . ' bound';
+        }));
+    }
+
+    /**
+     * @test
+     */
     function view_returns_data()
     {
         $data = [
