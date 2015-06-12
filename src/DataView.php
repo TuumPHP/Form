@@ -65,18 +65,21 @@ class DataView
     }
 
     /**
-     * @param Inputs $inputs
+     * @param array|Inputs $inputs
      * @return $this
      */
     public function setInputs($inputs)
     {
+        if (is_array($inputs)) {
+            $inputs = Inputs::forge($inputs);
+        }
+        $this->inputs = $inputs;
         if($this->forms) {
             $this->forms = $this->forms->withInputs($inputs);
         }
         if($this->dates) {
             $this->dates = $this->dates->withInputs($inputs);
         }
-        $this->inputs = $inputs;
         return $this;
     }
 
