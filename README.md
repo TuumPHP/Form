@@ -111,28 +111,36 @@ echo $data->get('none', 'non\'s'); // show escaped default value
 
 #### iteration
 
-the ```Data``` object implements IteratorAggregate interface. that means,
+the `Data` object implements IteratorAggregate interface.
 
 ```php
-$data = Data::forge([
-    'name1'=>'val1',
-    'name2'=>'val2',
-]);
+$data1 = [
+    'text' => 'testing',
+    'more' => '<b>todo</b>',
+];
+$data2 = [
+    'text' => 'tested',
+    'more' => '<i>done</i>',
+];
+$data = Data::forge([$data1, $data2]);
 foreach($data as $key => $val) {
-    echo "$key: $val<br/>"; // don't!
-    echo $key, ':', $data[$key],'<br/>';
+    echo "$key: ", $val->text;
+    echo "$key: ", $val->more; // escaped. 
 }
 ```
 
-At the time of writing, the __iteration will not escape values__. maybe I should remove this functionality... 
+> caution when using the iteration...
+>
+> ```php
+> $data = Data::forge([
+>     'text' => 'tested',
+>     'more' => '<i>done</i>',
+> ]);
+> foreach($data as $key => $val) {
+>     echo "$key: ", $val->get(null); // won't work!
+> }
+> ```
 
-So, here's alternative way of using ```getKeys``` method.
-
-```php
-foreach($data->getKeys() as $key) {
-    echo $key, ':', $data[$key],'<br/>';
-}
-```
 
 #### hidden tag
 

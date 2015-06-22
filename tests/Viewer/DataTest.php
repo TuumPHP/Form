@@ -2,6 +2,7 @@
 namespace tests\Viewer;
 
 use Tuum\Form\Data\Data;
+use Tuum\Form\Data\Escape;
 
 require_once(dirname(__DIR__) . '/autoloader.php');
 
@@ -9,7 +10,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 {
     function test0()
     {
-        $this->assertEquals('Tuum\Form\Data\Data', get_class(new Data()));
+        $this->assertEquals(Data::class, get_class(new Data()));
     }
 
     /**
@@ -71,15 +72,23 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     function view_iteration()
     {
-        $data = [
-            'text' => 'tested',
-            'more' => 'done',
+        $data1 = [
+            'text' => 'testing',
+            'more' => '<b>todo</b>',
         ];
+        $data2 = [
+            'text' => 'tested',
+            'more' => '<i>done</i>',
+        ];
+        $data = [$data1, $data2];
         $dd = new Data($data);
         foreach($dd as $key => $value) {
-            $this->assertEquals($data[$key], $value);
+            $this->assertEquals(Data::class, get_class($value));
+            $this->assertEquals($data[$key]['text'], $value->text);
+            $this->assertEquals(Escape::htmlSafe($data[$key]['more']), $value->more);
         }
     }
+    
     /**
      * @test
      */

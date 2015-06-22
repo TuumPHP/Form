@@ -153,7 +153,11 @@ class Data implements \ArrayAccess, \IteratorAggregate
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->data);
+        $data = $this->data;
+        foreach($this->data as $key => $val) {
+            $data[$key] = $this->extractKey($key);
+        }
+        return new \ArrayIterator($data);
     }
 
     /**
