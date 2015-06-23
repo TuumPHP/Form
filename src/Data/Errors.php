@@ -52,4 +52,12 @@ class Errors
         return sprintf($this->format, $msg);
     }
 
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function exists($name)
+    {
+        return $this->errors->exists($name);
+    }
 }

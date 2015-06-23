@@ -62,6 +62,11 @@ class Forms
     private $inputs;
 
     /**
+     * @var string
+     */
+    private $default_class = '';
+
+    /**
      * @param Inputs $inputs
      * @return $this
      */
@@ -71,7 +76,32 @@ class Forms
         $self->inputs = $inputs;
         return $self;
     }
-    
+
+    /**
+     * sets default class name for input form elements.
+     *
+     * @param string $class
+     * @return $this
+     */
+    public function withClass($class)
+    {
+        $self = clone($this);
+        $self->default_class = $class;
+        return $self;
+    }
+
+    /**
+     * @param Tag    $form
+     * @return mixed
+     */
+    private function setClass($form)
+    {
+        if ($this->default_class) {
+            $form->class($this->default_class);
+        }
+        return $form;
+    }
+
     /**
      * @param string $type
      * @param array  $args
@@ -104,7 +134,8 @@ class Forms
     public function input($type, $name, $value=null)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
-        return (new Input($type, $name))->value($value);
+        $form  = (new Input($type, $name))->value($value);
+        return $this->setClass($form);
     }
 
     /**
@@ -143,7 +174,8 @@ class Forms
     public function textArea($name, $value = null)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
-        return (new TextArea($name))->contents($value);
+        $form = (new TextArea($name))->contents($value);
+        return $this->setClass($form);
     }
 
     /**
@@ -155,7 +187,8 @@ class Forms
     public function select($name, $list, $value=null)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
-        return new Select($name, $list, $value);
+        $form  = new Select($name, $list, $value);
+        return $this->setClass($form);
     }
     
     /**
@@ -200,16 +233,17 @@ class Forms
 
     /**
      * @param string $arg
-     * @return string
+     * @return Tag
      */
     public function formGroup($arg='')
     {
-        $html = '<div class="form-group">';
+        $html = "";
         $args = func_get_args();
         foreach($args as $element) {
-            $html .= $element;
+            $html .= "\n  ".$element;
         }
-        $html .= "\n</div>";
-        return $html;
+        $div = new Tag('div');
+        $div->contents($html)->class('form-group');
+        return $div;
     }
 }
