@@ -13,14 +13,13 @@ class MonthList extends AbstractList
      */
     public static function forge($start = null, $end = null, $step = 1)
     {
-        $start = $start ?: 1;
-        $end   = $end ?: 12;
-        $step  = $start < $end ? abs($step) : -abs($step);
-        $list  = new self($start, $end, $step);
-        $list->setFormat(function ($month) {
-            return sprintf('%2d', $month);
-        });
-        return $list;
+        return new self(
+            $start ?: 1,
+            $end ?: 12,
+            $step,
+            function ($month) {
+                return sprintf('%2d', $month);
+            });
     }
 
     /**

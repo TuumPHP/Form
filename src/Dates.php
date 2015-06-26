@@ -265,17 +265,18 @@ class Dates
     /**
      * @param string      $name
      * @param string|null $value
+     * @param string|null $ymd_format
      * @return Composite
      */
-    public function dateYMD($name, $value=null, $format=null)
+    public function dateYMD($name, $value=null, $ymd_format=null)
     {
-        $fields = [
+        $ymd_fields = [
             'y' => $this->selYear($name),
             'm' => $this->selMonth($name),
             'd' => $this->selDay($name),
         ];
-        $format = $format ?: '%1$s/%2$s/%3$s';
-        return $this->makeComposite($name, $fields, $format, $value);
+        $ymd_format = $ymd_format ?: '%1$s/%2$s/%3$s';
+        return $this->makeComposite($name, $ymd_fields, $ymd_format, $value);
     }
 
     /**
@@ -283,14 +284,14 @@ class Dates
      * @param string|null $value
      * @return Composite
      */
-    public function dateYM($name, $value=null, $format=null)
+    public function dateYM($name, $value=null, $ym_format=null)
     {
-        $fields = [
+        $ym_fields = [
             'y' => $this->selYear($name),
             'm' => $this->selMonth($name),
         ];
-        $format = $format ?: '%1$s/%2$s';
-        return $this->makeComposite($name, $fields, $format, $value);
+        $ym_format = $ym_format ?: '%1$s/%2$s';
+        return $this->makeComposite($name, $ym_fields, $ym_format, $value);
     }
 
     /**

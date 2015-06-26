@@ -9,15 +9,14 @@ class HourList extends AbstractList
      * @param int      $step
      * @return YearList|static
      */
-    public static function forge($start=null, $end=null, $step=1)
+    public static function forge($start = null, $end = null, $step = 1)
     {
-        $start = $start ?: 0;
-        $end   = $end   ?: 23;
-        $step  = $start < $end ? abs($step) : -abs($step);
-        $list = new self($start, $end, $step);
-        $list->setFormat(function($hour) {
-            return sprintf('%02d', $hour);
-        });
-        return $list;
+        return new self(
+            $start ?: 0,
+            $end ?: 23,
+            $step,
+            function ($hour) {
+                return sprintf('%02d', $hour);
+            });
     }
 }

@@ -29,15 +29,17 @@ abstract class AbstractList implements ListInterface
     /**
      * constructor
      *
-     * @param int $start
-     * @param int $end
-     * @param int $step
+     * @param int  $start
+     * @param int  $end
+     * @param int  $step
+     * @param null|Closure $format
      */
-    protected function __construct($start, $end, $step)
+    protected function __construct($start, $end, $step, $format=null)
     {
         $this->start = $start;
         $this->end   = $end;
-        $this->step  = $step;
+        $this->step  = $start < $end ? abs($step) : -abs($step);
+        $this->format = $format;
     }
 
     /**

@@ -9,15 +9,14 @@ class DayList extends AbstractList
      * @param int      $step
      * @return YearList|static
      */
-    public static function forge($start=null, $end=null, $step=1)
+    public static function forge($start = null, $end = null, $step = 1)
     {
-        $start = $start ?: 1;
-        $end   = $end   ?: 31;
-        $step  = $start < $end ? abs($step) : -abs($step);
-        $list = new self($start, $end, $step);
-        $list->setFormat(function($day) {
-            return sprintf('%2d', $day);
-        });
-        return $list;
+        return new self(
+            $start ?: 1,
+            $end ?: 31,
+            $step,
+            function ($day) {
+                return sprintf('%2d', $day);
+            });
     }
 }

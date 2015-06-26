@@ -9,15 +9,14 @@ class MinuteList extends AbstractList
      * @param int      $step
      * @return YearList|static
      */
-    public static function forge($start=null, $end=null, $step=5)
+    public static function forge($start = null, $end = null, $step = 5)
     {
-        $start = $start ?: 0;
-        $end   = $end   ?: 59;
-        $step  = $start < $end ? abs($step) : -abs($step);
-        $list = new self($start, $end, $step);
-        $list->setFormat(function($min) {
-            return sprintf('%02d', $min);
-        });
-        return $list;
+        return new self(
+            $start ?: 0,
+            $end ?: 59,
+            $step,
+            function ($min) {
+                return sprintf('%02d', $min);
+            });
     }
 }

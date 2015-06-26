@@ -11,16 +11,15 @@ class YearList extends AbstractList
      * @param int      $step
      * @return YearList|static
      */
-    public static function forge($start=null, $end=null, $step=1)
+    public static function forge($start = null, $end = null, $step = 1)
     {
-        $start = $start ?: date('Y') - 1;
-        $end   = $end   ?: date('Y') + 1;
-        $step  = $start < $end ? abs($step) : -abs($step);
-        $list = new self($start, $end, $step);
-        $list->setFormat(function($year) {
-            return sprintf('%04d', $year);
-        });
-        return $list;
+        return new self(
+            $start ?: date('Y') - 1,
+            $end ?: date('Y') + 1,
+            $step,
+            function ($year) {
+                return sprintf('%04d', $year);
+            });
     }
 
     /**
@@ -35,12 +34,12 @@ class YearList extends AbstractList
             '1988' => '昭和',
             '9999' => '平成', // so far...
         ];
-        return function($year) use($genGou) {
-            $year = (string) $year;
+        return function ($year) use ($genGou) {
+            $year  = (string)$year;
             $start = 0;
-            foreach($genGou as $ends => $gou) {
+            foreach ($genGou as $ends => $gou) {
                 if ($year <= $ends) {
-                    if(!$gou) {
+                    if (!$gou) {
                         break;
                     }
                     $year = $year - $start;
@@ -51,8 +50,8 @@ class YearList extends AbstractList
                 }
                 $start = $ends;
             }
-            return '西暦'.$year . '年';
+            return '西暦' . $year . '年';
         };
     }
-    
+
 }
