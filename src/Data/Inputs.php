@@ -144,16 +144,8 @@ class Inputs
         }
         list($key, $next) = each($levels);
         // an array
-        if (is_array($inputs) && array_key_exists($key, $inputs)) {
-            return $this->recurseGet($next, $inputs[$key]);
-        }
-        // object accessing as ArrayAccess
-        if (is_object($inputs) && $inputs instanceof \ArrayAccess && isset($inputs[$key])) {
-            return $this->recurseGet($next, $inputs[$key]);
-        }
-        // object accessing as property
-        if (is_object($inputs) && isset($inputs->$key)) {
-            return $this->recurseGet($next, $inputs->$key);
+        if (Accessor::has($inputs, $key)) {
+            return $this->recurseGet($next, Accessor::get($inputs, $key));
         }
         return null;
     }

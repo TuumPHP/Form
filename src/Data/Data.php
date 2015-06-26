@@ -104,21 +104,7 @@ class Data implements \ArrayAccess, \IteratorAggregate
      */
     public function raw($key, $default = null)
     {
-        if ((is_array($this->data) || $this->data instanceof \ArrayAccess)
-            && isset($this->data[$key])
-        ) {
-            return $this->data[$key];
-        }
-        if (is_object($this->data)) {
-            if (isset($this->data->$key)) {
-                return $this->data->$key;
-            }
-            $method = 'get' . str_replace('_', '', $key);
-            if (method_exists($this->data, $method)) {
-                return $this->data->$method();
-            }
-        }
-        return $default;
+        return Accessor::get($this->data, $key, $default);
     }
 
     /**
