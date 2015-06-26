@@ -25,7 +25,7 @@ class Select extends Tag
     /**
      * @var string
      */
-    private $head;
+    private $head = null;
 
     /**
      * @param string $name
@@ -75,13 +75,29 @@ class Select extends Tag
     {
         $selectedValue = (array) $this->get('value');
         $this->setAttribute('value', false);
-        $html = '';
-        if ($this->head) {
-            $html .= "\n  <option value=\"\" selected>{$this->head}</option>";
-        }
         $list = $this->list;
         if (is_callable($list)) {
             $list = $list();
+        }
+        $html = $this->formOptions($list, $selectedValue, $this->head);
+        if ($html) {
+            $this->contents($html . "\n");
+            $html = TagToString::format($this);
+        }
+        return $html;
+    }
+
+    /**
+     * @param array  $list
+     * @param array  $selectedValue
+     * @param string $head
+     * @return string
+     */
+    private function formOptions($list, $selectedValue, $head)
+    {
+        $html = '';
+        if (!is_null($head)) {
+            $html .= "\n  <option value=\"\">{$head}</option>";
         }
         foreach ($list as $value => $label) {
             if (in_array((string)$value, $selectedValue)) {
@@ -89,10 +105,6 @@ class Select extends Tag
             } else {
                 $html .= "\n  <option value=\"{$value}\">{$label}</option>";
             }
-        }
-        if ($html) {
-            $this->contents($html . "\n");
-            $html = TagToString::format($this);
         }
         return $html;
     }

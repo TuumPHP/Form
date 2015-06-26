@@ -95,12 +95,12 @@ class DateTest extends \PHPUnit_Framework_TestCase
         )->dateYM('test')->head('testing');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
-  <option value="" selected>testing</option>
+  <option value="">testing</option>
   <option value="2014">2014</option>
   <option value="2015">2015</option>
   <option value="2016">2016</option>
 </select>/<select name="test_m" >
-  <option value="" selected>testing</option>
+  <option value="">testing</option>
   <option value="1"> 1</option>
   <option value="2"> 2</option>
   <option value="3"> 3</option>
