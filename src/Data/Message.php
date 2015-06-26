@@ -9,8 +9,8 @@ namespace Tuum\Form\Data;
 class Message
 {
     const MESSAGE = 'message';
-    const ALERT = 'alert';
-    const ERROR = 'error';
+    const ALERT   = 'alert';
+    const ERROR   = 'error';
 
     /**
      * @var array
@@ -69,22 +69,21 @@ class Message
      */
     public function onlyOne()
     {
-        $messages = [
-            self::ERROR   => false,
-            self::ALERT   => false,
-            self::MESSAGE => false
+        $msgScores = [
+            self::ERROR   => 3,
+            self::ALERT   => 2,
+            self::MESSAGE => 1,
         ];
-        foreach ($this->messages as $msg) {
-            $type = isset($msg['type']) ? $msg['type'] : self::MESSAGE;
-            if (!$messages[$type]) {
-                // message not set yet. set the message (and ignore the rest).
-                $messages[$type] = $msg;
-            }
-        }
-        foreach ($messages as $msg) {
-            if ($msg) {
-                return $this->show($msg);
-            }
+        $serious  = array_reduce(
+            $this->messages,
+            function ($carry, $msg) use ($msgScores) {
+                $myScore      = $msgScores[$msg['type']];
+                $msg['score'] = $myScore;
+                return $myScore > $carry['score'] ? $msg : $carry;
+            },
+            ['message' => false, 'type' => self::MESSAGE, 'score' => 0]);
+        if ($serious && $serious['message']) {
+            return $this->show($serious);
         }
         return '';
     }
