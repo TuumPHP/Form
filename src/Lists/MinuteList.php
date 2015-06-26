@@ -3,6 +3,9 @@ namespace Tuum\Form\Lists;
 
 class MinuteList extends AbstractList
 {
+    protected $start = 0;
+    protected $end = 59;
+
     /**
      * @param null|int $start
      * @param null|int $end
@@ -12,8 +15,8 @@ class MinuteList extends AbstractList
     public static function forge($start = null, $end = null, $step = 5)
     {
         return new self(
-            $start ?: 0,
-            $end ?: 59,
+            $start,
+            $end,
             $step,
             function ($min) {
                 return sprintf('%02d', $min);

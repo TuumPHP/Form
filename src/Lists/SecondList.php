@@ -3,6 +3,9 @@ namespace Tuum\Form\Lists;
 
 class SecondList extends AbstractList
 {
+    protected $start = 0;
+    protected $end = 59;
+
     /**
      * @param null|int $start
      * @param null|int $end
@@ -11,7 +14,10 @@ class SecondList extends AbstractList
      */
     public static function forge($start=null, $end=null, $step=15)
     {
-        return new self($start ?: 0, $end   ?: 59, $step, function($sec) {
+        return new self(
+            $start,
+            $end,
+            $step, function($sec) {
             return sprintf('%02d', $sec);
         });
     }

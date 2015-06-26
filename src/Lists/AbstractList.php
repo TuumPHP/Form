@@ -9,22 +9,22 @@ abstract class AbstractList implements ListInterface
     /**
      * @var int
      */
-    private $start;
+    protected $start = 1;
 
     /**
      * @var int
      */
-    private $end;
+    protected $end = 10;
 
     /**
      * @var int
      */
-    private $step;
+    protected $step = 1;
 
     /**
      * @var Closure
      */
-    private $format;
+    protected $format;
 
     /**
      * constructor
@@ -36,9 +36,10 @@ abstract class AbstractList implements ListInterface
      */
     protected function __construct($start, $end, $step, $format=null)
     {
-        $this->start = $start;
-        $this->end   = $end;
-        $this->step  = $start < $end ? abs($step) : -abs($step);
+        $this->start = $start ?: $this->start;
+        $this->end   = $end ?: $this->end;
+        $step = $step ?: $this->step;
+        $this->step  = $start < $this->end ? abs($step) : -abs($step);
         $this->format = $format;
     }
 
