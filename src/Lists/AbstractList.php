@@ -39,7 +39,7 @@ abstract class AbstractList implements ListInterface
         $this->start = $start ?: $this->start;
         $this->end   = $end ?: $this->end;
         $step = $step ?: $this->step;
-        $this->step  = $start < $this->end ? abs($step) : -abs($step);
+        $this->step  = (int) $start < $this->end ? abs($step) : -abs($step);
         $this->format = $format;
     }
 

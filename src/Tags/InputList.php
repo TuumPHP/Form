@@ -2,6 +2,7 @@
 namespace Tuum\Form\Tags;
 
 use Closure;
+use Tuum\Form\Lists\ListInterface;
 
 class InputList extends Tag
 {
@@ -15,7 +16,7 @@ class InputList extends Tag
     /**
      * @param string $type
      * @param string $name
-     * @param array|Closure  $list
+     * @param array|Closure|ListInterface  $list
      * @param null   $value
      */
     public function __construct($type, $name, $list, $value = null)

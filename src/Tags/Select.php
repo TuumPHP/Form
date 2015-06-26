@@ -29,7 +29,7 @@ class Select extends Tag
 
     /**
      * @param string $name
-     * @param array|Closure  $list
+     * @param array|Closure|ListInterface  $list
      * @param null   $value
      */
     public function __construct($name, $list, $value = null)

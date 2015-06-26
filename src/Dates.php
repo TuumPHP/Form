@@ -125,7 +125,7 @@ class Dates
     }
 
     /**
-     * @param YearList $months
+     * @param MonthList $months
      * @return $this
      */
     public function useMonth($months)

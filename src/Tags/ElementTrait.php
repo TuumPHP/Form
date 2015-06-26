@@ -64,7 +64,7 @@ trait ElementTrait
      */
     public function id($id=null)
     {
-        if (!$id) {
+        if (is_null($id)) {
             $id = $this->getName();
             $id = str_replace(['[', ']', '_'], '-', $id);
             if (in_array($this->get('type'), ['radio', 'checkbox'])) {

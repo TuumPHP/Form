@@ -90,7 +90,9 @@ class Composite
     public function head($head)
     {
         foreach($this->fields as $tag) {
-            $tag->head($head);
+            if (method_exists($tag, 'head')) {
+                $tag->head($head);
+            }
         }
         return $this;
     }

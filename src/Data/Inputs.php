@@ -32,10 +32,10 @@ class Inputs
      */
     public static function forge($data = [], $escape = null)
     {
-        if (!static::$self) {
-            static::$self = new static();
+        if (!self::$self) {
+            self::$self = new static();
         }
-        $blank         = clone(static::$self);
+        $blank         = clone(self::$self);
         $blank->inputs = $data;
         $blank->escape = $escape ?: ['Tuum\Form\Data\Escape', 'htmlSafe'];
         return $blank;
@@ -70,6 +70,9 @@ class Inputs
     {
         $name = str_replace('[]', '', $name);
         parse_str($name, $levels);
+        if (is_null($levels)) {
+            return $option;
+        }
         $inputs = $this->inputs;
         $found  = $this->recurseGet($levels, $inputs);
         if (!is_null($found)) {
