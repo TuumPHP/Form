@@ -28,18 +28,19 @@ class YearList extends AbstractList
     public static function formatJpnGenGou()
     {
         $genGou = [ // until => genGou name
-            '1868' => false,
+            '1868' => false, // end of genGou, specified by false.
             '1911' => '明治',
             '1925' => '大正',
             '1988' => '昭和',
             '9999' => '平成', // so far...
         ];
         return function ($year) use ($genGou) {
-            $year  = (string)$year;
+            $year  = (int) $year;
             $start = 0;
+            /** @var string|bool $gou */
             foreach ($genGou as $ends => $gou) {
                 if ($year <= $ends) {
-                    if (!$gou) {
+                    if ($gou === false) {
                         break;
                     }
                     $year = $year - $start;
