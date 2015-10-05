@@ -30,8 +30,6 @@ use Tuum\Form\Tags\TextArea;
  * @method Input range(string $name, string $value = null )
  * @method Input color(string $name, string $value = null )
  * @method Input file(string $name, string $value = null )
- * @method Input radio(string $name, string $value = null )
- * @method Input checkbox(string $name, string $value = null )
  */
 class Forms
 {
@@ -135,6 +133,45 @@ class Forms
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         $form  = (new Input($type, $name))->value($value);
+        return $this->setClass($form);
+    }
+
+    /**
+     * construct Input[type=radio] form element object.
+     *
+     * @param string $name
+     * @param string $value
+     * @return Input
+     */
+    public function radio($name, $value)
+    {
+        return $this->checkedInput('radio', $name, $value);
+    }
+
+    /**
+     * construct Input[type=radio] form element object.
+     *
+     * @param string $name
+     * @param string $value
+     * @return Input
+     */
+    public function checkbox($name, $value)
+    {
+        return $this->checkedInput('checkbox', $name, $value);
+    }
+
+    /**
+     * @param string $type
+     * @param string $name
+     * @param string $value
+     * @return Input
+     */
+    private function checkedInput($type, $name, $value)
+    {
+        $form  = (new Input($type, $name))->value($value);
+        if ($this->inputs && $this->inputs->exists($name, $value)) {
+            $form->checked();
+        }
         return $this->setClass($form);
     }
 
