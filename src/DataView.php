@@ -71,7 +71,7 @@ class DataView
     public function setInputs($inputs)
     {
         if (is_array($inputs)) {
-            $inputs = Inputs::forge($inputs);
+            $inputs = Inputs::forge($inputs, $this->escape);
         }
         $this->inputs = $inputs;
         if($this->forms) {
