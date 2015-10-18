@@ -66,4 +66,77 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $input = $form->close();
         $this->assertEquals('</form>', $input);
     }
+
+    /**
+     * @test
+     */
+    function radio()
+    {
+        $form = new Forms();
+        $radio = $form->radio('test', 'tested');
+        $this->assertEquals('radio', $radio->getAttribute()['type']);
+        $this->assertEquals('test', $radio->getAttribute()['name']);
+        $this->assertEquals('tested', $radio->getAttribute()['value']);
+    }
+
+    /**
+     * @test
+     */
+    function checkbox()
+    {
+        $form = new Forms();
+        $radio = $form->checkbox('test', 'tested');
+        $this->assertEquals('checkbox', $radio->getAttribute()['type']);
+        $this->assertEquals('test', $radio->getAttribute()['name']);
+        $this->assertEquals('tested', $radio->getAttribute()['value']);
+    }
+
+    /**
+     * @test
+     */    
+    function label()
+    {
+        $form = new Forms();
+        $radio = $form->label('test', 'tested');
+        $this->assertEquals('test', $radio->getContents());
+        $this->assertEquals('tested', $radio->getAttribute()['for']);
+    }
+
+    /**
+     * @test
+     */
+    function buttons()
+    {
+        $form = new Forms();
+        $submit = $form->submit('test');
+        $this->assertEquals('submit', $submit->getAttribute()['type']);
+        $this->assertEquals('test', $submit->getAttribute()['value']);
+        $submit = $form->reset('test');
+        $this->assertEquals('reset', $submit->getAttribute()['type']);
+        $this->assertEquals('test', $submit->getAttribute()['value']);
+    }
+
+    /**
+     * @test
+     */
+    function textarea()
+    {
+        $form = new Forms();
+        $area = $form->textArea('test', 'tested');
+        $this->assertEquals('tested', $area->getContents());
+        $this->assertEquals('textarea', $area->getTagName());
+        $this->assertEquals('test', $area->getAttribute()['name']);
+    }
+
+    /**
+     * @test
+     */
+    function select()
+    {
+        $form = new Forms();
+        $list = ['t' => 'tested', 'm' => 'more'];
+        $select = $form->select('test', $list);
+        $this->assertEquals('select', $select->getTagName());
+        $this->assertEquals($list, $select->getList());
+    }
 }
