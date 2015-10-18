@@ -66,7 +66,7 @@ class InputList extends Tag
 
     /**
      * @param string $key
-     * @return string
+     * @return Input
      */
     public function getInput($key)
     {

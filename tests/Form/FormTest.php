@@ -139,4 +139,102 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('select', $select->getTagName());
         $this->assertEquals($list, $select->getList());
     }
+
+    /**
+     * @test
+     */
+    function checkList()
+    {
+        $form = new Forms();
+        $list = ['t' => 'tested', 'm' => 'more'];
+        $checks = $form->checkList('test', $list, 'm');
+        $this->assertEquals('input', $checks->getTagName());
+        $this->assertEquals($list, $checks->getList());
+        
+        $input = $checks->getInput('t');
+        $this->assertEquals('input', $input->getTagName());
+        $this->assertEquals('checkbox', $input->getAttribute()['type']);
+        $this->assertEquals('test[]', $input->getAttribute()['name']);
+        $this->assertEquals('t', $input->getAttribute()['value']);
+
+        $input = $checks->getInput('m');
+        $this->assertEquals('input', $input->getTagName());
+        $this->assertEquals('checkbox', $input->getAttribute()['type']);
+        $this->assertEquals('test[]', $input->getAttribute()['name']);
+        $this->assertEquals('m', $input->getAttribute()['value']);
+    }
+
+    /**
+     * @test
+     */
+    function radioList()
+    {
+        $form = new Forms();
+        $list = ['t' => 'tested', 'm' => 'more'];
+        $checks = $form->radioList('test', $list, 'm');
+        $this->assertEquals('input', $checks->getTagName());
+        $this->assertEquals($list, $checks->getList());
+        
+        $input = $checks->getInput('t');
+        $this->assertEquals('input', $input->getTagName());
+        $this->assertEquals('radio', $input->getAttribute()['type']);
+        $this->assertEquals('test', $input->getAttribute()['name']);
+        $this->assertEquals('t', $input->getAttribute()['value']);
+
+        $input = $checks->getInput('m');
+        $this->assertEquals('input', $input->getTagName());
+        $this->assertEquals('radio', $input->getAttribute()['type']);
+        $this->assertEquals('test', $input->getAttribute()['name']);
+        $this->assertEquals('m', $input->getAttribute()['value']);
+    }
+
+    /**
+     * @test
+     * 
+     */
+    function withClass_sets_class_to_elements()
+    {
+        $form = new Forms();
+        $class = 'tested-withClass';
+        $form = $form->withClass($class);
+        
+        $this->assertEquals($class, $form->text('test')->getAttribute()['class']);
+        $this->assertEquals($class, $form->checkbox('t', 'test')->getAttribute()['class']);
+        $this->assertEquals($class, $form->select('test', ['test'])->getAttribute()['class']);
+    }
+
+    /**
+     * @test
+     */
+    function withClass_not_working_for_InputList()
+    {
+        $form = new Forms();
+        $class = 'tested-withClass';
+        $form = $form->withClass($class);
+
+        $attributes = $form->radioList('test', ['t' => 'test'])
+            ->getInput('t')
+            ->getAttribute();
+
+        $this->markTestIncomplete(
+            'This feature has not been implemented yet.'
+        );
+
+        $this->assertEquals(
+            $class,
+            isset($attributes['class'])?$attributes['class']: null
+        );
+    }
+
+    /**
+     * @test
+     */
+    function formGroup()
+    {
+        $form = new Forms();
+        $group = $form->formGroup('test', 'more');
+        $this->assertEquals('div', $group->getTagName());
+        $this->assertContains('test', $group->getContents());
+        $this->assertContains('more', $group->getContents());
+    }
 }
