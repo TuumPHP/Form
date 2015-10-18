@@ -22,4 +22,16 @@ class EscapeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('a\\\'b', $view->escape('a\'b'));
     }
 
+    /**
+     * @test
+     */
+    function use_addSlash_as_default()
+    {
+        $escape = new Escape('addslashes');
+
+        $this->assertEquals('a\\\'b', $escape('a\'b'));
+
+        $add = $escape->getEscape();
+        $this->assertEquals('a\\\'b', $add('a\'b'));
+    }
 }

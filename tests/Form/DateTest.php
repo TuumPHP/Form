@@ -3,6 +3,7 @@ namespace tests\Form;
 
 use Tuum\Form\Dates;
 use Tuum\Form\Lists\DayList;
+use Tuum\Form\Lists\MonthList;
 use Tuum\Form\Lists\YearList;
 
 require_once(__DIR__ . '/../autoloader.php');
@@ -125,24 +126,26 @@ class DateTest extends \PHPUnit_Framework_TestCase
         
         $date = $form->useYear(
             YearList::forge(2014, 2016)->setFormat(YearList::formatJpnGenGou())
+        )->useMonth(
+            MonthList::forge()->setFormat(MonthList::formatFullText())
         )->dateYM('test');
         $this->assertEquals('<select name="test_y" >
   <option value="2014">平成26年</option>
   <option value="2015">平成27年</option>
   <option value="2016">平成28年</option>
 </select>/<select name="test_m" >
-  <option value="1"> 1</option>
-  <option value="2"> 2</option>
-  <option value="3"> 3</option>
-  <option value="4"> 4</option>
-  <option value="5"> 5</option>
-  <option value="6"> 6</option>
-  <option value="7"> 7</option>
-  <option value="8"> 8</option>
-  <option value="9"> 9</option>
-  <option value="10">10</option>
-  <option value="11">11</option>
-  <option value="12">12</option>
+  <option value="1">January</option>
+  <option value="2">February</option>
+  <option value="3">March</option>
+  <option value="4">April</option>
+  <option value="5">May</option>
+  <option value="6">June</option>
+  <option value="7">July</option>
+  <option value="8">August</option>
+  <option value="9">September</option>
+  <option value="10">October</option>
+  <option value="11">November</option>
+  <option value="12">December</option>
 </select>', (string)$date);
     }
 

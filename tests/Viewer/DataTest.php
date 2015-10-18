@@ -157,5 +157,20 @@ class DataTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-
+    /**
+     * @test
+     */
+    function Data_is_arrayAccess()
+    {
+        $data = new Data(['test' => 'tested']);
+        $this->assertTrue(isset($data['test']));
+        $this->assertFalse(isset($data['no-such']));
+        
+        $data['more'] = 'done';
+        $this->assertTrue(isset($data['more']));
+        $this->assertEquals('done', $data['more']);
+        
+        unset($data['test']);
+        $this->assertFalse(isset($data['test']));
+    }
 }
