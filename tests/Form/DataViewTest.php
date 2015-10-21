@@ -1,7 +1,11 @@
 <?php
 namespace tests\Form;
 
+use Tuum\Form\Data\Data;
+use Tuum\Form\Data\Errors;
 use Tuum\Form\Data\Escape;
+use Tuum\Form\Data\Inputs;
+use Tuum\Form\Data\Message;
 use Tuum\Form\DataView;
 
 class DataViewTest extends \PHPUnit_Framework_TestCase
@@ -54,4 +58,27 @@ class DataViewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('esc:tested', $view->data->get('test'));
         $this->assertEquals('esc:tested', $view->inputs->get('test'));
     }
+
+    /**
+     * @test
+     */
+    function set_objects()
+    {
+        $view = new DataView(new Escape());
+        $data = new Data([]);
+        $errors = Errors::forge([]);
+        $inputs = Inputs::forge([]);
+        $message = Message::forge([]);
+
+        $view->setData($data);
+        $view->setErrors($errors);
+        $view->setInputs($inputs);
+        $view->setMessage($message);
+
+        $this->assertSame($data, $view->data);
+        $this->assertSame($errors, $view->errors);
+        $this->assertSame($inputs, $view->inputs);
+        $this->assertSame($message, $view->message);
+    }
+
 }
