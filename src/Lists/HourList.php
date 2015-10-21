@@ -10,7 +10,7 @@ class HourList extends AbstractList
      * @param null|int $start
      * @param null|int $end
      * @param int      $step
-     * @return YearList|static
+     * @return HourList|static
      */
     public static function forge($start = null, $end = null, $step = 1)
     {

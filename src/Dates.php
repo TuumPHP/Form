@@ -1,7 +1,7 @@
 <?php
 namespace Tuum\Form;
 
-use Closure;
+use Traversable;
 use Tuum\Form\Data\Inputs;
 use Tuum\Form\Lists\DayList;
 use Tuum\Form\Lists\HourList;
@@ -115,7 +115,7 @@ class Dates
     }
 
     /**
-     * @param YearList $years
+     * @param YearList|Traversable|array $years
      * @return $this
      */
     public function useYear($years)
@@ -125,7 +125,7 @@ class Dates
     }
 
     /**
-     * @param MonthList $months
+     * @param MonthList|Traversable|array $months
      * @return $this
      */
     public function useMonth($months)
@@ -135,7 +135,7 @@ class Dates
     }
 
     /**
-     * @param DayList $day
+     * @param DayList|Traversable|array $day
      * @return $this
      */
     public function useDay($day)
@@ -145,7 +145,7 @@ class Dates
     }
 
     /**
-     * @param HourList $list
+     * @param HourList|Traversable|array $list
      * @return $this
      */
     public function useHour($list)
@@ -155,7 +155,7 @@ class Dates
     }
 
     /**
-     * @param MinuteList $list
+     * @param MinuteList|Traversable|array $list
      * @return $this
      */
     public function useMinute($list)
@@ -165,7 +165,7 @@ class Dates
     }
 
     /**
-     * @param SecondList $list
+     * @param SecondList|Traversable|array $list
      * @return $this
      */
     public function useSecond($list)
@@ -242,7 +242,7 @@ class Dates
 
     /**
      * @param string        $name
-     * @param array|closure $list
+     * @param array|Traversable $list
      * @param string        $value
      * @return Select
      */

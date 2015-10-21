@@ -23,6 +23,16 @@ class YearList extends AbstractList
     }
 
     /**
+     * uses Japanese Gen-Gou style year, like '平成21年'.
+     *
+     * @return $this
+     */
+    public function useJpnGenGou()
+    {
+        return $this->setFormat(self::formatJpnGenGou());
+    }
+
+    /**
      * @return Closure
      */
     public static function formatJpnGenGou()

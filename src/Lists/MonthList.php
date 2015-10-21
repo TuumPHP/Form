@@ -12,7 +12,7 @@ class MonthList extends AbstractList
      * @param null|int $start
      * @param null|int $end
      * @param int      $step
-     * @return YearList|static
+     * @return MonthList|static
      */
     public static function forge($start = null, $end = null, $step = 1)
     {
@@ -23,6 +23,16 @@ class MonthList extends AbstractList
             function ($month) {
                 return sprintf('%2d', $month);
             });
+    }
+
+    /**
+     * uses full-text of month name, like 'January'.
+     *
+     * @return $this
+     */
+    public function useFullText()
+    {
+        return $this->setFormat(self::formatFullText());
     }
 
     /**

@@ -10,7 +10,7 @@ class SecondList extends AbstractList
      * @param null|int $start
      * @param null|int $end
      * @param int      $step
-     * @return YearList|static
+     * @return SecondList|static
      */
     public static function forge($start=null, $end=null, $step=15)
     {

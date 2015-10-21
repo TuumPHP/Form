@@ -3,8 +3,10 @@ namespace Tuum\Form\Lists;
 
 use ArrayIterator;
 use Closure;
+use IteratorAggregate;
+use Traversable;
 
-abstract class AbstractList implements ListInterface
+abstract class AbstractList implements ListInterface, IteratorAggregate
 {
     /**
      * @var int
@@ -117,7 +119,7 @@ abstract class AbstractList implements ListInterface
     }
 
     /**
-     * @return ArrayIterator
+     * @return Traversable
      */
     public function getIterator()
     {

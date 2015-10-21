@@ -4,7 +4,7 @@ namespace Tuum\Form\Lists;
 use Closure;
 use IteratorAggregate;
 
-interface ListInterface extends IteratorAggregate
+interface ListInterface
 {
     /**
      * @return array

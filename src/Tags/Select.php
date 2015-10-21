@@ -1,8 +1,7 @@
 <?php
 namespace Tuum\Form\Tags;
 
-use Closure;
-use Tuum\Form\Lists\ListInterface;
+use Traversable;
 
 /**
  * Class Select
@@ -18,7 +17,7 @@ class Select extends Tag
     use ElementTrait;
 
     /**
-     * @var array|Closure|ListInterface
+     * @var array|Traversable
      */
     private $list;
 
@@ -29,7 +28,7 @@ class Select extends Tag
 
     /**
      * @param string $name
-     * @param array|Closure|ListInterface  $list
+     * @param array|Traversable  $list
      * @param null   $value
      */
     public function __construct($name, $list, $value = null)
@@ -41,7 +40,7 @@ class Select extends Tag
     }
 
     /**
-     * @return array|callable|ListInterface
+     * @return array|Traversable
      */
     public function getList()
     {
@@ -60,6 +59,7 @@ class Select extends Tag
         $this->head = $head;
         return $this;
     }
+
     /**
      * @return string
      */
@@ -76,10 +76,7 @@ class Select extends Tag
         $selectedValue = (array) $this->get('value');
         $this->setAttribute('value', false);
         $list = $this->list;
-        if (is_callable($list)) {
-            $list = $list();
-        }
-        $html = $this->formOptions($list, $selectedValue, $this->head);
+        $html = $this->formOptions($this->list, $selectedValue, $this->head);
         if ($html) {
             $this->contents($html . "\n");
             $html = TagToString::format($this);
@@ -89,7 +86,7 @@ class Select extends Tag
 
     /**
      * @param array  $list
-     * @param array  $selectedValue
+     * @param array|Traversable  $selectedValue
      * @param string $head
      * @return string
      */
