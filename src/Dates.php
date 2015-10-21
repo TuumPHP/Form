@@ -102,7 +102,7 @@ class Dates
      * if $width is empty, sets to 'auto' which fits its content.
      *
      * also, if the width is set to auto, it also resets the
-     * display (which is set to block when using bootstrap).
+     * display to in-line (which is set to block when using bootstrap).
      *
      * @param string $width
      * @return Dates
@@ -306,6 +306,22 @@ class Dates
             'i' => $this->selMinute($name),
         ];
         $format = $format ?: '%1$s:%2$s';
+        return $this->makeComposite($name, $fields, $format, $value);
+    }
+
+    /**
+     * @param string      $name
+     * @param string|null $value
+     * @return Composite
+     */
+    public function timeHis($name, $value=null, $format=null)
+    {
+        $fields = [
+            'h' => $this->selHour($name),
+            'i' => $this->selMinute($name),
+            's' => $this->selSecond($name),
+        ];
+        $format = $format ?: '%1$s:%2$s:%3$s';
         return $this->makeComposite($name, $fields, $format, $value);
     }
 

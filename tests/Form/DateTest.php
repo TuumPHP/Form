@@ -3,7 +3,10 @@ namespace tests\Form;
 
 use Tuum\Form\Dates;
 use Tuum\Form\Lists\DayList;
+use Tuum\Form\Lists\HourList;
+use Tuum\Form\Lists\MinuteList;
 use Tuum\Form\Lists\MonthList;
+use Tuum\Form\Lists\SecondList;
 use Tuum\Form\Lists\YearList;
 
 require_once(__DIR__ . '/../autoloader.php');
@@ -128,12 +131,15 @@ class DateTest extends \PHPUnit_Framework_TestCase
             YearList::forge(2014, 2016)->useJpnGenGou()
         )->useMonth(
             MonthList::forge()->useFullText()
-        )->dateYM('test');
-        $this->assertEquals('<select name="test_y" >
+        )->withClass('tested-class')
+            ->resetWidth('123px')
+            ->dateYM('test')
+        ;
+        $this->assertEquals('<select name="test_y" class="tested-class" style="width: 123px" >
   <option value="2014">平成26年</option>
   <option value="2015">平成27年</option>
   <option value="2016">平成28年</option>
-</select>/<select name="test_m" >
+</select>/<select name="test_m" class="tested-class" style="width: 123px" >
   <option value="1">January</option>
   <option value="2">February</option>
   <option value="3">March</option>
@@ -147,6 +153,20 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="11">November</option>
   <option value="12">December</option>
 </select>', (string)$date);
+    }
+
+    /**
+     * @test
+     */
+    function dateYMD_returns_select_for_y_m_and_d()
+    {
+        $form = new Dates();
+
+        $date = $form->dateYMD('test')->format("%s\n%s\n%s");
+        $list = explode("\n", $date);
+        $this->assertContains('<select name="test_y" >', $list);
+        $this->assertContains('<select name="test_m" >', $list);
+        $this->assertContains('<select name="test_d" >', $list);
     }
 
     /**
@@ -228,5 +248,27 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="30">30</option>
   <option value="45">45</option>
 </select>', (string)$sel);
+    }
+
+    /**
+     * @test
+     */
+    function timeHis_creates_select_for_h_i_and_s()
+    {
+        $form = new Dates();
+        $time = $form
+            ->useHour(HourList::forge(11, 12, 5))
+            ->useMinute(MinuteList::forge(24, 30, 7))
+            ->useSecond(SecondList::forge(27, 34, 9))
+            ->resetWidth()
+            ->timeHis('done')
+            ->format("%s\n%s\n%s");
+        $list = explode("\n", $time);
+        $this->assertContains('<select name="done_h" style="width: auto; display: inline" >', $list);
+        $this->assertContains('  <option value="11">11</option>', $list);
+        $this->assertContains('<select name="done_i" style="width: auto; display: inline" >', $list);
+        $this->assertContains('  <option value="24">24</option>', $list);
+        $this->assertContains('<select name="done_s" style="width: auto; display: inline" >', $list);
+        $this->assertContains('  <option value="27">27</option>', $list);
     }
 }
