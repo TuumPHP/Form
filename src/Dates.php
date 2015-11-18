@@ -62,11 +62,6 @@ class Dates
     private $default_class;
 
     /**
-     * @var string
-     */
-    private $select_width;
-
-    /**
      * constructor
      */
     public function __construct()
@@ -235,12 +230,6 @@ class Dates
         $select = new Select($name, $list, $value);
         if ($this->default_class) {
             $select->class($this->default_class);
-        }
-        if ($this->select_width) {
-            $select->style('width: ' . $this->select_width);
-            if ($this->select_width === 'auto') {
-                $select->style('display: inline');
-            }
         }
         return $select;
     }
