@@ -255,6 +255,7 @@ class Dates
     /**
      * @param string      $name
      * @param string|null $value
+     * @param string|null $ym_format
      * @return Composite
      */
     public function dateYM($name, $value = null, $ym_format = null)
@@ -271,25 +272,27 @@ class Dates
     /**
      * @param string      $name
      * @param string|null $value
+     * @param string|null $hi_format
      * @return Composite
      */
-    public function timeHi($name, $value = null, $format = null)
+    public function timeHi($name, $value = null, $hi_format = null)
     {
         return $this->makeComposite($name,
             [
                 'h' => $this->selHour($name),
                 'i' => $this->selMinute($name),
             ],
-            $format ?: '%1$s:%2$s',
+            $hi_format ?: '%1$s:%2$s',
             $value);
     }
 
     /**
      * @param string      $name
      * @param string|null $value
+     * @param string|null $his_format
      * @return Composite
      */
-    public function timeHis($name, $value = null, $format = null)
+    public function timeHis($name, $value = null, $his_format = null)
     {
         return $this->makeComposite($name,
             [
@@ -297,7 +300,7 @@ class Dates
                 'i' => $this->selMinute($name),
                 's' => $this->selSecond($name),
             ],
-            $format ?: '%1$s:%2$s:%3$s',
+            $his_format ?: '%1$s:%2$s:%3$s',
             $value);
     }
 
