@@ -13,9 +13,9 @@ trait ElementTrait
      */
     private $label;
 
-    abstract function get($name);
+    abstract public function get($name);
 
-    abstract function setAttribute($key, $value, $sep = false);
+    abstract public function setAttribute($key, $value, $sep = false);
 
     /**
      * call multiple *after* name is set.
