@@ -14,12 +14,10 @@ class DayList extends AbstractList
      */
     public static function forge($start = null, $end = null, $step = 1)
     {
-        return new self(
-            $start,
-            $end,
-            $step,
+        return new self($start, $end, $step,
             function ($day) {
                 return sprintf('%2d', $day);
-            });
+            }
+        );
     }
 }

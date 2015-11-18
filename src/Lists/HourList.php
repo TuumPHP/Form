@@ -14,12 +14,10 @@ class HourList extends AbstractList
      */
     public static function forge($start = null, $end = null, $step = 1)
     {
-        return new self(
-            $start,
-            $end,
-            $step,
+        return new self($start, $end, $step,
             function ($hour) {
                 return sprintf('%02d', $hour);
-            });
+            }
+        );
     }
 }

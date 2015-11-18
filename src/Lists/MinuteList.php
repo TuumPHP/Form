@@ -14,12 +14,10 @@ class MinuteList extends AbstractList
      */
     public static function forge($start = null, $end = null, $step = 5)
     {
-        return new self(
-            $start,
-            $end,
-            $step,
+        return new self($start, $end, $step,
             function ($min) {
                 return sprintf('%02d', $min);
-            });
+            }
+        );
     }
 }

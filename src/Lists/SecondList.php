@@ -14,11 +14,10 @@ class SecondList extends AbstractList
      */
     public static function forge($start = null, $end = null, $step = 15)
     {
-        return new self(
-            $start,
-            $end,
-            $step, function ($sec) {
-            return sprintf('%02d', $sec);
-        });
+        return new self($start, $end, $step, 
+            function ($sec) {
+                return sprintf('%02d', $sec);
+            }
+        );
     }
 }
