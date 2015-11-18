@@ -67,11 +67,10 @@ class Escape
      * @param callable $escape
      * @return Escape
      */
-    public function withEscape($escape)
+    public function setEscape($escape)
     {
-        $self         = clone($this);
-        $self->escape = $escape;
-        return $self;
+        $this->escape = $escape;
+        return $this;
     }
 
 }
