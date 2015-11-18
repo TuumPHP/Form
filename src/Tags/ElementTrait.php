@@ -62,7 +62,7 @@ trait ElementTrait
      * @param null|string $id
      * @return $this
      */
-    public function id($id=null)
+    public function id($id = null)
     {
         if (is_null($id)) {
             $id = $this->getName();
@@ -74,7 +74,7 @@ trait ElementTrait
         $this->setAttribute('id', $id);
         return $this;
     }
-    
+
     /**
      * @return string
      */
@@ -86,7 +86,7 @@ trait ElementTrait
         }
         return $this->get('id');
     }
-    
+
     /**
      * @return string
      */

@@ -2,10 +2,8 @@
 namespace Tuum\Form\Tags;
 
 use ArrayIterator;
-use Closure;
 use IteratorAggregate;
 use Traversable;
-use Tuum\Form\Lists\ListInterface;
 
 class InputList extends Tag implements IteratorAggregate
 {
@@ -28,7 +26,7 @@ class InputList extends Tag implements IteratorAggregate
         $this->list = $list;
         $this->setAttribute('type', $type);
         $this->setAttribute('name', $name);
-        $this->setAttribute('value', (array) $value);
+        $this->setAttribute('value', (array)$value);
         if ($type === 'checkbox') {
             $this->setMultiple();
         }
@@ -47,10 +45,10 @@ class InputList extends Tag implements IteratorAggregate
      */
     private function formInput()
     {
-        $html          = '<ul>';
+        $html = '<ul>';
         foreach ($this->list as $key => $label) {
             $html .= "\n";
-            $html .= '  <li>'.$this->labelHtml($this->getInput($key) . ' ' . $label).'</li>';
+            $html .= '  <li>' . $this->labelHtml($this->getInput($key) . ' ' . $label) . '</li>';
         }
         return $html . "\n</ul>";
     }
@@ -85,7 +83,7 @@ class InputList extends Tag implements IteratorAggregate
         $input->fillAttributes($this->getAttribute());
         $input->setAttribute('value', $key);
         $selectedValue = $this->get('value');
-        if (in_array((string)$key, $selectedValue) ) {
+        if (in_array((string)$key, $selectedValue)) {
             $input->setAttribute('checked', true);
         }
         return $input;
@@ -100,7 +98,7 @@ class InputList extends Tag implements IteratorAggregate
     public function getIterator()
     {
         $list = [];
-        foreach($this->list as $key => $value) {
+        foreach ($this->list as $key => $value) {
             $list[$key] = $this->getInput($key);
         }
         return new ArrayIterator($list);

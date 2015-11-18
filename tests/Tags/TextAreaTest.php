@@ -11,6 +11,6 @@ class TextAreaTest extends \PHPUnit_Framework_TestCase
     {
         $ta = new TextArea('test');
         $this->assertEquals('Tuum\Form\Tags\TextArea', get_class($ta));
-        $this->assertEquals( '<textarea name="test" ></textarea>', (string) $ta);
+        $this->assertEquals('<textarea name="test" ></textarea>', (string)$ta);
     }
 }

@@ -21,7 +21,7 @@ namespace Tuum\Form\Tags;
 class Input extends Tag
 {
     use ElementTrait;
-    
+
     use TextStyleTrait;
 
     /**

@@ -22,12 +22,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form = YearList::forge();
         $form->setFormat(YearList::formatJpnGenGou());
         $format = $form->getFormat();
-        
+
         // beginning of Nengou
         $this->assertEquals('西暦1868年', $format('1868'));
         $this->assertEquals('明治元年', $format('1869'));
         $this->assertEquals('明治2年', $format('1870'));
-        
+
         // heisei
         $this->assertEquals('昭和63年', $format('1988'));
         $this->assertEquals('平成元年', $format('1989'));
@@ -42,9 +42,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     function reverse_lists()
     {
-        $list = Lists::forge(10, 4, -3)->setFormat(function($s) {return "<$s>";});
-        foreach($list as $val => $label) {
-            switch($val) {
+        $list = Lists::forge(10, 4, -3)->setFormat(function ($s) {
+            return "<$s>";
+        });
+        foreach ($list as $val => $label) {
+            switch ($val) {
                 case 10:
                     $this->assertEquals('<10>', $label);
                     break;

@@ -72,7 +72,7 @@ class Message
             self::ALERT   => 2,
             self::MESSAGE => 1,
         ];
-        $serious  = array_reduce(
+        $serious   = array_reduce(
             $this->messages,
             function ($carry, $msg) use ($msgScores) {
                 $myScore      = $msgScores[$msg['type']];

@@ -23,7 +23,7 @@ class DataViewTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     */    
+     */
     function set_various_stuff()
     {
         $view = new DataView(new Escape());
@@ -43,9 +43,9 @@ class DataViewTest extends \PHPUnit_Framework_TestCase
      */
     function sets_escape_callable()
     {
-        $view = new DataView(function($input) {
+        $view = new DataView(function ($input) {
             if (is_string($input)) {
-                return 'esc:'.$input;
+                return 'esc:' . $input;
             }
             return $input;
         });
@@ -64,10 +64,10 @@ class DataViewTest extends \PHPUnit_Framework_TestCase
      */
     function set_objects()
     {
-        $view = new DataView(new Escape());
-        $data = new Data([]);
-        $errors = Errors::forge([]);
-        $inputs = Inputs::forge([]);
+        $view    = new DataView(new Escape());
+        $data    = new Data([]);
+        $errors  = Errors::forge([]);
+        $inputs  = Inputs::forge([]);
         $message = Message::forge([]);
 
         $view->setData($data);

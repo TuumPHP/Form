@@ -35,7 +35,7 @@ class InputsTest extends \PHPUnit_Framework_TestCase
     function input_like_checkbox()
     {
         $data  = [
-            'test' => [
+            'test'  => [
                 'quality',
                 'assured',
             ],
@@ -47,9 +47,9 @@ class InputsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, $input->exists('test', 'bad'));
         $this->assertEquals(true, $input->exists('exact', 'value'));
 
-        $this->assertEquals(' checked',  $input->checked('test', 'assured'));
+        $this->assertEquals(' checked', $input->checked('test', 'assured'));
         $this->assertEquals(' selected', $input->selected('test', 'assured'));
-        $this->assertEquals('',  $input->checked('test', 'bad'));
+        $this->assertEquals('', $input->checked('test', 'bad'));
         $this->assertEquals('', $input->selected('test', 'bad'));
     }
 
@@ -74,11 +74,11 @@ class InputsTest extends \PHPUnit_Framework_TestCase
      */
     function input_as_array_access_object()
     {
-        $object = new \ArrayObject();
+        $object         = new \ArrayObject();
         $object['name'] = 'arrayObject';
         $object['type'] = 'object';
-        $data  = ['test' => $object];
-        $input = Inputs::forge($data);
+        $data           = ['test' => $object];
+        $input          = Inputs::forge($data);
         $this->assertEquals($data['test'], $input->get('test'));
         $this->assertEquals('arrayObject', $input->get('test[name]'));
         $this->assertEquals(null, $input->get('test[bad]'));
@@ -91,12 +91,12 @@ class InputsTest extends \PHPUnit_Framework_TestCase
     {
         $data  = [
             'test' => [
-                'null' => null,
+                'null'  => null,
                 'false' => false,
                 'empty' => '',
-                'zero' => '0',
-                'true' => true,
-                'test' => 'tested',
+                'zero'  => '0',
+                'true'  => true,
+                'test'  => 'tested',
             ]
         ];
         $input = Inputs::forge($data);
@@ -114,11 +114,11 @@ class InputsTest extends \PHPUnit_Framework_TestCase
     function inputs_in_readme_example()
     {
         $data  = [
-            'name' => '<my> name',
+            'name'   => '<my> name',
             'gender' => 'male',
-            'types' => [ 'a', 'c' ],
-            'sns' => [
-                'twitter' => 'example@twitter.com',
+            'types'  => ['a', 'c'],
+            'sns'    => [
+                'twitter'  => 'example@twitter.com',
                 'facebook' => 'example@facebook.com',
             ],
         ];
@@ -127,7 +127,7 @@ class InputsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('&lt;my&gt; name', $input->get('name'));
         $this->assertEquals(' checked', $input->checked('gender', 'male'));
         $this->assertEquals('', $input->checked('gender', 'female'));
-        $this->assertEquals(['a','c'], $input->get('types'));
+        $this->assertEquals(['a', 'c'], $input->get('types'));
         $this->assertEquals(' checked', $input->checked('types', 'a'));
         $this->assertEquals('', $input->checked('types', 'b'));
         $this->assertEquals('example@twitter.com', $input->get('sns[twitter]'));

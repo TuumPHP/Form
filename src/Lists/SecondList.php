@@ -12,12 +12,12 @@ class SecondList extends AbstractList
      * @param int      $step
      * @return SecondList|static
      */
-    public static function forge($start=null, $end=null, $step=15)
+    public static function forge($start = null, $end = null, $step = 15)
     {
         return new self(
             $start,
             $end,
-            $step, function($sec) {
+            $step, function ($sec) {
             return sprintf('%02d', $sec);
         });
     }

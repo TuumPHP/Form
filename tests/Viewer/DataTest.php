@@ -28,7 +28,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     function bind_executes_closure()
     {
         $data = new Data(['bind' => 'test']);
-        $this->assertEquals('test bound', $data->execute(function($data) {
+        $this->assertEquals('test bound', $data->execute(function ($data) {
             return $data['bind'] . ' bound';
         }));
     }
@@ -42,7 +42,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'text' => 'tested',
             'html' => '<bold>',
         ];
-        $dd = new Data($data);
+        $dd   = new Data($data);
 
         // getting values
         $this->assertEquals('tested', $dd['text']);
@@ -80,21 +80,21 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'text' => 'tested',
             'more' => '<i>done</i>',
         ];
-        $data = [$data1, $data2];
-        $dd = new Data($data);
-        foreach($dd as $key => $value) {
+        $data  = [$data1, $data2];
+        $dd    = new Data($data);
+        foreach ($dd as $key => $value) {
             $this->assertEquals(Data::class, get_class($value));
             $this->assertEquals($data[$key]['text'], $value->text);
             $this->assertEquals(Escape::htmlSafe($data[$key]['more']), $value->more);
         }
     }
-    
+
     /**
      * @test
      */
     function withKey_returns_new_view_object()
     {
-        $d1 = new Data(['test'=>['more' => 'testing']]);
+        $d1 = new Data(['test' => ['more' => 'testing']]);
         $d2 = $d1->extractKey('test');
         $this->assertEquals(['more' => 'testing'], $d1->test);
         $this->assertEquals('testing', $d2->more);
@@ -105,7 +105,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     function can_set_value_as_property()
     {
-        $dd = new Data();
+        $dd       = new Data();
         $dd->test = 'tested';
         $this->assertEquals('tested', $dd->test);
         $this->assertEquals(null, $dd['test']);
@@ -116,9 +116,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     function view_can_handle_object()
     {
-        $obj = new \stdClass();
+        $obj       = new \stdClass();
         $obj->test = 'tested';
-        $dd = new Data($obj);
+        $dd        = new Data($obj);
         $this->assertEquals('tested', $dd->get('test'));
     }
 
@@ -127,30 +127,31 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     function view_can_handle_arrayAccess_object()
     {
-        $obj = new \ArrayObject(['test'=>'tested']);
-        $dd = new Data($obj);
+        $obj = new \ArrayObject(['test' => 'tested']);
+        $dd  = new Data($obj);
         $this->assertEquals('tested', $dd->get('test'));
     }
+
     /**
      * @test
      */
     function withKey_creates_new_view()
     {
-        $obj1 = new \stdClass();
+        $obj1       = new \stdClass();
         $obj1->test = 'tested';
-        $obj2 = new \stdClass();
+        $obj2       = new \stdClass();
         $obj2->test = 'done';
-        $dd = new Data([
+        $dd         = new Data([
             'list' => [
                 $obj1,
                 $obj2
             ]
         ]);
-        $list = $dd->extractKey('list');
+        $list       = $dd->extractKey('list');
         $this->assertEquals('Tuum\Form\Data\Data', get_class($list));
 
         $answer = ['tested', 'done'];
-        foreach($list->getKeys() as $key) {
+        foreach ($list->getKeys() as $key) {
             $object = $list->extractKey($key);
             $this->assertEquals('Tuum\Form\Data\Data', get_class($object));
             $this->assertEquals($answer[$key], $object->test);
@@ -165,11 +166,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $data = new Data(['test' => 'tested']);
         $this->assertTrue(isset($data['test']));
         $this->assertFalse(isset($data['no-such']));
-        
+
         $data['more'] = 'done';
         $this->assertTrue(isset($data['more']));
         $this->assertEquals('done', $data['more']);
-        
+
         unset($data['test']);
         $this->assertFalse(isset($data['test']));
     }

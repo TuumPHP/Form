@@ -31,17 +31,17 @@ abstract class AbstractList implements ListInterface, IteratorAggregate
     /**
      * constructor
      *
-     * @param int  $start
-     * @param int  $end
-     * @param int  $step
+     * @param int          $start
+     * @param int          $end
+     * @param int          $step
      * @param null|Closure $format
      */
-    protected function __construct($start, $end, $step, $format=null)
+    protected function __construct($start, $end, $step, $format = null)
     {
-        $this->start = $start ?: $this->start;
-        $this->end   = $end ?: $this->end;
-        $step = $step ?: $this->step;
-        $this->step  = (int) $start < $this->end ? abs($step) : -abs($step);
+        $this->start  = $start ?: $this->start;
+        $this->end    = $end ?: $this->end;
+        $step         = $step ?: $this->step;
+        $this->step   = (int)$start < $this->end ? abs($step) : -abs($step);
         $this->format = $format;
     }
 
@@ -59,11 +59,17 @@ abstract class AbstractList implements ListInterface, IteratorAggregate
      * @param null|int $step
      * @return static
      */
-    public function range($start=null, $end=null, $step=null)
+    public function range($start = null, $end = null, $step = null)
     {
-        if(!is_null($start)) $this->start = $start;
-        if(!is_null($end))   $this->end   = $end;
-        if(!is_null($step))  $this->step  = $step;
+        if (!is_null($start)) {
+            $this->start = $start;
+        }
+        if (!is_null($end)) {
+            $this->end = $end;
+        }
+        if (!is_null($step)) {
+            $this->step = $step;
+        }
         return $this;
     }
 
@@ -83,7 +89,7 @@ abstract class AbstractList implements ListInterface, IteratorAggregate
      */
     public function format($value)
     {
-        if($format = $this->format) {
+        if ($format = $this->format) {
             return $format($value);
         }
         return $value;
@@ -103,16 +109,16 @@ abstract class AbstractList implements ListInterface, IteratorAggregate
     protected function getList()
     {
         $years = [];
-        $cmp = function($y) {
-            if( $this->step > 0 ) {
+        $cmp   = function ($y) {
+            if ($this->step > 0) {
                 return $y <= $this->end;
             }
-            if( $this->step < 0 ) {
+            if ($this->step < 0) {
                 return $y >= $this->end;
             }
             return false;
         };
-        for($y = $this->start; $cmp($y); $y+=$this->step) {
+        for ($y = $this->start; $cmp($y); $y += $this->step) {
             $years[$y] = $this->format($y);
         }
         return $years;

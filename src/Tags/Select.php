@@ -27,16 +27,16 @@ class Select extends Tag
     private $head = null;
 
     /**
-     * @param string $name
-     * @param array|Traversable  $list
-     * @param null   $value
+     * @param string            $name
+     * @param array|Traversable $list
+     * @param null              $value
      */
     public function __construct($name, $list, $value = null)
     {
         parent::__construct('select');
         $this->list = $list;
         $this->setAttribute('name', $name);
-        $this->setAttribute('value', (array) $value);
+        $this->setAttribute('value', (array)$value);
     }
 
     /**
@@ -48,9 +48,9 @@ class Select extends Tag
     }
 
     /**
-     * add an empty selection at the beginning of the list, 
-     * such as 'select an item...'. 
-     * 
+     * add an empty selection at the beginning of the list,
+     * such as 'select an item...'.
+     *
      * @param string $head
      * @return $this
      */
@@ -73,9 +73,8 @@ class Select extends Tag
      */
     private function formSelect()
     {
-        $selectedValue = (array) $this->get('value');
+        $selectedValue = (array)$this->get('value');
         $this->setAttribute('value', false);
-        $list = $this->list;
         $html = $this->formOptions($this->list, $selectedValue, $this->head);
         if ($html) {
             $this->contents($html . "\n");
@@ -85,9 +84,9 @@ class Select extends Tag
     }
 
     /**
-     * @param array  $list
-     * @param array|Traversable  $selectedValue
-     * @param string $head
+     * @param array             $list
+     * @param array|Traversable $selectedValue
+     * @param string            $head
      * @return string
      */
     private function formOptions($list, $selectedValue, $head)

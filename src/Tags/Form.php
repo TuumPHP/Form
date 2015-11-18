@@ -12,14 +12,14 @@ class Form extends Tag
      * @var string
      */
     private $_method = null;
-    
+
     /**
-     * list of available *raw* http methods. 
-     * other methods are passed as a hidden parameter. 
-     * 
+     * list of available *raw* http methods.
+     * other methods are passed as a hidden parameter.
+     *
      * @var array
      */
-    private $http_methods = [ 'get', 'post' ];
+    private $http_methods = ['get', 'post'];
 
     /**
      * @var string
@@ -32,9 +32,9 @@ class Form extends Tag
     public function __construct()
     {
         parent::__construct('form');
-        $this->method( 'get' );
+        $this->method('get');
     }
-    
+
     /**
      * @return string
      */
@@ -48,15 +48,15 @@ class Form extends Tag
      * @param string $token_name
      * @return $this
      */
-    public function method( $method, $token_name = '_method' )
+    public function method($method, $token_name = '_method')
     {
         $method = strtolower($method);
         if (in_array($method, $this->http_methods)) {
             $this->_method = null;
-            return $this->setAttribute( 'method', $method );
+            return $this->setAttribute('method', $method);
         }
         $this->_token_name = $token_name ?: $this->_token_name;
-        $this->_method = $method;
+        $this->_method     = $method;
         return $this;
     }
 
@@ -64,9 +64,9 @@ class Form extends Tag
      * @param string $action
      * @return $this
      */
-    public function action( $action )
+    public function action($action)
     {
-        return $this->setAttribute( 'action', $action );
+        return $this->setAttribute('action', $action);
     }
 
     /**
@@ -75,7 +75,7 @@ class Form extends Tag
     public function uploader()
     {
         $this->method('post');
-        return $this->setAttribute( 'enctype', 'multipart/form-data' );
+        return $this->setAttribute('enctype', 'multipart/form-data');
     }
 
     /**
@@ -84,8 +84,8 @@ class Form extends Tag
     public function toString()
     {
         $html = TagToString::format($this);
-        if(!is_null($this->_method)) {
-            $html .= "\n<input type=\"hidden\" name=\"{$this->_token_name}\" value=\"". $this->_method ."\" />";
+        if (!is_null($this->_method)) {
+            $html .= "\n<input type=\"hidden\" name=\"{$this->_token_name}\" value=\"" . $this->_method . "\" />";
         }
         return $html;
     }

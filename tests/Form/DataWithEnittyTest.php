@@ -5,7 +5,8 @@ use Tuum\Form\Data\Data;
 
 require_once(__DIR__ . '/../autoloader.php');
 
-class Entity {
+class Entity
+{
     private $value = 'my value';
 
     public function getEntityValue()

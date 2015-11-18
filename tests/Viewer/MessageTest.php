@@ -42,7 +42,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->add('message', Message::MESSAGE);
         $message->add('alert', Message::ALERT);
         $message->add('error', Message::ERROR);
-        $message->formats[Message::ERROR]   = 'E<%s>';
+        $message->formats[Message::ERROR] = 'E<%s>';
         $this->assertEquals('E<error>', $message->onlyOne());
     }
 

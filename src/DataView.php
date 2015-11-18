@@ -24,7 +24,7 @@ class DataView
      * @var Dates
      */
     public $dates;
-    
+
     /**
      * @var Data
      */
@@ -74,10 +74,10 @@ class DataView
             $inputs = Inputs::forge($inputs, $this->escape);
         }
         $this->inputs = $inputs;
-        if($this->forms) {
+        if ($this->forms) {
             $this->forms = $this->forms->withInputs($inputs);
         }
-        if($this->dates) {
+        if ($this->dates) {
             $this->dates = $this->dates->withInputs($inputs);
         }
         return $this;
@@ -89,10 +89,9 @@ class DataView
      */
     public function setData($data)
     {
-        if(is_array($data)) {
+        if (is_array($data)) {
             $this->data = new Data($data, $this->escape);
-        }
-        elseif($data instanceof Data) {
+        } elseif ($data instanceof Data) {
             $this->data = $data;
         }
         return $this;
@@ -104,10 +103,9 @@ class DataView
      */
     public function setMessage($messages)
     {
-        if(is_array($messages)) {
+        if (is_array($messages)) {
             $this->message = Message::forge($messages);
-        }
-        elseif($messages instanceof Message) {
+        } elseif ($messages instanceof Message) {
             $this->message = $messages;
         }
         return $this;
@@ -119,10 +117,9 @@ class DataView
      */
     public function setErrors($errors)
     {
-        if(is_array($errors)) {
+        if (is_array($errors)) {
             $this->errors = Errors::forge($errors);
-        }
-        elseif($errors instanceof Errors) {
+        } elseif ($errors instanceof Errors) {
             $this->errors = $errors;
         }
         return $this;

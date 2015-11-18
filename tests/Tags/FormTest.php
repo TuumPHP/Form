@@ -39,13 +39,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $form = new Form();
         $form->action('test.php')->method('put');
         $this->assertEquals(
-            '<form method="get" action="test.php" >' . "\n". 
-            '<input type="hidden" name="_method" value="put" />', 
+            '<form method="get" action="test.php" >' . "\n" .
+            '<input type="hidden" name="_method" value="put" />',
             (string)$form);
 
         $form->action('test.php')->method('put', 'method_token');
         $this->assertEquals(
-            '<form method="get" action="test.php" >' . "\n".
+            '<form method="get" action="test.php" >' . "\n" .
             '<input type="hidden" name="method_token" value="put" />',
             (string)$form);
     }

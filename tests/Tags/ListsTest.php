@@ -25,7 +25,7 @@ class ListsTest extends \PHPUnit_Framework_TestCase
      */
     function radio_list_with_default_value()
     {
-        $input = (new InputList('radio', 'testing', ['more', 'done'], '1' ));
+        $input = (new InputList('radio', 'testing', ['more', 'done'], '1'));
         $this->assertEquals('Tuum\Form\Tags\InputList', get_class($input));
         $this->assertEquals('<ul>
   <li><label><input type="radio" name="testing" value="0" > more</label></li>
@@ -52,12 +52,12 @@ class ListsTest extends \PHPUnit_Framework_TestCase
     function getIterator_returns_list_of_tags()
     {
         $input = (new InputList('radio', 'testing', ['more', 'done']));
-        foreach($input as $key => $item) {
+        foreach ($input as $key => $item) {
             if ($key === 0) {
-                $this->assertEquals('<input type="radio" name="testing" value="0" >', (string) $item);
+                $this->assertEquals('<input type="radio" name="testing" value="0" >', (string)$item);
                 $this->assertEquals('more', $input->getLabel($key));
             } elseif ($key === 1) {
-                $this->assertEquals('<input type="radio" name="testing" value="1" >', (string) $item);
+                $this->assertEquals('<input type="radio" name="testing" value="1" >', (string)$item);
                 $this->assertEquals('done', $input->getLabel($key));
             }
         }

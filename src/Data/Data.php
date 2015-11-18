@@ -140,7 +140,7 @@ class Data implements \ArrayAccess, \IteratorAggregate
     public function getIterator()
     {
         $data = $this->data;
-        foreach($this->data as $key => $val) {
+        foreach ($this->data as $key => $val) {
             $data[$key] = $this->extractKey($key);
         }
         return new \ArrayIterator($data);

@@ -45,7 +45,7 @@ class YearList extends AbstractList
             '9999' => '平成', // so far...
         ];
         return function ($year) use ($genGou) {
-            $year  = (int) $year;
+            $year  = (int)$year;
             $start = 0;
             /** @var string|bool $gou */
             foreach ($genGou as $ends => $gou) {

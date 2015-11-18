@@ -2,7 +2,6 @@
 namespace Tuum\Form\Lists;
 
 use Closure;
-use IteratorAggregate;
 
 interface ListInterface
 {
@@ -17,7 +16,7 @@ interface ListInterface
      * @param int      $step
      * @return ListInterface
      */
-    public static function forge($start=null, $end=null, $step=1);
+    public static function forge($start = null, $end = null, $step = 1);
 
     /**
      * @param null|int $start
@@ -25,8 +24,8 @@ interface ListInterface
      * @param null|int $step
      * @return static
      */
-    public function range($start=null, $end=null, $step=null);
-    
+    public function range($start = null, $end = null, $step = null);
+
     /**
      * @param Closure $format
      * @return static

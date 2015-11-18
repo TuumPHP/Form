@@ -38,7 +38,7 @@ class Tag
      */
     public function __construct($tagName)
     {
-        $this->tagName  = strtolower($tagName);
+        $this->tagName = strtolower($tagName);
     }
 
     /**

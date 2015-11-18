@@ -13,23 +13,23 @@ use Tuum\Form\Tags\TextArea;
  * Class Form
  *
  * @package Tuum\Form
- *          
+ *
  * @method Input text(string $name, string $value = null)
- * @method Input hidden(string $name, string $value = null )
- * @method Input search(string $name, string $value = null )
- * @method Input tel(string $name, string $value = null )
- * @method Input url(string $name, string $value = null )
- * @method Input email(string $name, string $value = null )
- * @method Input password(string $name, string $value = null )
- * @method Input datetime(string $name, string $value = null )
- * @method Input date(string $name, string $value = null )
- * @method Input month(string $name, string $value = null )
- * @method Input week(string $name, string $value = null )
- * @method Input time(string $name, string $value = null )
- * @method Input number(string $name, string $value = null )
- * @method Input range(string $name, string $value = null )
- * @method Input color(string $name, string $value = null )
- * @method Input file(string $name, string $value = null )
+ * @method Input hidden(string $name, string $value = null)
+ * @method Input search(string $name, string $value = null)
+ * @method Input tel(string $name, string $value = null)
+ * @method Input url(string $name, string $value = null)
+ * @method Input email(string $name, string $value = null)
+ * @method Input password(string $name, string $value = null)
+ * @method Input datetime(string $name, string $value = null)
+ * @method Input date(string $name, string $value = null)
+ * @method Input month(string $name, string $value = null)
+ * @method Input week(string $name, string $value = null)
+ * @method Input time(string $name, string $value = null)
+ * @method Input number(string $name, string $value = null)
+ * @method Input range(string $name, string $value = null)
+ * @method Input color(string $name, string $value = null)
+ * @method Input file(string $name, string $value = null)
  */
 class Forms
 {
@@ -70,7 +70,7 @@ class Forms
      */
     public function withInputs($inputs)
     {
-        $self = clone($this);
+        $self         = clone($this);
         $self->inputs = $inputs;
         return $self;
     }
@@ -83,13 +83,13 @@ class Forms
      */
     public function withClass($class)
     {
-        $self = clone($this);
+        $self                = clone($this);
         $self->default_class = $class;
         return $self;
     }
 
     /**
-     * @param Tag    $form
+     * @param Tag $form
      * @return mixed
      */
     private function setClass($form)
@@ -114,22 +114,22 @@ class Forms
             if (!array_key_exists(0, $args)) {
                 throw new \InvalidArgumentException();
             }
-            $name = $args[0];
+            $name  = $args[0];
             $value = array_key_exists(1, $args) ? $args[1] : null;
             return $this->input($type, $name, $value);
         }
         return '';
     }
-    
+
     /**
-     * constructs Input form element object with any type. 
-     * 
+     * constructs Input form element object with any type.
+     *
      * @param string      $type
      * @param string      $name
      * @param string|null $value
      * @return Input
      */
-    public function input($type, $name, $value=null)
+    public function input($type, $name, $value = null)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         $form  = (new Input($type, $name))->value($value);
@@ -168,7 +168,7 @@ class Forms
      */
     private function checkedInput($type, $name, $value)
     {
-        $form  = (new Input($type, $name))->value($value);
+        $form = (new Input($type, $name))->value($value);
         if ($this->inputs && $this->inputs->exists($name, $value)) {
             $form->checked();
         }
@@ -180,7 +180,7 @@ class Forms
      * @param null|string $for
      * @return Tag
      */
-    public function label($label, $for=null)
+    public function label($label, $for = null)
     {
         return (new Tag('label'))->contents($label)->setAttribute('for', $for);
     }
@@ -189,7 +189,7 @@ class Forms
      * @param null $value
      * @return Input
      */
-    public function submit($value=null)
+    public function submit($value = null)
     {
         return (new Input('submit', null))->value($value);
     }
@@ -198,7 +198,7 @@ class Forms
      * @param null $value
      * @return Input
      */
-    public function reset($value=null)
+    public function reset($value = null)
     {
         return (new Input('reset', null))->value($value);
     }
@@ -211,42 +211,42 @@ class Forms
     public function textArea($name, $value = null)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
-        $form = (new TextArea($name))->contents($value);
+        $form  = (new TextArea($name))->contents($value);
         return $this->setClass($form);
     }
 
     /**
-     * @param string $name
-     * @param array|Traversable  $list
-     * @param null|string $value
+     * @param string            $name
+     * @param array|Traversable $list
+     * @param null|string       $value
      * @return Select
      */
-    public function select($name, $list, $value=null)
+    public function select($name, $list, $value = null)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         $form  = new Select($name, $list, $value);
         return $this->setClass($form);
     }
-    
+
     /**
      * @param string            $name
      * @param array|Traversable $list
      * @param null|string       $value
      * @return InputList
      */
-    public function checkList($name, $list, $value=null)
+    public function checkList($name, $list, $value = null)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return new InputList('checkbox', $name, $list, $value);
     }
 
     /**
-     * @param string $name
-     * @param array|Traversable  $list
-     * @param null|string $value
+     * @param string            $name
+     * @param array|Traversable $list
+     * @param null|string       $value
      * @return InputList
      */
-    public function radioList($name, $list, $value=null)
+    public function radioList($name, $list, $value = null)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return new InputList('radio', $name, $list, $value);
@@ -272,12 +272,12 @@ class Forms
      * @param string $arg
      * @return Tag
      */
-    public function formGroup($arg='')
+    public function formGroup($arg = '')
     {
         $html = "";
         $args = func_get_args();
-        foreach($args as $element) {
-            $html .= "\n  ".$element;
+        foreach ($args as $element) {
+            $html .= "\n  " . $element;
         }
         $div = new Tag('div');
         $div->contents($html)->class('form-group');

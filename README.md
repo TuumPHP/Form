@@ -1,14 +1,18 @@
 Tuum/Form
 ======
 
-Various helper classes for generating Html tags and managing data. 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/TuumPHP/Form/badges/quality-score.png?b=1.x)](https://scrutinizer-ci.com/g/TuumPHP/Form/?branch=1.x)
+[![Build Status](https://scrutinizer-ci.com/g/TuumPHP/Form/badges/build.png?b=1.x)](https://scrutinizer-ci.com/g/TuumPHP/Form/build-status/1.x)
 
-*   Status: Alpha release.
-*   Psr-1, Psr-2, and Psr-4. 
+Helper classes for escaping input values, generating HTML tags, and managing data. 
 
 ### Licence
 
 MIT Licence
+
+### PSR
+
+PSR-1, PSR-2, and PSR-4. 
 
 Getting Started
 ------
@@ -16,53 +20,58 @@ Getting Started
 ### Installation
 
 ```sh
-composer require "tuum/form: 0.2.*"
+composer require "tuum/form: ^1.0"
 ```
 
-### code
+### Sample Code
 
-The ```DataView``` object is the master of all other services. For instance, 
+Use `DataView` object to manage all other helpers. For instance, 
 
 ```php
 use Tuum\Form\DataView;
 
 $view = new DataView();
 $view->setInputs([
-    'name' => 'value',
+    'name' => 'my-name',
+    'bold' => '<b>bold</b>',
     'more' => [
         'key' => 'val'
     ]
 ]);
-echo $view->inputs->get('name'); // 'value'
+echo $view->inputs->get('name'); // 'my-name'
 echo $view->inputs->get('more[key]'); // 'val'
-echo $view->forms->text('name', 'default'); // text input form
+echo $view->inputs->get('bold'); // escapes the value
+echo $view->forms->text('name', 'default'); // <input type="text" value="my-name">
 ```
 
-The ```forms``` helper generates an html tag for input[type=text] with the value attribute (not 'default' but) 'value' which is set in the $inputs, like;
+The `forms` helper generates an html tag for `input[type=text]` with the *"my-name"* which is set in `setInputs`, instead of given *"default"* value. 
 
 ```html
-<input type="text" name="name" value="value" />
+<input type="text" name="name" value="my-name" />
 ```
 
 
-### Helpers
+### List of Helpers
 
 These helpers help to manage data to be viewed in a template. There are, 
 
-*   Escape,
-*   Data,
-*   Inputs,
-*   Errors,
-*   Message,
-*   Forms, and
-*   Dates,
+*   `Escape` for escaping string,
+*   `Data` for managing data,
+*   `Inputs` for managing input-data,
+*   `Errors` for managing input-errors,
+*   `Message` for messages,
+*   `Forms` for generating form elements, and
+*   `Dates` for generating complex form elements.
 
-helpers. 
 
 Escape Helper
 ----
 
-Use ```Escape``` class to manage escape method when redering a string inside a template. As a default, strings will be escaped using ```htmlspecialchars``` function for HTML files. 
+The `Escape` class manages the escaping string to securely display text in a certain content, such as HTML. 
+
+### Escaping for Html
+
+As a default, strings will be escaped using `Escape::htmlSafe($string)` method (which internally uses `htmlspecialchars` function for HTML files). 
 
 ```php
 $esc = new Escape();
@@ -70,20 +79,29 @@ echo $esc('<danger>safe</danger>'); // or
 echo $esc->escape('<danger>safe</danger>');
 ```
 
-You can specify another escape method at the construction or using ```withEscape``` method:
+### Using Other Escape Method
+
+You can specify another escape method at the construction or using `withEscape` method:
 
 ```php
 $esc = new Escape('addslashes');
 // or
-$esc = $esc->withEscape('rawurlencode');
+$esc = $esc->setEscape('rawurlencode');
 ```
 
-The helpers registered in ```DataView``` will use the escape object; 
+### Using Escape with DataView
+
+The `DataView` object contains an `Escape` object to be shared with other helpers, such as `Data` and `Inputs`.  
+
+Specify the escape at the construction. 
 
 ```php
 $view = new DataView(new Escape('addslashes'));
 $view->inputs->get('with-slash'); // escaped with addslashes.
+// or change how to escape
+$view->escape->setEscape('rawurlencode');
 ```
+
 
 Data Helper
 ----
@@ -92,8 +110,10 @@ Use ```Data``` class to display strings and values to template while escaping th
 
 
 ```php
-$data = Data::forge(['view'=>'<i>val</i>'], $esc);
-// or 
+// construct yourself. 
+$data = Data::forge(['view'=>'<i>val</i>'], $escape);
+
+// or use DataView class. 
 $view = new DataView();
 $view->setData(['some'=>'value']);
 $data = $view->data;
@@ -109,7 +129,7 @@ echo $data->raw('view'); // raw value
 echo $data->get('none', 'non\'s'); // show escaped default value
 ```
 
-#### iteration
+### Iterating Over Array
 
 the `Data` object implements IteratorAggregate interface.
 
@@ -129,7 +149,7 @@ foreach($data as $key => $val) {
 }
 ```
 
-> caution when using the iteration...
+> only works for an array. so do not do this...
 >
 > ```php
 > $data = Data::forge([
@@ -141,10 +161,21 @@ foreach($data as $key => $val) {
 > }
 > ```
 
+### Extract by Key 
 
-#### hidden tag
+Use `extractKey` method to create a subset of ```Data``` object if the data is  an array of another array (or object).
 
-a simple method to show a hidden tag:
+```php
+$data = Data::forge([
+    'obj'=>new ArrayObject['type' => 'object']
+]);
+$obj = $data->extractKey('obj');
+echo $obj->type;  // object
+```
+
+### Hidden Tag
+
+There is a simple method to show a hidden tag:
 
 ```php
 $data = Data::forge(['_method'=>'put']);
@@ -152,20 +183,10 @@ echo $data->hiddenTag('_method');
 // <input type="hidden" name="_method" value="put" />
 ```
 
-#### extract by key 
-
-use ```extractKey``` method to create a subset of ```Data``` object if the data is  an array of another array (or object).
-
-```php
-$data = Data::forge(['obj'=>new ArrayObject['type' => 'object']);
-$obj = $data->extractKey('obj');
-echo $obj->type;  // object
-```
-
 Inputs Helper
 ----
 
-The ```Inputs``` class introduces a convenient way to access array of data using names of HTML form elements. (think Laravel's Input::old values are populated in Form class). 
+Use `Inputs` class to convenient access array of data using HTML form element names. 
 
 ```php
 <?php
@@ -178,19 +199,28 @@ $input = Inputs::forge([
         'facebook' => 'example@facebook.com',
     ],
 ], $esc);
+
 echo $input->get('name'); // escaped '<my> name'
-echo $input->checked('gender', 'male');   // ' checked'
-echo $input->checked('gender', 'female'); // empty
+echo $input->get('sns[twitter]'); // 'example@twitter.com'
 vardump($input->get('types')); // ['a', 'c']
+```
+
+### `selected` and `checked` methods
+
+There is `selected` and `checked` methods to simplify checking some form elements. 
+
+```php
+// supply name of elements and its value. 
+echo $input->selected('gender', 'male');   // 'selected'
+echo $input->selected('gender', 'female'); // empty
 echo $input->checked('types', 'a'); // ' checked'
 echo $input->checked('types', 'b'); // empty
-echo $input->get('sns[twitter]'); // 'example@twitter.com'
 ```
 
 Errors Helper
 ----
 
-The ```Errors``` maybe used as conjunction with ```Inputs```, where as ```Errors``` for invalidated message for input data. 
+The `Errors` manages error messages associated with input values, which works just like `Inputs` class except that this class output the error message in a pre-defined format. 
 
 ```php
 <?php
@@ -211,6 +241,8 @@ echo $errors->get('sns[facebook]'); // love messaging facebook?
 
 Notice that the message for type:B has specific index number. In order for generic array input to work with error messages, you have to specify the index. 
 
+### Message Format
+
 To change the format of the error message, just do:
 
 ```php
@@ -223,19 +255,35 @@ Message Helper
 This helper may not be that generic. Message class is for general message to be displayed in a main contents of a web page.
 
 ```php
-$message = new Message;
+$message = Message::forge();
 $message->add('hello');
 $message->add('whoops', Message::ERROR);
+
+echo $message;
+// shows two divs for hello and whoops. 
+
 echo $message->onlyOne(); 
 // <div class="alert alert-danger">Whoops</div>
 ```
 
 The ```onlyOne``` method shows only one first message that is most severe. 
 
+### Message Format
+
+There are 3 formats for each severity of messages. Alter the format as necessary. 
+
+```php
+$message->formats = [
+    self::MESSAGE => '<div>:) %s</div>',
+    self::ALERT   => '<div>:| %s</div>',
+    self::ERROR   => '<div>:( %s</div>',
+];
+```
+
 Forms Helper
 ------
 
-generates html form tags. 
+The `Forms` helper class generates various HTML form tags. 
 
 ```php
 $form = new Form();
@@ -245,9 +293,25 @@ $view = new DataView();
 $form = $view->forms;
 ```
 
-### input elements
+#### using with `Inputs` object
 
-Creates various form input element. The most generic method is ```input```. 
+Inject `Inputs` object into `Forms` object to use it when generating HTML tags. 
+
+```php
+$forms = $forms->withInputs($inputs);
+```
+
+#### escaping for HTML
+
+The `Forms` class **does not escape its property nor values**. It assumes that the values are given by the programmer. So, use `Data` helper when displaying user's input.
+
+```php
+$forms->text('safe', $data->get('safe'));
+```
+
+### Input Elements
+
+Creates various form input element. The most generic method is `input`. 
 
 ```php
 <?= $form->input('text', 'name', 'default value'); ?>
@@ -264,26 +328,36 @@ Already various methods exists for html's input tags, such as: text, hidden, ema
 The extra html attribute can be added by method as follows. 
 
 ```php
-<?= $form->date('date')->class('form')->placeholder('date'); ?>
+<?= $form->date('radio')->class('form')->placeholder('date')->checked; ?>
 ```
 
+There are many shortcut methods defined in `Forms` object, such as `text`, `hidden`, `datetime`, etc. All these shortcuts has the same signature: 
 
-#### open/close forms
+```php
+$form->$method(string $name, string $value = null);
+``` 
 
-To start a form; 
+### Open/Close Forms
+
+To start and close a form; 
 
 ```php
 <?= $form->open()->action('to')->method('post')->uploader(); ?>
 <?= $form->close(); ?>
 ```
 
-if a non-standard method is given, it will generate a hidden tag with the method in the ```open()``` method, as;
+if a non-standard method is given, it will generate a hidden tag with the method in the `open()` method. The default name is `_method` which can be altered by the second argument to `method`, as;
 
-```html
-<input type="hidden" name="_method" value="some-method" />
+```php
+<?= $form->open()->action('to')->method('put', 'method_token'); ?>
 ```
 
-### label
+```html
+<form method="post" action="to" >
+<input type="hidden" name="method_token" value="put" />
+```
+
+### Label
 
 can output label as;
 
@@ -291,7 +365,7 @@ can output label as;
 $form->label('label string', 'for-id');
 ```
 
-### buttons
+### Buttons
 
 currently, two buttons are supported. 
 
@@ -300,7 +374,7 @@ $form->submit('button name');
 $form->reset('cancel me');
 ```
 
-### textArea
+### TextArea
 
 text-area is supported. 
 
@@ -309,20 +383,23 @@ text-area is supported.
 $form->textArea('area-name', 'default value');
 ```
 
-### select list
+### Select List
 
 it's easy to create a select box. 
 
 ```php
 $list = [
     '1' => 'selecting',
-    '2' => 'is',
+    '2' => 'made',
     '3' => 'easy',
 ];
-$form->select('name', $list, '2');
+echo $form->select('name', $list, '2');
 ```
 
-### checkbox and radio list
+The first argument being name of the element, second is the index of options, and 3rd is the selected item. 
+
+
+### Checkbox and Radio List
 
 Often you want to generate a list of checkbox or radio buttons. You can build it a bit like a select box. 
 
@@ -334,43 +411,81 @@ $list = [
 echo $form->checkList('checks', $list, '1');
 ```
 
-will output;
+will output the list of checkboxes inside `ul > li` surrounded with `label`;
 
 ```html
 <ul>
   <li><label><input type="checkbox" name="checks" value="1" />checkbox</label></li>
-  <li><label><input type="checkbox" name="radio" value="1" /> radio </label></li>
+  <li><label><input type="checkbox" name="radio" value="1" />radio</label></li>
 </ul>
 ```
 
-but you might not like the output above. then,
+You can construct the HTML using own code.
 
 ```php
 $list = $form->checkList('radio', $list, '2');
-foreach(array_keys($list->getList()) as $key) {
-   echo $key, ': ', $list->getInput($key), '<br/>';
+foreach($list as $key => $html) {
+   echo $list->getLabel($key), ': ', $html, '<br/>';
 }
 ```
 
-will show how to construct html.
-
-> ugly usage. need method like getKeys() method here. 
 
 Dates Helper
 ------
 
-a helper to create select box list style date fields. For instance, 
+The `Dates` helper class aims to help reduce the pain of creating complex form elements, such as for date. For instance, 
 
 ```php
-echo $form->dates->dateYMD('day', '2015-06-18');
+$form = new Dates();
+echo $dates->useYear(
+    YearList::forge(2014, 2016)
+)->dateYMD('my-date', '2015-06-18');
 ```
 
-will generate html like (options are omitted);
+will generate html for years between 2014 and 2016; 
 
 ```html
-<select name="day_y"></select>
-<select name="day_m"></select>
-<select name="day_d"></select>
+<select name="my-date_y">...</select>
+<select name="my-date_m">...</select>
+<select name="my-date_d">...</select>
 ```
 
-to-be-written....
+### Using List for Year, Month, and Day
+
+When using `Dates` class, it is always nice to specify the range of year using `useYear` method. 
+
+There are `use*` methods for Year, Month, Day, Hour, Minute, and Second. Each method expects to get `ListInterface`, `Traversable` object, or an array. There are also `List` objects for each type with specific method to displayed in various format. 
+
+```php
+    
+echo $date->useYear(
+    YearList::forge(2014, 2016)->useJpnGenGou()
+)->useMonth(
+    MonthList::forge()->useFullText()
+)->withClass('tested-class')
+->resetWidth('123px')
+->dateYM('test');
+```
+
+will generate some HTML like,
+
+```html
+<select name="test_y" class="tested-class" style="width: 123px" >
+    <option value="2014">平成26年</option>
+    <option value="2015">平成27年</option>
+    <option value="2016">平成28年</option>
+</select>/<select name="test_m" class="tested-class" style="width: 123px" >
+    <option value="1">January</option>
+    <option value="2">February</option>
+    <option value="3">March</option>
+    <option value="4">April</option>
+    <option value="5">May</option>
+    <option value="6">June</option>
+    <option value="7">July</option>
+    <option value="8">August</option>
+    <option value="9">September</option>
+    <option value="10">October</option>
+    <option value="11">November</option>
+    <option value="12">December</option>
+</select>
+```

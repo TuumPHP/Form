@@ -26,7 +26,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="10">10</option>
   <option value="11">11</option>
   <option value="12">12</option>';
-    
+
     function test0()
     {
         $form = new Dates();
@@ -47,7 +47,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="2014">2014</option>
   <option value="2015">2015</option>
   <option value="2016">2016</option>
-</select>/<select name="test_m" >'.$this->option_mon. '
+</select>/<select name="test_m" >' . $this->option_mon . '
 </select>', (string)$date);
     }
 
@@ -64,7 +64,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Year <select name="test_y" >
   <option value="2015">2015</option>
   <option value="2016">2016</option>
-</select> Month <select name="test_m" >'.$this->option_mon. '
+</select> Month <select name="test_m" >' . $this->option_mon . '
 </select>', (string)$date);
     }
 
@@ -76,7 +76,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $form = new Dates();
         $date = $form->useYear(
             YearList::forge(2010, 2012)
-        )->dateYM('test')->format(function($fields) {
+        )->dateYM('test')->format(function ($fields) {
             return implode('formatted', $fields);
         });
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
@@ -84,7 +84,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="2010">2010</option>
   <option value="2011">2011</option>
   <option value="2012">2012</option>
-</select>formatted<select name="test_m" >'.$this->option_mon. '
+</select>formatted<select name="test_m" >' . $this->option_mon . '
 </select>', (string)$date);
     }
 
@@ -126,15 +126,14 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_returns_nenGou()
     {
         $form = new Dates();
-        
+
         $date = $form->useYear(
             YearList::forge(2014, 2016)->useJpnGenGou()
         )->useMonth(
             MonthList::forge()->useFullText()
         )->withClass('tested-class')
             ->resetWidth('123px')
-            ->dateYM('test')
-        ;
+            ->dateYM('test');
         $this->assertEquals('<select name="test_y" class="tested-class" style="width: 123px" >
   <option value="2014">平成26年</option>
   <option value="2015">平成27年</option>
@@ -224,7 +223,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function selDay_creates_select_for_date()
     {
         $form = new Dates();
-        $sel  = $form->useDay(DayList::forge(10,15))->selDay('more');
+        $sel  = $form->useDay(DayList::forge(10, 15))->selDay('more');
         $this->assertEquals('<select name="more" >
   <option value="10">10</option>
   <option value="11">11</option>
