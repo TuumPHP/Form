@@ -49,6 +49,23 @@ class ListsTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    function getIterator_returns_list_of_tags()
+    {
+        $input = (new InputList('radio', 'testing', ['more', 'done']));
+        foreach($input as $key => $item) {
+            if ($key === 0) {
+                $this->assertEquals('<input type="radio" name="testing" value="0" >', (string) $item);
+                $this->assertEquals('more', $input->getLabel($key));
+            } elseif ($key === 1) {
+                $this->assertEquals('<input type="radio" name="testing" value="1" >', (string) $item);
+                $this->assertEquals('done', $input->getLabel($key));
+            }
+        }
+    }
+
+    /**
+     * @test
+     */
     function basic_checkbox_list()
     {
         $input = (new InputList('checkbox', 'testing', ['more', 'done']));

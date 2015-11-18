@@ -1,8 +1,8 @@
 <?php
 namespace Tuum\Form;
 
+use Traversable;
 use Tuum\Form\Data\Inputs;
-use Tuum\Form\Lists\ListInterface;
 use Tuum\Form\Tags\Input;
 use Tuum\Form\Tags\InputList;
 use Tuum\Form\Tags\Select;
@@ -217,7 +217,7 @@ class Forms
 
     /**
      * @param string $name
-     * @param array|ListInterface  $list
+     * @param array|Traversable  $list
      * @param null|string $value
      * @return Select
      */
@@ -229,9 +229,9 @@ class Forms
     }
     
     /**
-     * @param string $name
-     * @param array|ListInterface  $list
-     * @param null|string $value
+     * @param string            $name
+     * @param array|Traversable $list
+     * @param null|string       $value
      * @return InputList
      */
     public function checkList($name, $list, $value=null)
@@ -242,7 +242,7 @@ class Forms
 
     /**
      * @param string $name
-     * @param array|ListInterface  $list
+     * @param array|Traversable  $list
      * @param null|string $value
      * @return InputList
      */

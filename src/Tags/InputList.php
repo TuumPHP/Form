@@ -1,23 +1,26 @@
 <?php
 namespace Tuum\Form\Tags;
 
+use ArrayIterator;
 use Closure;
+use IteratorAggregate;
+use Traversable;
 use Tuum\Form\Lists\ListInterface;
 
-class InputList extends Tag
+class InputList extends Tag implements IteratorAggregate
 {
     use ElementTrait;
 
     /**
-     * @var array|Closure
+     * @var array|Traversable
      */
     private $list;
 
     /**
-     * @param string $type
-     * @param string $name
-     * @param array|Closure|ListInterface  $list
-     * @param null   $value
+     * @param string            $type
+     * @param string            $name
+     * @param array|Traversable $list
+     * @param null              $value
      */
     public function __construct($type, $name, $list, $value = null)
     {
@@ -45,11 +48,7 @@ class InputList extends Tag
     private function formInput()
     {
         $html          = '<ul>';
-        $list = $this->list;
-        if ($list instanceof Closure) {
-            $list = $list();
-        }
-        foreach ($list as $key => $label) {
+        foreach ($this->list as $key => $label) {
             $html .= "\n";
             $html .= '  <li>'.$this->labelHtml($this->getInput($key) . ' ' . $label).'</li>';
         }
@@ -62,6 +61,15 @@ class InputList extends Tag
     public function getList()
     {
         return $this->list;
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getLabel($key)
+    {
+        return array_key_exists($key, $this->list) ? $this->list[$key] : '';
     }
 
     /**
@@ -81,5 +89,20 @@ class InputList extends Tag
             $input->setAttribute('checked', true);
         }
         return $input;
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @link  http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Traversable
+     */
+    public function getIterator()
+    {
+        $list = [];
+        foreach($this->list as $key => $value) {
+            $list[$key] = $this->getInput($key);
+        }
+        return new ArrayIterator($list);
     }
 }
