@@ -22,6 +22,11 @@ class Form extends Tag
     private $http_methods = [ 'get', 'post' ];
 
     /**
+     * @var string
+     */
+    private $_token_name = '_method';
+
+    /**
      * constructor
      */
     public function __construct()
@@ -40,15 +45,17 @@ class Form extends Tag
 
     /**
      * @param string $method
+     * @param string $token_name
      * @return $this
      */
-    public function method( $method )
+    public function method( $method, $token_name = '_method' )
     {
         $method = strtolower($method);
         if (in_array($method, $this->http_methods)) {
             $this->_method = null;
             return $this->setAttribute( 'method', $method );
         }
+        $this->_token_name = $token_name ?: $this->_token_name;
         $this->_method = $method;
         return $this;
     }
@@ -78,7 +85,7 @@ class Form extends Tag
     {
         $html = TagToString::format($this);
         if(!is_null($this->_method)) {
-            $html .= "\n<input type=\"hidden\" name=\"_method\" value=\"". $this->_method ."\" />";
+            $html .= "\n<input type=\"hidden\" name=\"{$this->_token_name}\" value=\"". $this->_method ."\" />";
         }
         return $html;
     }
