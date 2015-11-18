@@ -17,6 +17,16 @@ class InputTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    function values_are_not_escaped()
+    {
+        $input = (new Input('text', '<bold\'"'));
+        $this->assertEquals('Tuum\Form\Tags\Input', get_class($input));
+        $this->assertEquals('<input type="text" name="<bold\'"" >', (string)$input);
+    }
+
+    /**
+     * @test
+     */
     function label_surrounds_input()
     {
         $input = (new Input('text', 'testing'))

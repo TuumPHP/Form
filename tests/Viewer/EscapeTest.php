@@ -17,7 +17,7 @@ class EscapeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('a&#039;b', $view->escape('a\'b'));
 
         // change escape functions
-        $view = $view->withEscape('addslashes');
+        $view->setEscape('addslashes');
         $this->assertEquals('<bold>', $view->escape('<bold>'));
         $this->assertEquals('a\\\'b', $view->escape('a\'b'));
     }
