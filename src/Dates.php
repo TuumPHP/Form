@@ -22,32 +22,32 @@ use Tuum\Form\Tags\Select;
 class Dates
 {
     /**
-     * @var YearList
+     * @var YearList|Traversable|array
      */
     private $years;
 
     /**
-     * @var MonthList
+     * @var MonthList|Traversable|array
      */
     private $months;
 
     /**
-     * @var DayList
+     * @var DayList|Traversable|array
      */
     private $days;
 
     /**
-     * @var HourList
+     * @var HourList|Traversable|array
      */
     private $hours;
 
     /**
-     * @var MinuteList
+     * @var MinuteList|Traversable|array
      */
     private $minutes;
 
     /**
-     * @var SecondList
+     * @var SecondList|Traversable|array
      */
     private $seconds;
 
