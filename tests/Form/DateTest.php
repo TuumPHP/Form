@@ -132,8 +132,8 @@ class DateTest extends \PHPUnit_Framework_TestCase
         )->useMonth(
             MonthList::forge()->useFullText()
         )->withClass('tested-class')
-            ->resetWidth('123px')
-            ->dateYM('test');
+            ->dateYM('test')
+        ->resetWidth('123px');
         $this->assertEquals('<select name="test_y" class="tested-class" style="width: 123px" >
   <option value="2014">平成26年</option>
   <option value="2015">平成27年</option>
@@ -259,8 +259,8 @@ class DateTest extends \PHPUnit_Framework_TestCase
             ->useHour(HourList::forge(11, 12, 5))
             ->useMinute(MinuteList::forge(24, 30, 7))
             ->useSecond(SecondList::forge(27, 34, 9))
-            ->resetWidth()
             ->timeHis('done')
+            ->resetWidth()
             ->format("%s\n%s\n%s");
         $list = explode("\n", $time);
         $this->assertContains('<select name="done_h" style="width: auto; display: inline" >', $list);

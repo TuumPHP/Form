@@ -463,8 +463,8 @@ echo $date->useYear(
 )->useMonth(
     MonthList::forge()->useFullText()
 )->withClass('tested-class')
-->resetWidth('123px')
-->dateYM('test');
+->dateYM('test')
+->resetWidth('123px');
 ```
 
 will generate some HTML like,

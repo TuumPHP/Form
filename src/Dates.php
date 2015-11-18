@@ -98,23 +98,6 @@ class Dates
     }
 
     /**
-     * resets the width of composite selects.
-     * if $width is empty, sets to 'auto' which fits its content.
-     *
-     * also, if the width is set to auto, it also resets the
-     * display to in-line (which is set to block when using bootstrap).
-     *
-     * @param string $width
-     * @return Dates
-     */
-    public function resetWidth($width = '')
-    {
-        $self               = clone($this);
-        $self->select_width = $width ?: 'auto';
-        return $self;
-    }
-
-    /**
      * @param YearList|Traversable|array $years
      * @return $this
      */

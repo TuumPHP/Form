@@ -121,6 +121,28 @@ class Composite
     }
 
     /**
+     * resets the width of composite selects.
+     * if $width is empty, sets to 'auto' which fits its content.
+     *
+     * also, if the width is set to auto, it also resets the
+     * display to in-line (which is set to block when using bootstrap).
+     *
+     * @param string $width
+     * @return $this
+     */
+    public function resetWidth($width = 'auto')
+    {
+        $width = $width ?: 'auto';
+        foreach($this->fields as $field) {
+            $field->style('width: ' . $width);
+            if ($width === 'auto') {
+                $field->style('display: inline');
+            }
+        }
+        return $this;
+    }
+
+    /**
      * @param string $value
      * @return array
      */
