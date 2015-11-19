@@ -270,4 +270,26 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('<select name="done_s" style="width: auto; display: inline" >', $list);
         $this->assertContains('  <option value="27">27</option>', $list);
     }
+
+    /**
+     * @test
+     */
+    function constructor_options_set_properties()
+    {
+        $form = new Dates();
+
+        $date1 = (string) $form->setYear(
+            YearList::forge(2014, 2016)->useJpnGenGou()
+        )->setMonth(
+            MonthList::forge()->useFullText()
+        )->dateYM('test');
+
+        $form = new Dates([
+            'years' => YearList::forge(2014, 2016)->useJpnGenGou(),
+            'months' => MonthList::forge()->useFullText()
+        ]);
+        $date2 = (string) $form->dateYM('test');
+
+        $this->assertEquals($date1, $date2);
+    }
 }

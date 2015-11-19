@@ -101,9 +101,17 @@ class Dates
 
     /**
      * constructor
+     *
+     * @param array $options
      */
-    public function __construct()
+    public function __construct($options = [])
     {
+        foreach( ['years', 'months', 'days', 'hours', 'minutes', 'seconds'] as $field) {
+            if (isset($options[$field])) {
+                $this->$field = $options[$field];
+            }
+        }
+        
     }
 
     /**
