@@ -62,6 +62,44 @@ class Dates
     private $default_class;
 
     /**
+     * definitions for composite form elements.
+     * 
+     * @var array
+     */
+    public $composeDateTime = [
+        'ymd' => [
+            'fields' => [
+                'y' => 'selYear',
+                'm' => 'selMonth',
+                'd' => 'selDay',
+            ],
+            'format' => '%1$s/%2$s/%3$s',
+        ],
+        'ym' => [
+            'fields' => [
+                'y' => 'selYear',
+                'm' => 'selMonth',
+            ],
+            'format' => '%1$s/%2$s',
+        ],
+        'his' => [
+            'fields' => [
+                'h' => 'selHour',
+                'i' => 'selMinute',
+                's' => 'selSecond',
+            ],
+            'format' => '%1$s:%2$s:%3$s',
+        ],
+        'hi' => [
+            'fields' => [
+                'h' => 'selHour',
+                'i' => 'selMinute',
+            ],
+            'format' => '%1$s:%2$s',
+        ],
+    ];
+
+    /**
      * constructor
      */
     public function __construct()
@@ -235,73 +273,23 @@ class Dates
     }
 
     /**
-     * @param string      $name
-     * @param string|null $value
-     * @param string|null $ymd_format
+     * @param string $type
+     * @param string $name
+     * @param string $value
+     * @param string $format
      * @return Composite
      */
-    public function dateYMD($name, $value = null, $ymd_format = null)
+    private function composeComposite($type, $name, $value, $format)
     {
-        return $this->makeComposite($name,
-            [
-                'y' => $this->selYear($name),
-                'm' => $this->selMonth($name),
-                'd' => $this->selDay($name),
-            ],
-            $ymd_format ?: '%1$s/%2$s/%3$s',
-            $value);
-    }
-
-    /**
-     * @param string      $name
-     * @param string|null $value
-     * @param string|null $ym_format
-     * @return Composite
-     */
-    public function dateYM($name, $value = null, $ym_format = null)
-    {
-        return $this->makeComposite($name,
-            [
-                'y' => $this->selYear($name),
-                'm' => $this->selMonth($name),
-            ],
-            $ym_format ?: '%1$s/%2$s',
-            $value);
-    }
-
-    /**
-     * @param string      $name
-     * @param string|null $value
-     * @param string|null $hi_format
-     * @return Composite
-     */
-    public function timeHi($name, $value = null, $hi_format = null)
-    {
-        return $this->makeComposite($name,
-            [
-                'h' => $this->selHour($name),
-                'i' => $this->selMinute($name),
-            ],
-            $hi_format ?: '%1$s:%2$s',
-            $value);
-    }
-
-    /**
-     * @param string      $name
-     * @param string|null $value
-     * @param string|null $his_format
-     * @return Composite
-     */
-    public function timeHis($name, $value = null, $his_format = null)
-    {
-        return $this->makeComposite($name,
-            [
-                'h' => $this->selHour($name),
-                'i' => $this->selMinute($name),
-                's' => $this->selSecond($name),
-            ],
-            $his_format ?: '%1$s:%2$s:%3$s',
-            $value);
+        if (!$info = $this->composeDateTime[$type]) {
+            throw new \BadMethodCallException;
+        }
+        $format = $format ?: $info['format'];
+        $fields = [];
+        foreach($info['fields'] as $key => $method) {
+            $fields[$key] = $this->$method($name);
+        }
+        return $this->makeComposite($name, $fields, $format, $value);
     }
 
     /**
@@ -315,5 +303,49 @@ class Dates
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return (new Composite($name, $fields, $format))->value($value);
+    }
+    
+    /**
+     * @param string      $name
+     * @param string|null $value
+     * @param string|null $ymd_format
+     * @return Composite
+     */
+    public function dateYMD($name, $value = null, $ymd_format = null)
+    {
+        return $this->composeComposite('ymd', $name, $value, $ymd_format);
+    }
+    
+    /**
+     * @param string      $name
+     * @param string|null $value
+     * @param string|null $ym_format
+     * @return Composite
+     */
+    public function dateYM($name, $value = null, $ym_format = null)
+    {
+        return $this->composeComposite('ym', $name, $value, $ym_format);
+    }
+
+    /**
+     * @param string      $name
+     * @param string|null $value
+     * @param string|null $hi_format
+     * @return Composite
+     */
+    public function timeHi($name, $value = null, $hi_format = null)
+    {
+        return $this->composeComposite('hi', $name, $value, $hi_format);
+    }
+
+    /**
+     * @param string      $name
+     * @param string|null $value
+     * @param string|null $his_format
+     * @return Composite
+     */
+    public function timeHis($name, $value = null, $his_format = null)
+    {
+        return $this->composeComposite('his', $name, $value, $his_format);
     }
 }
