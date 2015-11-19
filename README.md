@@ -25,30 +25,41 @@ composer require "tuum/form: ^1.0"
 
 ### Sample Code
 
-Use `DataView` object to manage all other helpers. For instance, 
+There are many helpers, and some are related. It would be easier to use `DataView` object to manage helpers. For instance, 
 
 ```php
-use Tuum\Form\DataView;
-
-$view = new DataView();
-$view->setInputs([
+$view = new Tuum\Form\DataView();
+$view->setData([
     'name' => 'my-name',
     'bold' => '<b>bold</b>',
+    'list' => ['v1', 'v2'],
+]);
+$view->setInputs([
+    'name' => 'old-name',
     'more' => [
         'key' => 'val'
     ]
 ]);
-echo $view->inputs->get('name'); // 'my-name'
-echo $view->inputs->get('more[key]'); // 'val'
-echo $view->inputs->get('bold'); // escapes the value
-echo $view->forms->text('name', 'default'); // <input type="text" value="my-name">
+// getting escaped data. 
+echo $view->data['name']; // 'my-name'
+echo $view->data['bold']; // escaped <b>bold</b>
+echo $view->data->get('bold'); //  escaped <b>bold</b>
+echo $view->data->raw('bold'); //  raw <b>bold</b>
+// and arrays.
+$list = $view->data->extractKey('list');
+echo $list[0]; // 'v1'
+echo $list[1]; // 'v2'
+
+// getting old inputs
+echo $view->inputs->get('name', $data['name']); // 'old-name'
+echo $view->inputs->get('more[key]'); // val
+// and use it in form generator. 
+echo $view->forms->text('name', 'default'); 
+// will output <input type="text" value="old-name">
 ```
 
-The `forms` helper generates an html tag for `input[type=text]` with the *"my-name"* which is set in `setInputs`, instead of given *"default"* value. 
+The `DataView` object injects `Inputs` object into `Forms` helper so that it can generate HTML tags using old input values (i.e. *old-name*) instead of given value (*default*). 
 
-```html
-<input type="text" name="name" value="my-name" />
-```
 
 
 ### List of Helpers
@@ -71,7 +82,7 @@ The `Escape` class manages the escaping string to securely display text in a cer
 
 ### Escaping for Html
 
-As a default, strings will be escaped using `Escape::htmlSafe($string)` method (which internally uses `htmlspecialchars` function for HTML files). 
+As a default, strings will be escaped using `Escape::htmlSafe($string)` method (which internally uses `htmlspecialchars` function for HTML files). There are some other way to escape. 
 
 ```php
 $esc = new Escape();
@@ -88,6 +99,8 @@ $esc = new Escape('addslashes');
 // or
 $esc = $esc->setEscape('rawurlencode');
 ```
+
+The escape method must be a callable; either a function name, or a closure with string as an argument. 
 
 ### Using Escape with DataView
 
@@ -433,11 +446,11 @@ foreach($list as $key => $html) {
 Dates Helper
 ------
 
-The `Dates` helper class aims to help reduce the pain of creating complex form elements, such as for date. For instance, 
+The `Dates` helper class aims to help construct a complex form elements, such as date (which have year, month, and day form elements). For instance, 
 
 ```php
 $form = new Dates();
-echo $dates->useYear(
+echo $dates->setYear(
     YearList::forge(2014, 2016)
 )->dateYMD('my-date', '2015-06-18');
 ```
@@ -452,9 +465,9 @@ will generate html for years between 2014 and 2016;
 
 ### Using List for Year, Month, and Day
 
-When using `Dates` class, it is always nice to specify the range of year using `useYear` method. 
+When constructing a date with year list, it generates ranging from last year till next year as a default. You can change this by using `setYear` method. 
 
-There are `use*` methods for Year, Month, Day, Hour, Minute, and Second. Each method expects to get `ListInterface`, `Traversable` object, or an array. There are also `List` objects for each type with specific method to displayed in various format. 
+There are `set*` methods for Year, Month, Day, Hour, Minute, and Second. Each method expects to get `ListInterface`, `Traversable` object, or an array. There are also `List` objects for each type with specific method to displayed in various format. 
 
 ```php
     
