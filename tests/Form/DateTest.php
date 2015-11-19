@@ -39,7 +39,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_returns_composite()
     {
         $form = new Dates();
-        $date = $form->useYear(
+        $date = $form->setYear(
             YearList::forge(2014, 2016)
         )->dateYM('test');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
@@ -57,7 +57,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_with_format_string()
     {
         $form = new Dates();
-        $date = $form->useYear(
+        $date = $form->setYear(
             YearList::forge(2015, 2016)
         )->dateYM('test')->format('Year %s Month %s');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
@@ -74,7 +74,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_with_format_closure()
     {
         $form = new Dates();
-        $date = $form->useYear(
+        $date = $form->setYear(
             YearList::forge(2010, 2012)
         )->dateYM('test')->format(function ($fields) {
             return implode('formatted', $fields);
@@ -94,7 +94,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function dateYM_and_head_adds_extra_option()
     {
         $form = new Dates();
-        $date = $form->useYear(
+        $date = $form->setYear(
             YearList::forge(2014, 2016)
         )->dateYM('test')->head('testing');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
@@ -127,9 +127,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
 
-        $date = $form->useYear(
+        $date = $form->setYear(
             YearList::forge(2014, 2016)->useJpnGenGou()
-        )->useMonth(
+        )->setMonth(
             MonthList::forge()->useFullText()
         )->withClass('tested-class')
             ->dateYM('test')
@@ -223,7 +223,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function selDay_creates_select_for_date()
     {
         $form = new Dates();
-        $sel  = $form->useDay(DayList::forge(10, 15))->selDay('more');
+        $sel  = $form->setDay(DayList::forge(10, 15))->selDay('more');
         $this->assertEquals('<select name="more" >
   <option value="10">10</option>
   <option value="11">11</option>
@@ -256,9 +256,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $time = $form
-            ->useHour(HourList::forge(11, 12, 5))
-            ->useMinute(MinuteList::forge(24, 30, 7))
-            ->useSecond(SecondList::forge(27, 34, 9))
+            ->setHour(HourList::forge(11, 12, 5))
+            ->setMinute(MinuteList::forge(24, 30, 7))
+            ->setSecond(SecondList::forge(27, 34, 9))
             ->timeHis('done')
             ->resetWidth()
             ->format("%s\n%s\n%s");

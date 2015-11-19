@@ -134,7 +134,7 @@ class Dates
      * @param YearList|Traversable|array $years
      * @return $this
      */
-    public function useYear($years)
+    public function setYear($years)
     {
         $this->years = $years;
         return $this;
@@ -144,7 +144,7 @@ class Dates
      * @param MonthList|Traversable|array $months
      * @return $this
      */
-    public function useMonth($months)
+    public function setMonth($months)
     {
         $this->months = $months;
         return $this;
@@ -154,7 +154,7 @@ class Dates
      * @param DayList|Traversable|array $day
      * @return $this
      */
-    public function useDay($day)
+    public function setDay($day)
     {
         $this->days = $day;
         return $this;
@@ -164,7 +164,7 @@ class Dates
      * @param HourList|Traversable|array $list
      * @return $this
      */
-    public function useHour($list)
+    public function setHour($list)
     {
         $this->hours = $list;
         return $this;
@@ -174,7 +174,7 @@ class Dates
      * @param MinuteList|Traversable|array $list
      * @return $this
      */
-    public function useMinute($list)
+    public function setMinute($list)
     {
         $this->minutes = $list;
         return $this;
@@ -184,7 +184,7 @@ class Dates
      * @param SecondList|Traversable|array $list
      * @return $this
      */
-    public function useSecond($list)
+    public function setSecond($list)
     {
         $this->seconds = $list;
         return $this;
