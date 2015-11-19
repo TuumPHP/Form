@@ -458,9 +458,9 @@ There are `use*` methods for Year, Month, Day, Hour, Minute, and Second. Each me
 
 ```php
     
-echo $date->useYear(
+echo $date->setYear(
     YearList::forge(2014, 2016)->useJpnGenGou()
-)->useMonth(
+)->setMonth(
     MonthList::forge()->useFullText()
 )->withClass('tested-class')
 ->dateYM('test')
