@@ -233,7 +233,7 @@ echo $input->checked('types', 'b'); // empty
 Errors Helper
 ----
 
-The `Errors` manages error messages associated with input values, which works just like `Inputs` class except that this class output the error message in a pre-defined format. 
+The `Errors` manages error messages associated with input values, which works just like `Inputs` class except that this class has a method, `p` which outputs the error message in a pre-defined format. 
 
 ```php
 <?php
@@ -246,13 +246,11 @@ $errors = Errors::forge([
     ],
 ], $esc);
 // default format is: <p class="text-danger">%s</p>
-echo $errors->get('name'); // message for name
-echo $errors->get('gender');   // gender message
-echo $errors->get('types[2]'); // message for type:B
-echo $errors->get('sns[facebook]'); // love messaging facebook?
+echo $errors->p('name'); // message for name
+echo $errors->p('gender');   // gender message
+echo $errors->p('types[2]'); // message for type:B
+echo $errors->p('sns[facebook]'); // love messaging facebook?
 ```
-
-Notice that the message for type:B has specific index number. In order for generic array input to work with error messages, you have to specify the index. 
 
 ### Message Format
 
