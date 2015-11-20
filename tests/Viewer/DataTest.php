@@ -19,7 +19,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     function isEmpty_returns_true_if_empty()
     {
         $data = new Data();
-        $this->assertTrue($data->isEmpty());
+        $this->assertTrue(empty($data->getKeys()));
     }
 
     /**

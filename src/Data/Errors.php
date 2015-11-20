@@ -1,63 +1,25 @@
 <?php
 namespace Tuum\Form\Data;
 
-class Errors
+class Errors extends AbstractData
 {
-    /**
-     * @var Inputs
-     */
-    protected $errors;
-
     /**
      * @var string
      */
     public $format = '<p class="text-danger">%s</p>';
 
     /**
-     * @param array $errors
-     */
-    private function __construct($errors = [])
-    {
-        $this->errors = Inputs::forge($errors);
-    }
-
-    /**
-     * @param array $data
-     * @return Errors
-     */
-    public static function forge($data)
-    {
-        return new self($data);
-    }
-
-    /**
+     * prints out error message in a format.
+     *
      * @param string $name
-     * @return array|mixed|string
-     */
-    public function raw($name)
-    {
-        return $this->errors->raw($name);
-    }
-
-    /**
-     * @param $name
      * @return string
      */
-    public function get($name)
+    public function p($name)
     {
         $msg = $this->raw($name);
         if (!$msg) {
             return '';
         }
         return sprintf($this->format, $msg);
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function exists($name)
-    {
-        return $this->errors->exists($name);
     }
 }
