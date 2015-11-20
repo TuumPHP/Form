@@ -5,16 +5,13 @@ use Closure;
 
 class MonthList extends AbstractList
 {
-    protected $start = 1;
-    protected $end = 12;
-
     /**
      * @param null|int $start
      * @param null|int $end
      * @param int      $step
      * @return MonthList|static
      */
-    public static function forge($start = null, $end = null, $step = 1)
+    public static function forge($start = 1, $end = 12, $step = 1)
     {
         return new self(
             $start,

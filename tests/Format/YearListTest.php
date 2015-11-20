@@ -1,12 +1,12 @@
 <?php
 namespace tests\Format;
 
-use Tuum\Form\Lists\Lists;
+use Tuum\Form\Lists\GenericList;
 use Tuum\Form\Lists\YearList;
 
 require_once(__DIR__ . '/../autoloader.php');
 
-class FormTest extends \PHPUnit_Framework_TestCase
+class YearListTest extends \PHPUnit_Framework_TestCase
 {
     function test0()
     {
@@ -42,7 +42,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     function reverse_lists()
     {
-        $list = Lists::forge(10, 4, -3)->setFormat(function ($s) {
+        $list = GenericList::forge(10, 4, -3)->setFormat(function ($s) {
             return "<$s>";
         });
         foreach ($list as $val => $label) {

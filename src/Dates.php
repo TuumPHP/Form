@@ -3,12 +3,7 @@ namespace Tuum\Form;
 
 use Traversable;
 use Tuum\Form\Data\Inputs;
-use Tuum\Form\Lists\DayList;
-use Tuum\Form\Lists\HourList;
-use Tuum\Form\Lists\MinuteList;
-use Tuum\Form\Lists\MonthList;
-use Tuum\Form\Lists\SecondList;
-use Tuum\Form\Lists\YearList;
+use Tuum\Form\Lists\Lists;
 use Tuum\Form\Tags\Composite;
 use Tuum\Form\Tags\Select;
 
@@ -16,38 +11,36 @@ use Tuum\Form\Tags\Select;
  * Class Date
  *
  * @package Tuum\Form
- *
- * @property YearList yearList
  */
 class Dates
 {
     /**
-     * @var YearList|Traversable|array
+     * @var Traversable|array
      */
     private $years;
 
     /**
-     * @var MonthList|Traversable|array
+     * @var Traversable|array
      */
     private $months;
 
     /**
-     * @var DayList|Traversable|array
+     * @var Traversable|array
      */
     private $days;
 
     /**
-     * @var HourList|Traversable|array
+     * @var Traversable|array
      */
     private $hours;
 
     /**
-     * @var MinuteList|Traversable|array
+     * @var Traversable|array
      */
     private $minutes;
 
     /**
-     * @var SecondList|Traversable|array
+     * @var Traversable|array
      */
     private $seconds;
 
@@ -139,7 +132,7 @@ class Dates
     }
 
     /**
-     * @param YearList|Traversable|array $years
+     * @param Traversable|array $years
      * @return $this
      */
     public function setYear($years)
@@ -149,7 +142,7 @@ class Dates
     }
 
     /**
-     * @param MonthList|Traversable|array $months
+     * @param Traversable|array $months
      * @return $this
      */
     public function setMonth($months)
@@ -159,7 +152,7 @@ class Dates
     }
 
     /**
-     * @param DayList|Traversable|array $day
+     * @param Traversable|array $day
      * @return $this
      */
     public function setDay($day)
@@ -169,7 +162,7 @@ class Dates
     }
 
     /**
-     * @param HourList|Traversable|array $list
+     * @param Traversable|array $list
      * @return $this
      */
     public function setHour($list)
@@ -179,7 +172,7 @@ class Dates
     }
 
     /**
-     * @param MinuteList|Traversable|array $list
+     * @param Traversable|array $list
      * @return $this
      */
     public function setMinute($list)
@@ -189,7 +182,7 @@ class Dates
     }
 
     /**
-     * @param SecondList|Traversable|array $list
+     * @param Traversable|array $list
      * @return $this
      */
     public function setSecond($list)
@@ -205,7 +198,7 @@ class Dates
      */
     public function selYear($name, $value = null)
     {
-        $years = $this->years ?: YearList::forge();
+        $years = $this->years ?: Lists::years();
         return $this->makeSelect($name, $years, $value);
     }
 
@@ -216,7 +209,7 @@ class Dates
      */
     public function selDay($name, $value = null)
     {
-        $days = $this->days ?: DayList::forge();
+        $days = $this->days ?: Lists::days();
         return $this->makeSelect($name, $days, $value);
     }
 
@@ -227,7 +220,7 @@ class Dates
      */
     public function selMonth($name, $value = null)
     {
-        $months = $this->months ?: MonthList::forge();
+        $months = $this->months ?: Lists::months();
         return $this->makeSelect($name, $months, $value);
     }
 
@@ -238,7 +231,7 @@ class Dates
      */
     public function selHour($name, $value = null)
     {
-        $hour = $this->hours ?: HourList::forge();
+        $hour = $this->hours ?: Lists::hours();
         return $this->makeSelect($name, $hour, $value);
     }
 
@@ -249,7 +242,7 @@ class Dates
      */
     public function selMinute($name, $value = null)
     {
-        $minutes = $this->minutes ?: MinuteList::forge();
+        $minutes = $this->minutes ?: Lists::minutes();
         return $this->makeSelect($name, $minutes, $value);
     }
 
@@ -260,7 +253,7 @@ class Dates
      */
     public function selSecond($name, $value = null)
     {
-        $seconds = $this->seconds ?: SecondList::forge();
+        $seconds = $this->seconds ?: Lists::seconds();
         return $this->makeSelect($name, $seconds, $value);
     }
 

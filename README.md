@@ -449,7 +449,7 @@ The `Dates` helper class aims to help construct a complex form elements, such as
 ```php
 $form = new Dates();
 echo $dates->setYear(
-    YearList::forge(2014, 2016)
+    Lists::years(2014, 2016)
 )->dateYMD('my-date', '2015-06-18');
 ```
 
@@ -470,9 +470,9 @@ There are `set*` methods for Year, Month, Day, Hour, Minute, and Second. Each me
 ```php
     
 echo $date->setYear(
-    YearList::forge(2014, 2016)->useJpnGenGou()
+    Lists::years(2014, 2016)->useJpnGenGou()
 )->setMonth(
-    MonthList::forge()->useFullText()
+    Lists::months()->useFullText()
 )->withClass('tested-class')
 ->dateYM('test')
 ->resetWidth('123px');

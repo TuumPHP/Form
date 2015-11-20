@@ -6,17 +6,17 @@ use Closure;
 use IteratorAggregate;
 use Traversable;
 
-abstract class AbstractList implements ListInterface, IteratorAggregate
+abstract class AbstractList implements IteratorAggregate
 {
     /**
      * @var int
      */
-    protected $start = 1;
+    protected $start;
 
     /**
      * @var int
      */
-    protected $end = 10;
+    protected $end;
 
     /**
      * @var int
@@ -24,9 +24,14 @@ abstract class AbstractList implements ListInterface, IteratorAggregate
     protected $step = 1;
 
     /**
-     * @var Closure
+     * @var Closure    format output string (i.e. '2' => 'February').
      */
     protected $format;
+
+    /**
+     * @var string     format string for values (i.e. '2' => '02').
+     */
+    public $formatValue = '%02d';
 
     /**
      * constructor
@@ -38,39 +43,11 @@ abstract class AbstractList implements ListInterface, IteratorAggregate
      */
     protected function __construct($start, $end, $step, $format = null)
     {
-        $this->start  = $start ?: $this->start;
-        $this->end    = $end ?: $this->end;
+        $this->start  = $start;
+        $this->end    = $end;
         $step         = $step ?: $this->step;
-        $this->step   = (int)$start < $this->end ? abs($step) : -abs($step);
+        $this->step   = (int)$start < $end ? abs($step) : -abs($step);
         $this->format = $format;
-    }
-
-    /**
-     * @return array
-     */
-    public function __invoke()
-    {
-        return $this->getList();
-    }
-
-    /**
-     * @param null|int $start
-     * @param null|int $end
-     * @param null|int $step
-     * @return static
-     */
-    public function range($start = null, $end = null, $step = null)
-    {
-        if (!is_null($start)) {
-            $this->start = $start;
-        }
-        if (!is_null($end)) {
-            $this->end = $end;
-        }
-        if (!is_null($step)) {
-            $this->step = $step;
-        }
-        return $this;
     }
 
     /**
@@ -119,7 +96,7 @@ abstract class AbstractList implements ListInterface, IteratorAggregate
             return false;
         };
         for ($y = $this->start; $cmp($y); $y += $this->step) {
-            $years[$y] = $this->format($y);
+            $years[sprintf($this->formatValue,$y)] = $this->format($y);
         }
         return $years;
     }
@@ -130,5 +107,18 @@ abstract class AbstractList implements ListInterface, IteratorAggregate
     public function getIterator()
     {
         return new ArrayIterator($this->getList());
+    }
+
+    /**
+     * use formatted print for output.
+     *
+     * @param string $fmt
+     * @return $this
+     */
+    public function usePrintFormat($fmt)
+    {
+        return $this->setFormat(function($string) use($fmt) {
+            return sprintf($fmt, $string);
+        });
     }
 }

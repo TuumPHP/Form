@@ -2,27 +2,22 @@
 namespace tests\Form;
 
 use Tuum\Form\Dates;
-use Tuum\Form\Lists\DayList;
-use Tuum\Form\Lists\HourList;
-use Tuum\Form\Lists\MinuteList;
-use Tuum\Form\Lists\MonthList;
-use Tuum\Form\Lists\SecondList;
-use Tuum\Form\Lists\YearList;
+use Tuum\Form\Lists\Lists;
 
 require_once(__DIR__ . '/../autoloader.php');
 
 class DateTest extends \PHPUnit_Framework_TestCase
 {
     public $option_mon = '
-  <option value="1"> 1</option>
-  <option value="2"> 2</option>
-  <option value="3"> 3</option>
-  <option value="4"> 4</option>
-  <option value="5"> 5</option>
-  <option value="6"> 6</option>
-  <option value="7"> 7</option>
-  <option value="8"> 8</option>
-  <option value="9"> 9</option>
+  <option value="01"> 1</option>
+  <option value="02"> 2</option>
+  <option value="03"> 3</option>
+  <option value="04"> 4</option>
+  <option value="05"> 5</option>
+  <option value="06"> 6</option>
+  <option value="07"> 7</option>
+  <option value="08"> 8</option>
+  <option value="09"> 9</option>
   <option value="10">10</option>
   <option value="11">11</option>
   <option value="12">12</option>';
@@ -40,7 +35,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $date = $form->setYear(
-            YearList::forge(2014, 2016)
+            Lists::years(2014, 2016)
         )->dateYM('test');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
@@ -58,7 +53,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $date = $form->setYear(
-            YearList::forge(2015, 2016)
+            Lists::years(2015, 2016)
         )->dateYM('test')->format('Year %s Month %s');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('Year <select name="test_y" >
@@ -75,7 +70,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $date = $form->setYear(
-            YearList::forge(2010, 2012)
+            Lists::years(2010, 2012)
         )->dateYM('test')->format(function ($fields) {
             return implode('formatted', $fields);
         });
@@ -95,7 +90,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $date = $form->setYear(
-            YearList::forge(2014, 2016)
+            Lists::years(2014, 2016)
         )->dateYM('test')->head('testing');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_y" >
@@ -105,15 +100,15 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="2016">2016</option>
 </select>/<select name="test_m" >
   <option value="">testing</option>
-  <option value="1"> 1</option>
-  <option value="2"> 2</option>
-  <option value="3"> 3</option>
-  <option value="4"> 4</option>
-  <option value="5"> 5</option>
-  <option value="6"> 6</option>
-  <option value="7"> 7</option>
-  <option value="8"> 8</option>
-  <option value="9"> 9</option>
+  <option value="01"> 1</option>
+  <option value="02"> 2</option>
+  <option value="03"> 3</option>
+  <option value="04"> 4</option>
+  <option value="05"> 5</option>
+  <option value="06"> 6</option>
+  <option value="07"> 7</option>
+  <option value="08"> 8</option>
+  <option value="09"> 9</option>
   <option value="10">10</option>
   <option value="11">11</option>
   <option value="12">12</option>
@@ -128,9 +123,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $form = new Dates();
 
         $date = $form->setYear(
-            YearList::forge(2014, 2016)->useJpnGenGou()
+            Lists::years(2014, 2016)->useJpnGenGou()
         )->setMonth(
-            MonthList::forge()->useFullText()
+            Lists::months()->useFullText()
         )->withClass('tested-class')
             ->dateYM('test')
         ->resetWidth('123px');
@@ -139,15 +134,15 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="2015">平成27年</option>
   <option value="2016">平成28年</option>
 </select>/<select name="test_m" class="tested-class" style="width: 123px" >
-  <option value="1">January</option>
-  <option value="2">February</option>
-  <option value="3">March</option>
-  <option value="4">April</option>
-  <option value="5">May</option>
-  <option value="6">June</option>
-  <option value="7">July</option>
-  <option value="8">August</option>
-  <option value="9">September</option>
+  <option value="01">January</option>
+  <option value="02">February</option>
+  <option value="03">March</option>
+  <option value="04">April</option>
+  <option value="05">May</option>
+  <option value="06">June</option>
+  <option value="07">July</option>
+  <option value="08">August</option>
+  <option value="09">September</option>
   <option value="10">October</option>
   <option value="11">November</option>
   <option value="12">December</option>
@@ -177,16 +172,16 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $date = $form->timeHi('test', '08:25');
         $this->assertEquals('Tuum\Form\Tags\Composite', get_class($date));
         $this->assertEquals('<select name="test_h" >
-  <option value="0">00</option>
-  <option value="1">01</option>
-  <option value="2">02</option>
-  <option value="3">03</option>
-  <option value="4">04</option>
-  <option value="5">05</option>
-  <option value="6">06</option>
-  <option value="7">07</option>
-  <option value="8" selected>08</option>
-  <option value="9">09</option>
+  <option value="00">00</option>
+  <option value="01">01</option>
+  <option value="02">02</option>
+  <option value="03">03</option>
+  <option value="04">04</option>
+  <option value="05">05</option>
+  <option value="06">06</option>
+  <option value="07">07</option>
+  <option value="08" selected>08</option>
+  <option value="09">09</option>
   <option value="10">10</option>
   <option value="11">11</option>
   <option value="12">12</option>
@@ -202,8 +197,8 @@ class DateTest extends \PHPUnit_Framework_TestCase
   <option value="22">22</option>
   <option value="23">23</option>
 </select>:<select name="test_i" >
-  <option value="0">00</option>
-  <option value="5">05</option>
+  <option value="00">00</option>
+  <option value="05">05</option>
   <option value="10">10</option>
   <option value="15">15</option>
   <option value="20">20</option>
@@ -223,7 +218,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     function selDay_creates_select_for_date()
     {
         $form = new Dates();
-        $sel  = $form->setDay(DayList::forge(10, 15))->selDay('more');
+        $sel  = $form->setDay(Lists::days(10, 15))->selDay('more');
         $this->assertEquals('<select name="more" >
   <option value="10">10</option>
   <option value="11">11</option>
@@ -242,7 +237,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $form = new Dates();
         $sel  = $form->selSecond('done');
         $this->assertEquals('<select name="done" >
-  <option value="0">00</option>
+  <option value="00">00</option>
   <option value="15">15</option>
   <option value="30">30</option>
   <option value="45">45</option>
@@ -256,9 +251,9 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $form = new Dates();
         $time = $form
-            ->setHour(HourList::forge(11, 12, 5))
-            ->setMinute(MinuteList::forge(24, 30, 7))
-            ->setSecond(SecondList::forge(27, 34, 9))
+            ->setHour(Lists::hours(11, 12, 5))
+            ->setMinute(Lists::minutes(24, 30, 7))
+            ->setSecond(Lists::seconds(27, 34, 9))
             ->timeHis('done')
             ->resetWidth()
             ->format("%s\n%s\n%s");
@@ -279,14 +274,14 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $form = new Dates();
 
         $date1 = (string) $form->setYear(
-            YearList::forge(2014, 2016)->useJpnGenGou()
+            Lists::years(2014, 2016)->useJpnGenGou()
         )->setMonth(
-            MonthList::forge()->useFullText()
+            Lists::months()->useFullText()
         )->dateYM('test');
 
         $form = new Dates([
-            'years' => YearList::forge(2014, 2016)->useJpnGenGou(),
-            'months' => MonthList::forge()->useFullText()
+            'years' => Lists::years(2014, 2016)->useJpnGenGou(),
+            'months' => Lists::months()->useFullText()
         ]);
         $date2 = (string) $form->dateYM('test');
 
