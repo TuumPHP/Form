@@ -78,7 +78,7 @@ class DataView
             $this->forms = $this->forms->withInputs($inputs);
         }
         if ($this->dates) {
-            $this->dates = $this->dates->withInputs($inputs);
+            $this->dates = $this->dates->setInputs($inputs);
         }
         return $this;
     }

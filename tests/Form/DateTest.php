@@ -126,7 +126,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
             Lists::years(2014, 2016)->useJpnGenGou()
         )->setMonth(
             Lists::months()->useFullText()
-        )->withClass('tested-class')
+        )->setClass('tested-class')
             ->dateYM('test')
         ->resetWidth('123px');
         $this->assertEquals('<select name="test_y" class="tested-class" style="width: 123px" >

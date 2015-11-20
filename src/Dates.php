@@ -3,6 +3,7 @@ namespace Tuum\Form;
 
 use Traversable;
 use Tuum\Form\Data\Inputs;
+use Tuum\Form\Lists\DatesComposer;
 use Tuum\Form\Lists\Lists;
 use Tuum\Form\Tags\Composite;
 use Tuum\Form\Tags\Select;
@@ -55,42 +56,9 @@ class Dates
     private $default_class;
 
     /**
-     * definitions for composite form elements.
-     * 
-     * @var array
+     * @var DatesComposer
      */
-    public $composeDateTime = [
-        'ymd' => [
-            'fields' => [
-                'y' => 'selYear',
-                'm' => 'selMonth',
-                'd' => 'selDay',
-            ],
-            'format' => '%1$s/%2$s/%3$s',
-        ],
-        'ym' => [
-            'fields' => [
-                'y' => 'selYear',
-                'm' => 'selMonth',
-            ],
-            'format' => '%1$s/%2$s',
-        ],
-        'his' => [
-            'fields' => [
-                'h' => 'selHour',
-                'i' => 'selMinute',
-                's' => 'selSecond',
-            ],
-            'format' => '%1$s:%2$s:%3$s',
-        ],
-        'hi' => [
-            'fields' => [
-                'h' => 'selHour',
-                'i' => 'selMinute',
-            ],
-            'format' => '%1$s:%2$s',
-        ],
-    ];
+    public $datesComposer;
 
     /**
      * constructor
@@ -104,18 +72,18 @@ class Dates
                 $this->$field = $options[$field];
             }
         }
-        
+        $this->datesComposer = new DatesComposer($this);
     }
 
     /**
      * @param Inputs $inputs
      * @return $this
      */
-    public function withInputs($inputs)
+    public function setInputs($inputs)
     {
-        $self         = clone($this);
-        $self->inputs = $inputs;
-        return $self;
+        $this->inputs = $inputs;
+        $this->datesComposer->setInputs($inputs);
+        return $this;
     }
 
     /**
@@ -124,11 +92,10 @@ class Dates
      * @param string $class
      * @return Dates
      */
-    public function withClass($class)
+    public function setClass($class)
     {
-        $self                = clone($this);
-        $self->default_class = $class;
-        return $self;
+        $this->default_class = $class;
+        return $this;
     }
 
     /**
@@ -274,33 +241,13 @@ class Dates
     }
 
     /**
-     * @param string $type
-     * @param string $name
-     * @param string $value
-     * @param string $format
-     * @return Composite
-     */
-    private function composeComposite($type, $name, $value, $format)
-    {
-        if (!$info = $this->composeDateTime[$type]) {
-            throw new \BadMethodCallException;
-        }
-        $format = $format ?: $info['format'];
-        $fields = [];
-        foreach($info['fields'] as $key => $method) {
-            $fields[$key] = $this->$method($name);
-        }
-        return $this->makeComposite($name, $fields, $format, $value);
-    }
-
-    /**
      * @param string $name
      * @param array  $fields
      * @param string $format
      * @param string $value
      * @return Composite
      */
-    private function makeComposite($name, $fields, $format, $value)
+    public function makeComposite($name, $fields, $format, $value)
     {
         $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
         return (new Composite($name, $fields, $format))->value($value);
@@ -314,7 +261,7 @@ class Dates
      */
     public function dateYMD($name, $value = null, $ymd_format = null)
     {
-        return $this->composeComposite('ymd', $name, $value, $ymd_format);
+        return $this->datesComposer->dateYMD($name, $value, $ymd_format);
     }
     
     /**
@@ -325,7 +272,7 @@ class Dates
      */
     public function dateYM($name, $value = null, $ym_format = null)
     {
-        return $this->composeComposite('ym', $name, $value, $ym_format);
+        return $this->datesComposer->dateYM($name, $value, $ym_format);
     }
 
     /**
@@ -336,7 +283,7 @@ class Dates
      */
     public function timeHi($name, $value = null, $hi_format = null)
     {
-        return $this->composeComposite('hi', $name, $value, $hi_format);
+        return $this->datesComposer->timeHi($name, $value, $hi_format);
     }
 
     /**
@@ -347,6 +294,6 @@ class Dates
      */
     public function timeHis($name, $value = null, $his_format = null)
     {
-        return $this->composeComposite('his', $name, $value, $his_format);
+        return $this->datesComposer->timeHis($name, $value, $his_format);
     }
 }
