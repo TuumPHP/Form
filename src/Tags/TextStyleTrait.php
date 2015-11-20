@@ -3,7 +3,7 @@ namespace Tuum\Form\Tags;
 
 trait TextStyleTrait
 {
-    abstract function style($name, $style = null);
+    abstract public function style($name, $style = null);
 
     /**
      * @return $this

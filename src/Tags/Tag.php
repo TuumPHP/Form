@@ -131,7 +131,7 @@ class Tag
 
     /**
      * @param string      $key
-     * @param string      $value
+     * @param mixed       $value
      * @param bool|string $sep
      * @return $this
      */

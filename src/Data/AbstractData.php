@@ -125,7 +125,7 @@ abstract class AbstractData implements \ArrayAccess, \IteratorAggregate
      * returns an empty space if key is set but has not real value.
      *
      * @param array $levels
-     * @param array $inputs
+     * @param mixed $inputs
      * @return mixed
      */
     private function recurseGet($levels, $inputs)

@@ -72,12 +72,12 @@ class InputList extends Tag implements IteratorAggregate
 
     /**
      * @param string $key
-     * @return Input
+     * @return Input|null
      */
     public function getInput($key)
     {
         if (!array_key_exists($key, $this->list)) {
-            return '';
+            return null;
         }
         $input = new Input(null, null);
         $input->fillAttributes($this->getAttribute());

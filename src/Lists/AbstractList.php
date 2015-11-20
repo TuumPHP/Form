@@ -46,7 +46,7 @@ abstract class AbstractList implements IteratorAggregate
         $this->start  = $start;
         $this->end    = $end;
         $step         = $step ?: $this->step;
-        $this->step   = (int)$start < $end ? abs($step) : -abs($step);
+        $this->step   = (int) ($start < $end ? abs($step) : -abs($step));
         $this->format = $format;
     }
 

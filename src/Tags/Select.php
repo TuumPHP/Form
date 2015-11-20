@@ -84,7 +84,7 @@ class Select extends Tag
     }
 
     /**
-     * @param array             $list
+     * @param array|Traversable $list
      * @param array|Traversable $selectedValue
      * @param string            $head
      * @return string
