@@ -15,7 +15,7 @@ class Accessor
      */
     public static function get($data, $key, $default = null)
     {
-        if ((is_array($data) || $data instanceof ArrayAccess)) {
+        if (self::isArrayAccess($data)) {
             return self::getArray($data, $key, $default);
         }
         if (is_object($data)) {
@@ -23,6 +23,21 @@ class Accessor
         }
 
         return $default;
+    }
+
+    /**
+     * @param mixed $data
+     * @return bool
+     */
+    public static function isArrayAccess($data)
+    {
+        if ((is_array($data))) {
+            return true;
+        }
+        if (is_object($data) &&  $data instanceof ArrayAccess) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -69,7 +84,7 @@ class Accessor
      */
     public static function has($data, $key)
     {
-        if ((is_array($data) || $data instanceof ArrayAccess)) {
+        if (self::isArrayAccess($data)) {
             return array_key_exists($key, $data);
         }
         if (!is_object($data)) {
