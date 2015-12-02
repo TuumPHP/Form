@@ -93,4 +93,34 @@ class InputTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('testing---more', $input->id()->getId());
     }
 
+    /**
+     * @test
+     */
+    function value_zero_sets_0()
+    {
+        $input = (new Input('text', 'testing'))->value(0);
+        $this->assertEquals('Tuum\Form\Tags\Input', get_class($input));
+        $this->assertEquals('<input type="text" name="testing" value="0" >', (string)$input);
+    }
+
+    /**
+     * @test
+     */
+    function value_empty_string_sets_value_attribute()
+    {
+        $input = (new Input('text', 'testing'))->value('');
+        $this->assertEquals('Tuum\Form\Tags\Input', get_class($input));
+        $this->assertEquals('<input type="text" name="testing" value="" >', (string)$input);
+    }
+
+    /**
+     * @test
+     */
+    function value_false_removes_value_attribute()
+    {
+        $input = (new Input('text', 'testing'))->value(false);
+        $this->assertEquals('Tuum\Form\Tags\Input', get_class($input));
+        $this->assertEquals('<input type="text" name="testing" >', (string)$input);
+    }
+
 }
