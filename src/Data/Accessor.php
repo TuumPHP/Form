@@ -67,6 +67,9 @@ class Accessor
         if (method_exists($data, $method)) {
             return $data->$method();
         }
+        if (method_exists($data, 'get')) {
+            return $data->get($key);
+        }
         if (isset($data->$key)) {
             return $data->$key;
         }
