@@ -64,6 +64,20 @@ abstract class AbstractData implements \ArrayAccess, \IteratorAggregate
 
     /**
      * @param string $name
+     * @param string|null $value
+     * @param string $string
+     * @return string
+     */
+    public function ifExists($name, $value, $string)
+    {
+        if ($this->exists($name, $value)) {
+            return $string;
+        }
+        return '';
+    }
+
+    /**
+     * @param string $name
      * @param string $value
      * @return bool
      */
@@ -148,7 +162,7 @@ abstract class AbstractData implements \ArrayAccess, \IteratorAggregate
      * returns new Data object populated with its data[$key].
      *
      * @param string $key
-     * @return Data
+     * @return static
      */
     public function extractKey($key)
     {
