@@ -1,12 +1,14 @@
 <?php
 namespace Tuum\Form\Data;
 
+use Traversable;
+
 /**
  * Class Message
  *
  * @package Tuum\View\Values
  */
-class Message
+class Message implements \IteratorAggregate
 {
     const MESSAGE = 'message';
     const ALERT   = 'alert';
@@ -67,6 +69,18 @@ class Message
      */
     public function onlyOne()
     {
+        $serious   = $this->findMostSerious();
+        if (!empty($serious)) {
+            return $this->show($serious);
+        }
+        return '';
+    }
+
+    /**
+     * @return string[]
+     */
+    public function findMostSerious()
+    {
         $msgScores = [
             self::ERROR   => 3,
             self::ALERT   => 2,
@@ -81,9 +95,9 @@ class Message
             },
             ['message' => false, 'type' => self::MESSAGE, 'score' => 0]);
         if ($serious && $serious['message']) {
-            return $this->show($serious);
+            return $serious;
         }
-        return '';
+        return [];
     }
 
     /**
@@ -98,4 +112,15 @@ class Message
         return $html;
     }
 
+    /**
+     * Retrieve an external iterator
+     *
+     * @return Traversable|string[]
+     */
+    public function getIterator()
+    {
+        foreach($this->messages as $message) {
+            yield $message['type'] => $message['message'];
+        }
+    }
 }
