@@ -8,38 +8,22 @@ namespace Tuum\Form\Tags;
  *
  * @method $this class($class_name)
  */
-class Tag
+class Attribute implements \ArrayAccess
 {
     /**
-     * @var string
+     * @var array
      */
-    private $tagName;
-
-    /**
-     * @var Attribute
-     */
-    private $attributes;
-
-    /**
-     * @var bool
-     */
-    private $closed = false;
-
-    /**
-     * @var string
-     */
-    private $contents = null;
+    private $attributes = array();
 
     // +----------------------------------------------------------------------+
     //  construction 
     // +----------------------------------------------------------------------+
     /**
-     * @param string $tagName
+     * @param array $attributes
      */
-    public function __construct($tagName)
+    public function __construct($attributes = [])
     {
-        $this->tagName = strtolower($tagName);
-        $this->attributes = new Attribute();
+        $this->attributes = $attributes;
     }
 
     /**
@@ -55,24 +39,7 @@ class Tag
      */
     public function toString()
     {
-        return TagToString::format($this);
-    }
-
-    /**
-     * @return $this
-     */
-    public function closeTag()
-    {
-        $this->closed = true;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isClosed()
-    {
-        return $this->closed;
+        return TagToString::htmlProperty($this);
     }
 
     // +----------------------------------------------------------------------+
@@ -99,17 +66,7 @@ class Tag
         }
         return $this->setAttribute($method, true);
     }
-
-    /**
-     * @param string $value
-     * @return $this
-     */
-    public function contents($value)
-    {
-        $this->contents = $value;
-        return $this;
-    }
-
+    
     /**
      * @param string $class
      * @return $this
@@ -138,7 +95,14 @@ class Tag
      */
     public function setAttribute($key, $value, $sep = false)
     {
-        $this->attributes->setAttribute($key, $value, $sep);
+        if (!isset($this->attributes[$key])) {
+            $this->attributes[$key] = $value;
+        } elseif ($sep === false) {
+            $this->attributes[$key] = $value;
+        } else {
+            $sep = (string)$sep;
+            $this->attributes[$key] .= $sep . $value;
+        }
         return $this;
     }
 
@@ -147,7 +111,7 @@ class Tag
      */
     public function fillAttributes(array $data)
     {
-        $this->attributes->fillAttributes($data);
+        $this->attributes = array_merge($this->attributes, $data);
     }
 
     // +----------------------------------------------------------------------+
@@ -159,19 +123,11 @@ class Tag
      */
     public function get($key)
     {
-        return $this->attributes->get($key);
+        return array_key_exists($key, $this->attributes) ? $this->attributes[$key] : null;
     }
-
+    
     /**
-     * @return string
-     */
-    public function getTagName()
-    {
-        return $this->tagName;
-    }
-
-    /**
-     * @return Attribute
+     * @return array
      */
     public function getAttribute()
     {
@@ -179,19 +135,44 @@ class Tag
     }
 
     /**
-     * @return string
+     * Whether a offset exists
+     *
+     * @param mixed $offset
+     * @return boolean
      */
-    public function getContents()
+    public function offsetExists($offset)
     {
-        return $this->contents;
+        return isset($this->attributes[$offset]);
     }
 
     /**
-     * @return bool
+     * Offset to retrieve
+     * @param mixed $offset
+     * @return mixed
      */
-    public function hasContents()
+    public function offsetGet($offset)
     {
-        return !is_null($this->contents);
+        return array_key_exists($offset, $this->attributes) ? $this->attributes[$offset] : null;
     }
-    // +----------------------------------------------------------------------+
+
+    /**
+     * Offset to set
+     * @param mixed $offset
+     * @param mixed $value
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->attributes[$offset] = $value;
+    }
+
+    /**
+     * Offset to unset
+     * @param mixed $offset
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->attributes[$offset]);
+    }
 }

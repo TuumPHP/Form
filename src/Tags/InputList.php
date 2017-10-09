@@ -80,7 +80,7 @@ class InputList extends Tag implements IteratorAggregate
             return null;
         }
         $input = new Input(null, null);
-        $input->fillAttributes($this->getAttribute());
+        $input->fillAttributes($this->getAttribute()->getAttribute());
         $input->setAttribute('value', $key);
         $selectedValue = $this->get('value');
         if (in_array((string)$key, $selectedValue)) {

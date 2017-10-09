@@ -9,7 +9,7 @@ class TagToString
      */
     public static function format($element)
     {
-        $prop = self::htmlProperty($element);
+        $prop = self::htmlProperty($element->getAttribute());
         $tag  = $element->getTagName();
         if ($element->isClosed() || $element->hasContents()) {
             $html = '<' . $tag . $prop . ' >' . $element->getContents() . "</{$tag}>" . "\n";
@@ -21,13 +21,10 @@ class TagToString
     }
 
     /**
-     * @param Tag $element
+     * @param Attribute $element
      * @return string
-     * @internal param $type
-     * @internal param $name
-     * @internal param $id
      */
-    private static function htmlProperty($element)
+    public static function htmlProperty($element)
     {
         if ($attributes = $element->getAttribute()) {
             $property = [];

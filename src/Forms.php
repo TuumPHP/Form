@@ -3,6 +3,7 @@ namespace Tuum\Form;
 
 use Traversable;
 use Tuum\Form\Data\Inputs;
+use Tuum\Form\Tags\Attribute;
 use Tuum\Form\Tags\Input;
 use Tuum\Form\Tags\InputList;
 use Tuum\Form\Tags\Select;
@@ -282,5 +283,14 @@ class Forms
         $div = new Tag('div');
         $div->contents($html)->class('form-group');
         return $div;
+    }
+
+    /**
+     * @param array $attribute
+     * @return Attribute
+     */
+    public function newAttribute(array $attribute = [])
+    {
+        return new Attribute($attribute);
     }
 }
