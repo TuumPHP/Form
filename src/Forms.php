@@ -131,7 +131,7 @@ class Forms
      */
     public function input($type, $name, $value = null)
     {
-        $value = $this->inputs ? $this->inputs->raw($name, $value) : $value;
+        $value = $this->inputs ? $this->inputs->get($name, $value) : $value;
         $form  = (new Input($type, $name))->value($value);
         return $this->setClass($form);
     }
