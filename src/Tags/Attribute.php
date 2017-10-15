@@ -108,10 +108,12 @@ class Attribute implements \ArrayAccess
 
     /**
      * @param array $data
+     * @return $this
      */
     public function fillAttributes(array $data)
     {
         $this->attributes = array_merge($this->attributes, $data);
+        return $this;
     }
 
     // +----------------------------------------------------------------------+
