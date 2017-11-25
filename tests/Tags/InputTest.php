@@ -110,7 +110,7 @@ class InputTest extends \PHPUnit_Framework_TestCase
     {
         $input = (new Input('text', 'testing'))->value('');
         $this->assertEquals('Tuum\Form\Tags\Input', get_class($input));
-        $this->assertEquals('<input type="text" name="testing" value="" >', (string)$input);
+        $this->assertEquals('<input type="text" name="testing" >', (string)$input);
     }
 
     /**

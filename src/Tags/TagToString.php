@@ -33,6 +33,8 @@ class TagToString
                     $property[] = $val;
                 } elseif ($val === true) {
                     $property[] = $key;
+                } elseif ($key === 'value' && '' === (string) $val) {
+                    // ignore if $val is false.
                 } elseif ($val !== false) {
                     // ignore if $val is false.
                     $property[] = $key . "=\"{$val}\"";
