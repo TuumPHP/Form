@@ -58,13 +58,8 @@ class Attribute implements \ArrayAccess
         if (method_exists($this, $method)) {
             return $this->$method($args[0]);
         }
-        if (isset($args[1])) {
-            return $this->setAttribute($method, $args[0], $args[1]);
-        }
-        if (isset($args[0])) {
-            return $this->setAttribute($method, $args[0]);
-        }
-        return $this->setAttribute($method, true);
+        $args = array_merge([$method], $args);
+        return call_user_func_array([$this, 'setAttribute'], $args);
     }
     
     /**
@@ -93,7 +88,7 @@ class Attribute implements \ArrayAccess
      * @param bool|string $sep
      * @return $this
      */
-    public function setAttribute($key, $value, $sep = false)
+    public function setAttribute($key, $value = true, $sep = false)
     {
         if (!isset($this->attributes[$key])) {
             $this->attributes[$key] = $value;

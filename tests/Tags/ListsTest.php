@@ -29,7 +29,7 @@ class ListsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Tuum\Form\Tags\InputList', get_class($input));
         $this->assertEquals('<ul>
   <li><label><input type="radio" name="testing" value="0" > more</label></li>
-  <li><label><input type="radio" name="testing" value="1" checked > done</label></li>
+  <li><label><input type="radio" name="testing" value="1" checked="checked" > done</label></li>
 </ul>', (string)$input);
     }
 
@@ -84,7 +84,7 @@ class ListsTest extends \PHPUnit_Framework_TestCase
         $input = (new InputList('checkbox', 'testing', ['more', 'done'], '0'));
         $this->assertEquals('Tuum\Form\Tags\InputList', get_class($input));
         $this->assertEquals('<ul>
-  <li><label><input type="checkbox" name="testing[]" value="0" checked > more</label></li>
+  <li><label><input type="checkbox" name="testing[]" value="0" checked="checked" > more</label></li>
   <li><label><input type="checkbox" name="testing[]" value="1" > done</label></li>
 </ul>', (string)$input);
     }
@@ -97,8 +97,8 @@ class ListsTest extends \PHPUnit_Framework_TestCase
         $input = (new InputList('checkbox', 'testing', ['more', 'done'], ['0', '1']));
         $this->assertEquals('Tuum\Form\Tags\InputList', get_class($input));
         $this->assertEquals('<ul>
-  <li><label><input type="checkbox" name="testing[]" value="0" checked > more</label></li>
-  <li><label><input type="checkbox" name="testing[]" value="1" checked > done</label></li>
+  <li><label><input type="checkbox" name="testing[]" value="0" checked="checked" > more</label></li>
+  <li><label><input type="checkbox" name="testing[]" value="1" checked="checked" > done</label></li>
 </ul>', (string)$input);
     }
 }

@@ -145,15 +145,15 @@ abstract class AbstractData implements \ArrayAccess, \IteratorAggregate
     private function recurseGet($levels, $inputs)
     {
         if (!is_array($levels)) {
-            if (is_null($inputs) || $inputs === false) {
-                $inputs = '';
-            }
-            return $inputs;
+            return $inputs === true
+                ? true
+                : (string) $inputs;
         }
-        list($key, $next) = each($levels);
-        // an array
-        if (Accessor::has($inputs, $key)) {
-            return $this->recurseGet($next, Accessor::get($inputs, $key));
+        foreach($levels as $key => $next) {
+            if (Accessor::has($inputs, $key)) {
+                return $this->recurseGet($next, Accessor::get($inputs, $key));
+            }
+            break;
         }
         return null;
     }

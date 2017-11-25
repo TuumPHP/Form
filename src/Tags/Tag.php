@@ -85,19 +85,8 @@ class Tag
      */
     public function __call($method, $args)
     {
-        if ($method === 'class') {
-            $method = 'class_';
-        }
-        if (method_exists($this, $method)) {
-            return $this->$method($args[0]);
-        }
-        if (isset($args[1])) {
-            return $this->setAttribute($method, $args[0], $args[1]);
-        }
-        if (isset($args[0])) {
-            return $this->setAttribute($method, $args[0]);
-        }
-        return $this->setAttribute($method, true);
+        $this->attributes->$method(...$args);
+        return $this;
     }
 
     /**
@@ -111,23 +100,14 @@ class Tag
     }
 
     /**
-     * @param string $class
-     * @return $this
-     */
-    public function class_($class)
-    {
-        return $this->setAttribute('class', $class, ' ');
-    }
-
-    /**
      * @param string $key
      * @param string $style
      * @return $this
      */
     public function style($key, $style = null)
     {
-        $style = $style ? "{$key}:$style" : $key;
-        return $this->setAttribute('style', $style, '; ');
+        $this->attributes->style($key, $style);
+        return $this;
     }
 
     /**
@@ -136,7 +116,7 @@ class Tag
      * @param bool|string $sep
      * @return $this
      */
-    public function setAttribute($key, $value, $sep = false)
+    public function setAttribute($key, $value = true, $sep = false)
     {
         $this->attributes->setAttribute($key, $value, $sep);
         return $this;

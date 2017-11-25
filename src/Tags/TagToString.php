@@ -9,7 +9,7 @@ class TagToString
      */
     public static function format($element)
     {
-        $prop = self::htmlProperty($element->getAttribute());
+        $prop = (string) $element->getAttribute();
         $tag  = $element->getTagName();
         if ($element->isClosed() || $element->hasContents()) {
             $html = '<' . $tag . $prop . ' >' . $element->getContents() . "</{$tag}>" . "\n";
@@ -29,16 +29,14 @@ class TagToString
         if ($attributes = $element->getAttribute()) {
             $property = [];
             foreach ($attributes as $key => $val) {
+                if ($val === false) continue;
+                if ($key === 'value' && '' === (string) $val) continue;
                 if (is_numeric($key)) {
-                    $property[] = $val;
+                    $key = $val;
                 } elseif ($val === true) {
-                    $property[] = $key;
-                } elseif ($key === 'value' && '' === (string) $val) {
-                    // ignore if $val is false.
-                } elseif ($val !== false) {
-                    // ignore if $val is false.
-                    $property[] = $key . "=\"{$val}\"";
+                    $val = $key;
                 }
+                $property[] = "{$key}=\"{$val}\"";
             }
             return ' ' . implode(' ', $property);
         }
